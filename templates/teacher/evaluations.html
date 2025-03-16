@@ -1,0 +1,721 @@
+<!-- dashboard/teacher/evaluations.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Évaluations - Online School</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Online School</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Tableau de bord
+                    </a>
+                </li>
+                <li>
+                    <a href="courses.html">
+                        <i class="fas fa-book"></i>
+                        Mes cours
+                    </a>
+                </li>
+                <li>
+                    <a href="students.html">
+                        <i class="fas fa-user-graduate"></i>
+                        Mes étudiants
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="evaluations.html">
+                        <i class="fas fa-clipboard-check"></i>
+                        Évaluations
+                    </a>
+                </li>
+                <li>
+                    <a href="forums.html">
+                        <i class="fas fa-comments"></i>
+                        Forums
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user-circle"></i>
+                        Mon profil
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar">
+                <button type="button" id="sidebarCollapse" class="navbar-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="navbar-search">
+                    <input type="text" class="form-control" placeholder="Rechercher...">
+                </div>
+                
+                <div class="navbar-user">
+                    <img src="../../assets/images/teacher-avatar.jpg" alt="Enseignant">
+                    <span>Bernard Dupont</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 class="h3 mb-0">Gestion des Évaluations</h1>
+                    <button class="btn btn-primary" id="createEvaluationBtn">
+                        <i class="fas fa-plus"></i> Créer une évaluation
+                    </button>
+                </div>
+                
+                <!-- Filtres -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterCourse">Cours</label>
+                                    <select class="form-control" id="filterCourse">
+                                        <option value="">Tous</option>
+                                        <option value="1">Introduction à la programmation</option>
+                                        <option value="2">Algorithmes avancés</option>
+                                        <option value="3">Bases de données</option>
+                                        <option value="4">Développement Web</option>
+                                        <option value="5">Intelligence artificielle</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterType">Type</label>
+                                    <select class="form-control" id="filterType">
+                                        <option value="">Tous</option>
+                                        <option value="quiz">Quiz</option>
+                                        <option value="assignment">Devoir</option>
+                                        <option value="exam">Examen</option>
+                                        <option value="project">Projet</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterStatus">Statut</label>
+                                    <select class="form-control" id="filterStatus">
+                                        <option value="">Tous</option>
+                                        <option value="draft">Brouillon</option>
+                                        <option value="published">Publié</option>
+                                        <option value="active">En cours</option>
+                                        <option value="closed">Terminé</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterOrder">Trier par</label>
+                                    <select class="form-control" id="filterOrder">
+                                        <option value="date-desc">Date (plus récent)</option>
+                                        <option value="date-asc">Date (plus ancien)</option>
+                                        <option value="name-asc">Nom (A-Z)</option>
+                                        <option value="name-desc">Nom (Z-A)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button class="btn btn-primary" id="applyFilters">
+                                    <i class="fas fa-filter"></i> Appliquer les filtres
+                                </button>
+                                <button class="btn btn-secondary" id="resetFilters">
+                                    <i class="fas fa-undo"></i> Réinitialiser
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs for different evaluation states -->
+                <ul class="nav nav-tabs mb-4" id="evaluationTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab">
+                            Toutes <span class="badge badge-primary">15</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draft" role="tab">
+                            Brouillons <span class="badge badge-secondary">2</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="published-tab" data-toggle="tab" href="#published" role="tab">
+                            Publiées <span class="badge badge-info">5</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="active-tab" data-toggle="tab" href="#active" role="tab">
+                            En cours <span class="badge badge-warning">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="closed-tab" data-toggle="tab" href="#closed" role="tab">
+                            Terminées <span class="badge badge-success">5</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="grading-tab" data-toggle="tab" href="#grading" role="tab">
+                            À noter <span class="badge badge-danger">4</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Tab content -->
+                <div class="tab-content" id="evaluationTabsContent">
+                    <!-- All evaluations tab -->
+                    <div class="tab-pane fade show active" id="all" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Titre</th>
+                                        <th>Type</th>
+                                        <th>Cours</th>
+                                        <th>Date de création</th>
+                                        <th>Date limite</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Quiz 1: Variables et Types</td>
+                                        <td><span class="badge bg-info">Quiz</span></td>
+                                        <td>Introduction à la programmation</td>
+                                        <td>01/02/2023</td>
+                                        <td>15/02/2023</td>
+                                        <td><span class="badge bg-success">Terminé</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 1: Algorithmes de base</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Introduction à la programmation</td>
+                                        <td>05/02/2023</td>
+                                        <td>25/02/2023</td>
+                                        <td><span class="badge bg-success">Terminé</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quiz 2: Structures de contrôle</td>
+                                        <td><span class="badge bg-info">Quiz</span></td>
+                                        <td>Introduction à la programmation</td>
+                                        <td>10/02/2023</td>
+                                        <td>20/02/2023</td>
+                                        <td><span class="badge bg-success">Terminé</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quiz 1: Bases du SQL</td>
+                                        <td><span class="badge bg-info">Quiz</span></td>
+                                        <td>Bases de données</td>
+                                        <td>05/02/2023</td>
+                                        <td>15/02/2023</td>
+                                        <td><span class="badge bg-success">Terminé</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 1: Introduction SQL</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Bases de données</td>
+                                        <td>10/02/2023</td>
+                                        <td>28/02/2023</td>
+                                        <td><span class="badge bg-success">Terminé</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quiz 2: Normalisation</td>
+                                        <td><span class="badge bg-info">Quiz</span></td>
+                                        <td>Bases de données</td>
+                                        <td>01/03/2023</td>
+                                        <td>20/03/2023</td>
+                                        <td><span class="badge bg-warning">En cours</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les résultats partiels"><i class="fas fa-chart-bar"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Examen intermédiaire</td>
+                                        <td><span class="badge bg-danger">Examen</span></td>
+                                        <td>Développement Web</td>
+                                        <td>05/03/2023</td>
+                                        <td>28/03/2023</td>
+                                        <td><span class="badge bg-info">Publié</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 2: Conception d'une base de données</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Bases de données</td>
+                                        <td>10/03/2023</td>
+                                        <td>25/03/2023</td>
+                                        <td><span class="badge bg-info">Publié</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 3: Algorithmes avancés</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Algorithmes avancés</td>
+                                        <td>05/03/2023</td>
+                                        <td>18/03/2023</td>
+                                        <td><span class="badge bg-warning">En cours</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir les soumissions"><i class="fas fa-file-import"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quiz 3: Structures de données</td>
+                                        <td><span class="badge bg-info">Quiz</span></td>
+                                        <td>Introduction à la programmation</td>
+                                        <td>12/03/2023</td>
+                                        <td>22/03/2023</td>
+                                        <td><span class="badge bg-info">Publié</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <!-- Other tabs with similar content -->
+                    <div class="tab-pane fade" id="draft" role="tabpanel">
+                        <!-- Draft evaluations content -->
+                        <p class="text-muted">Affichage des évaluations en brouillon uniquement.</p>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="published" role="tabpanel">
+                        <!-- Published evaluations content -->
+                        <p class="text-muted">Affichage des évaluations publiées uniquement.</p>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="active" role="tabpanel">
+                        <!-- Active evaluations content -->
+                        <p class="text-muted">Affichage des évaluations en cours uniquement.</p>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="closed" role="tabpanel">
+                        <!-- Closed evaluations content -->
+                        <p class="text-muted">Affichage des évaluations terminées uniquement.</p>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="grading" role="tabpanel">
+                        <!-- Grading evaluations content -->
+                        <p class="text-muted">Affichage des évaluations à noter uniquement.</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Titre</th>
+                                        <th>Type</th>
+                                        <th>Cours</th>
+                                        <th>Soumissions</th>
+                                        <th>Non notées</th>
+                                        <th>Date limite</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>TP 3: Algorithmes avancés</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Algorithmes avancés</td>
+                                        <td>15/28</td>
+                                        <td><strong class="text-danger">12</strong></td>
+                                        <td>18/03/2023</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <a href="evaluation-grade.html?id=903" class="btn btn-sm btn-success" title="Noter"><i class="fas fa-check-circle"></i> Noter</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 1: Introduction SQL</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Bases de données</td>
+                                        <td>30/32</td>
+                                        <td><strong class="text-danger">8</strong></td>
+                                        <td>28/02/2023</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <a href="evaluation-grade.html?id=702" class="btn btn-sm btn-success" title="Noter"><i class="fas fa-check-circle"></i> Noter</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Projet: Site e-commerce</td>
+                                        <td><span class="badge bg-warning">Projet</span></td>
+                                        <td>Développement Web</td>
+                                        <td>6/8</td>
+                                        <td><strong class="text-danger">6</strong></td>
+                                        <td>05/03/2023</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <a href="evaluation-grade.html?id=805" class="btn btn-sm btn-success" title="Noter"><i class="fas fa-check-circle"></i> Noter</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TP 1: Algorithmes de base</td>
+                                        <td><span class="badge bg-primary">Devoir</span></td>
+                                        <td>Introduction à la programmation</td>
+                                        <td>42/45</td>
+                                        <td><strong class="text-danger">2</strong></td>
+                                        <td>25/02/2023</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <a href="evaluation-grade.html?id=802" class="btn btn-sm btn-success" title="Noter"><i class="fas fa-check-circle"></i> Noter</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour créer une évaluation -->
+    <div class="modal-backdrop" id="createEvaluationModal">
+        <div class="modal-dialog" style="max-width: 700px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Créer une nouvelle évaluation</h5>
+                <button type="button" class="modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createEvaluationForm">
+                    <div class="form-group">
+                        <label for="evaluationTitle">Titre</label>
+                        <input type="text" class="form-control" id="evaluationTitle" placeholder="Titre de l'évaluation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationType">Type d'évaluation</label>
+                        <select class="form-control" id="evaluationType" required>
+                            <option value="">Sélectionnez un type</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="assignment">Devoir</option>
+                            <option value="exam">Examen</option>
+                            <option value="project">Projet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationCourse">Cours</label>
+                        <select class="form-control" id="evaluationCourse" required>
+                            <option value="">Sélectionnez un cours</option>
+                            <option value="1">Introduction à la programmation</option>
+                            <option value="2">Algorithmes avancés</option>
+                            <option value="3">Bases de données</option>
+                            <option value="4">Développement Web</option>
+                            <option value="5">Intelligence artificielle</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="evaluationStartDate">Date de début</label>
+                                <input type="date" class="form-control" id="evaluationStartDate" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="evaluationEndDate">Date de fin</label>
+                                <input type="date" class="form-control" id="evaluationEndDate" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="evaluationDuration">Durée (minutes, pour les quiz/examens)</label>
+                                <input type="number" class="form-control" id="evaluationDuration" placeholder="ex: 60">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="evaluationAttempts">Nombre de tentatives</label>
+                                <input type="number" class="form-control" id="evaluationAttempts" placeholder="ex: 2" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationMaxScore">Note maximale</label>
+                        <input type="number" class="form-control" id="evaluationMaxScore" placeholder="ex: 20" value="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationDescription">Description</label>
+                        <textarea class="form-control" id="evaluationDescription" rows="3" placeholder="Description de l'évaluation"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationInstructions">Instructions</label>
+                        <textarea class="form-control" id="evaluationInstructions" rows="3" placeholder="Instructions pour les étudiants"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationStatus">Statut initial</label>
+                        <select class="form-control" id="evaluationStatus" required>
+                            <option value="draft">Brouillon (non visible)</option>
+                            <option value="published">Publié (visible mais pas encore actif)</option>
+                            <option value="active">Actif (disponible immédiatement)</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="evaluationAutoGrade">
+                        <label class="form-check-label" for="evaluationAutoGrade">Correction automatique (pour les quiz)</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="evaluationShowAnswers">
+                        <label class="form-check-label" for="evaluationShowAnswers">Montrer les réponses après soumission</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="evaluationNotifyStudents">
+                        <label class="form-check-label" for="evaluationNotifyStudents">Notifier les étudiants</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" id="createQuestionsBtn">Créer et ajouter des questions</button>
+                <button type="button" class="btn btn-primary" id="saveEvaluationBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle Sidebar
+            document.getElementById('sidebarCollapse').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+                document.getElementById('content').classList.toggle('active');
+            });
+            
+            // Modal de création d'évaluation
+            const createEvaluationBtn = document.getElementById('createEvaluationBtn');
+            const createEvaluationModal = document.getElementById('createEvaluationModal');
+            const closeButtons = document.querySelectorAll('[data-dismiss="modal"]');
+            const saveEvaluationBtn = document.getElementById('saveEvaluationBtn');
+            const createQuestionsBtn = document.getElementById('createQuestionsBtn');
+            
+            createEvaluationBtn.addEventListener('click', function() {
+                createEvaluationModal.classList.add('show');
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    createEvaluationModal.classList.remove('show');
+                });
+            });
+            
+            saveEvaluationBtn.addEventListener('click', function() {
+                // Simuler la sauvegarde d'une évaluation
+                alert('Évaluation créée avec succès !');
+                createEvaluationModal.classList.remove('show');
+            });
+            
+            createQuestionsBtn.addEventListener('click', function() {
+                // Vérification des champs obligatoires
+                const title = document.getElementById('evaluationTitle').value;
+                const type = document.getElementById('evaluationType').value;
+                const course = document.getElementById('evaluationCourse').value;
+                const startDate = document.getElementById('evaluationStartDate').value;
+                const endDate = document.getElementById('evaluationEndDate').value;
+                
+                if (!title || !type || !course || !startDate || !endDate) {
+                    alert('Veuillez remplir tous les champs obligatoires avant de créer des questions.');
+                    return;
+                }
+                
+                // Redirection vers la page de création de questions
+                // Dans une implémentation réelle, il faudrait sauvegarder l'évaluation et passer son ID
+                alert('Redirection vers la page de création de questions...');
+                window.location.href = 'create-questions.html?type=' + type;
+            });
+            
+            // Gestion des filtres
+            const filterCourse = document.getElementById('filterCourse');
+            const filterType = document.getElementById('filterType');
+            const filterStatus = document.getElementById('filterStatus');
+            const filterOrder = document.getElementById('filterOrder');
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            const resetFiltersBtn = document.getElementById('resetFilters');
+            
+            applyFiltersBtn.addEventListener('click', function() {
+                // Dans une implémentation réelle, cette fonction filtrerait les évaluations
+                // en fonction des valeurs sélectionnées
+                console.log({
+                    course: filterCourse.value,
+                    type: filterType.value,
+                    status: filterStatus.value,
+                    order: filterOrder.value
+                });
+                alert('Filtres appliqués');
+            });
+            
+            resetFiltersBtn.addEventListener('click', function() {
+                filterCourse.value = '';
+                filterType.value = '';
+                filterStatus.value = '';
+                filterOrder.value = 'date-desc';
+                
+                // Dans une implémentation réelle, on réinitialiserait également l'affichage
+                alert('Filtres réinitialisés');
+            });
+            
+            // Tab navigation
+            const tabLinks = document.querySelectorAll('.nav-tabs .nav-link');
+            const tabContents = document.querySelectorAll('.tab-content .tab-pane');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs
+                    tabLinks.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => {
+                        content.classList.remove('show', 'active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetContent = document.getElementById(targetId);
+                    targetContent.classList.add('show', 'active');
+                });
+            });
+            
+            // Afficher le type d'évaluation spécifique selon le type sélectionné
+            const evaluationType = document.getElementById('evaluationType');
+            
+            evaluationType.addEventListener('change', function() {
+                const type = this.value;
+                const durationField = document.getElementById('evaluationDuration').parentNode.parentNode;
+                const autoGradeField = document.getElementById('evaluationAutoGrade').parentNode;
+                
+                // Réinitialiser l'affichage
+                durationField.style.display = 'block';
+                autoGradeField.style.display = 'block';
+                
+                // Ajuster selon le type
+                switch(type) {
+                    case 'quiz':
+                        durationField.style.display = 'block';
+                        autoGradeField.style.display = 'block';
+                        break;
+                    case 'exam':
+                        durationField.style.display = 'block';
+                        autoGradeField.style.display = 'block';
+                        break;
+                    case 'assignment':
+                    case 'project':
+                        durationField.style.display = 'none';
+                        autoGradeField.style.display = 'none';
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

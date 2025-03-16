@@ -1,0 +1,871 @@
+<!-- dashboard/admin/users.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Utilisateurs - Online School</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Online School</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Tableau de bord
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="users.html">
+                        <i class="fas fa-users"></i>
+                        Utilisateurs
+                    </a>
+                </li>
+                <li>
+                    <a href="roles.html">
+                        <i class="fas fa-user-tag"></i>
+                        Rôles
+                    </a>
+                </li>
+                <li>
+                    <a href="courses.html">
+                        <i class="fas fa-book"></i>
+                        Cours
+                    </a>
+                </li>
+                <li>
+                    <a href="departments.html">
+                        <i class="fas fa-building"></i>
+                        Départements
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i>
+                        Paramètres
+                    </a>
+                </li>
+                <li>
+                    <a href="logs.html">
+                        <i class="fas fa-history"></i>
+                        Logs
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar">
+                <button type="button" id="sidebarCollapse" class="navbar-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="navbar-search">
+                    <input type="text" class="form-control" placeholder="Rechercher...">
+                </div>
+                
+                <div class="navbar-user">
+                    <img src="../../assets/images/admin-avatar.jpg" alt="Admin">
+                    <span>Admin</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 class="h3 mb-0">Gestion des Utilisateurs</h1>
+                    <div>
+                        <button class="btn btn-success" id="exportUsersBtn">
+                            <i class="fas fa-file-export"></i> Exporter
+                        </button>
+                        <button class="btn btn-primary" id="createUserBtn">
+                            <i class="fas fa-user-plus"></i> Créer un utilisateur
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Filtres -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterRole">Rôle</label>
+                                    <select class="form-control" id="filterRole">
+                                        <option value="">Tous</option>
+                                        <option value="admin">Administrateur</option>
+                                        <option value="teacher">Enseignant</option>
+                                        <option value="student">Étudiant</option>
+                                        <option value="academic">Responsable de scolarité</option>
+                                        <option value="accountant">Comptable</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterDepartment">Département</label>
+                                    <select class="form-control" id="filterDepartment">
+                                        <option value="">Tous</option>
+                                        <option value="info">Informatique</option>
+                                        <option value="math">Mathématiques</option>
+                                        <option value="phys">Physique</option>
+                                        <option value="eco">Économie</option>
+                                        <option value="bio">Biologie</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filterStatus">Statut</label>
+                                    <select class="form-control" id="filterStatus">
+                                        <option value="">Tous</option>
+                                        <option value="active" selected>Actif</option>
+                                        <option value="inactive">Inactif</option>
+                                        <option value="pending">En attente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="search">Recherche</label>
+                                    <input type="text" class="form-control" id="search" placeholder="Nom, email, ID...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button class="btn btn-primary" id="applyFilters">
+                                    <i class="fas fa-filter"></i> Appliquer les filtres
+                                </button>
+                                <button class="btn btn-secondary" id="resetFilters">
+                                    <i class="fas fa-undo"></i> Réinitialiser
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Utilisateurs -->
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="selectAllUsers">
+                                            </div>
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Rôle</th>
+                                        <th>Département</th>
+                                        <th>Date d'inscription</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="1">
+                                            </div>
+                                        </td>
+                                        <td>1</td>
+                                        <td>Dupont Bernard</td>
+                                        <td>bernard.dupont@example.com</td>
+                                        <td><span class="badge bg-warning">Enseignant</span></td>
+                                        <td>Informatique</td>
+                                        <td>01/09/2021</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="2">
+                                            </div>
+                                        </td>
+                                        <td>2</td>
+                                        <td>Martin Sophie</td>
+                                        <td>sophie.martin@example.com</td>
+                                        <td><span class="badge bg-info">Étudiant</span></td>
+                                        <td>Informatique</td>
+                                        <td>15/09/2022</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="3">
+                                            </div>
+                                        </td>
+                                        <td>3</td>
+                                        <td>Laurent Marie</td>
+                                        <td>marie.laurent@example.com</td>
+                                        <td><span class="badge bg-primary">Resp. Scolarité</span></td>
+                                        <td>Administration</td>
+                                        <td>05/07/2021</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="4">
+                                            </div>
+                                        </td>
+                                        <td>4</td>
+                                        <td>Petit Julie</td>
+                                        <td>julie.petit@example.com</td>
+                                        <td><span class="badge bg-info">Étudiant</span></td>
+                                        <td>Mathématiques</td>
+                                        <td>12/09/2022</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="5">
+                                            </div>
+                                        </td>
+                                        <td>5</td>
+                                        <td>Leroy Thomas</td>
+                                        <td>thomas.leroy@example.com</td>
+                                        <td><span class="badge bg-warning">Enseignant</span></td>
+                                        <td>Informatique</td>
+                                        <td>01/09/2020</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="6">
+                                            </div>
+                                        </td>
+                                        <td>6</td>
+                                        <td>Moreau Antoine</td>
+                                        <td>antoine.moreau@example.com</td>
+                                        <td><span class="badge bg-info">Étudiant</span></td>
+                                        <td>Informatique</td>
+                                        <td>14/09/2022</td>
+                                        <td><span class="badge bg-secondary">Inactif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Activer"><i class="fas fa-check"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="7">
+                                            </div>
+                                        </td>
+                                        <td>7</td>
+                                        <td>Blanc Michel</td>
+                                        <td>michel.blanc@example.com</td>
+                                        <td><span class="badge bg-warning">Enseignant</span></td>
+                                        <td>Mathématiques</td>
+                                        <td>01/09/2021</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="8">
+                                            </div>
+                                        </td>
+                                        <td>8</td>
+                                        <td>Dubois Lucas</td>
+                                        <td>lucas.dubois@example.com</td>
+                                        <td><span class="badge bg-info">Étudiant</span></td>
+                                        <td>Informatique</td>
+                                        <td>15/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i class="fas fa-check"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="9">
+                                            </div>
+                                        </td>
+                                        <td>9</td>
+                                        <td>Leclerc Emma</td>
+                                        <td>emma.leclerc@example.com</td>
+                                        <td><span class="badge bg-info">Étudiant</span></td>
+                                        <td>Mathématiques</td>
+                                        <td>14/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i class="fas fa-check"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selected_users[]" value="10">
+                                            </div>
+                                        </td>
+                                        <td>10</td>
+                                        <td>Girard Philippe</td>
+                                        <td>philippe.girard@example.com</td>
+                                        <td><span class="badge bg-success">Comptable</span></td>
+                                        <td>Finance</td>
+                                        <td>01/10/2021</td>
+                                        <td><span class="badge bg-success">Actif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Désactiver"><i class="fas fa-ban"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="bulk-actions">
+                                    <select class="form-control" id="bulkAction">
+                                        <option value="">Action groupée</option>
+                                        <option value="activate">Activer</option>
+                                        <option value="deactivate">Désactiver</option>
+                                        <option value="delete">Supprimer</option>
+                                        <option value="export">Exporter</option>
+                                    </select>
+                                    <button class="btn btn-primary" id="applyBulkAction">Appliquer</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-end mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour créer/modifier un utilisateur -->
+    <div class="modal-backdrop" id="userModal">
+        <div class="modal-dialog" style="max-width: 700px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Créer un utilisateur</h5>
+                <button type="button" class="modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userName">Nom</label>
+                                <input type="text" class="form-control" id="userName" placeholder="Nom" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userFirstName">Prénom</label>
+                                <input type="text" class="form-control" id="userFirstName" placeholder="Prénom" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" class="form-control" id="userEmail" placeholder="email@example.com" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userRole">Rôle</label>
+                                <select class="form-control" id="userRole" required>
+                                    <option value="">Sélectionnez un rôle</option>
+                                    <option value="admin">Administrateur</option>
+                                    <option value="teacher">Enseignant</option>
+                                    <option value="student">Étudiant</option>
+                                    <option value="academic">Responsable de scolarité</option>
+                                    <option value="accountant">Comptable</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userDepartment">Département</label>
+                                <select class="form-control" id="userDepartment">
+                                    <option value="">Sélectionnez un département</option>
+                                    <option value="info">Informatique</option>
+                                    <option value="math">Mathématiques</option>
+                                    <option value="phys">Physique</option>
+                                    <option value="eco">Économie</option>
+                                    <option value="bio">Biologie</option>
+                                    <option value="admin">Administration</option>
+                                    <option value="finance">Finance</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userPassword">Mot de passe</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="userPassword" placeholder="Mot de passe" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userPasswordConfirm">Confirmer le mot de passe</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="userPasswordConfirm" placeholder="Confirmer le mot de passe" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userPhone">Téléphone</label>
+                                <input type="tel" class="form-control" id="userPhone" placeholder="Téléphone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userStatus">Statut</label>
+                                <select class="form-control" id="userStatus" required>
+                                    <option value="active">Actif</option>
+                                    <option value="inactive">Inactif</option>
+                                    <option value="pending">En attente</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userAddress">Adresse</label>
+                        <textarea class="form-control" id="userAddress" rows="2" placeholder="Adresse"></textarea>
+                    </div>
+                    <!-- Champs spécifiques selon le rôle -->
+                    <div id="studentFields" style="display: none;">
+                        <hr>
+                        <h6>Informations étudiant</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="studentBirthDate">Date de naissance</label>
+                                    <input type="date" class="form-control" id="studentBirthDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="studentLevel">Niveau d'étude</label>
+                                    <select class="form-control" id="studentLevel">
+                                        <option value="">Sélectionnez un niveau</option>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="L3">Licence 3</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="teacherFields" style="display: none;">
+                        <hr>
+                        <h6>Informations enseignant</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="teacherSpecialization">Spécialisation</label>
+                                    <input type="text" class="form-control" id="teacherSpecialization" placeholder="Spécialisation">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="teacherStatus">Statut enseignant</label>
+                                    <select class="form-control" id="teacherStatus">
+                                        <option value="">Sélectionnez un statut</option>
+                                        <option value="full-time">Temps plein</option>
+                                        <option value="part-time">Temps partiel</option>
+                                        <option value="contract">Contractuel</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle Sidebar
+            document.getElementById('sidebarCollapse').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+                document.getElementById('content').classList.toggle('active');
+            });
+            
+            // Modal pour créer/modifier un utilisateur
+            const createUserBtn = document.getElementById('createUserBtn');
+            const userModal = document.getElementById('userModal');
+            const closeButtons = document.querySelectorAll('[data-dismiss="modal"]');
+            const saveUserBtn = document.getElementById('saveUserBtn');
+            const userRole = document.getElementById('userRole');
+            const studentFields = document.getElementById('studentFields');
+            const teacherFields = document.getElementById('teacherFields');
+            
+            createUserBtn.addEventListener('click', function() {
+                userModal.classList.add('show');
+                document.querySelector('.modal-title').textContent = 'Créer un utilisateur';
+                document.getElementById('userForm').reset();
+                hideRoleSpecificFields();
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    userModal.classList.remove('show');
+                });
+            });
+            
+            saveUserBtn.addEventListener('click', function() {
+                // Vérification des champs obligatoires
+                const form = document.getElementById('userForm');
+                if (!form.checkValidity()) {
+                    alert('Veuillez remplir tous les champs obligatoires.');
+                    return;
+                }
+                
+                // Vérification de la correspondance des mots de passe
+                const password = document.getElementById('userPassword').value;
+                const confirmPassword = document.getElementById('userPasswordConfirm').value;
+                if (password !== confirmPassword) {
+                    alert('Les mots de passe ne correspondent pas.');
+                    return;
+                }
+                
+                // Simulation de sauvegarde d'un utilisateur
+                alert('Utilisateur enregistré avec succès !');
+                userModal.classList.remove('show');
+            });
+            
+            // Afficher/masquer les champs spécifiques selon le rôle
+            userRole.addEventListener('change', function() {
+                hideRoleSpecificFields();
+                
+                if (this.value === 'student') {
+                    studentFields.style.display = 'block';
+                } else if (this.value === 'teacher') {
+                    teacherFields.style.display = 'block';
+                }
+            });
+            
+            function hideRoleSpecificFields() {
+                studentFields.style.display = 'none';
+                teacherFields.style.display = 'none';
+            }
+            
+            // Gestion des filtres
+            const filterRole = document.getElementById('filterRole');
+            const filterDepartment = document.getElementById('filterDepartment');
+            const filterStatus = document.getElementById('filterStatus');
+            const searchInput = document.getElementById('search');
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            const resetFiltersBtn = document.getElementById('resetFilters');
+            
+            applyFiltersBtn.addEventListener('click', function() {
+                // Dans une implémentation réelle, cette fonction filtrerait
+                // les utilisateurs selon les critères sélectionnés
+                console.log({
+                    role: filterRole.value,
+                    department: filterDepartment.value,
+                    status: filterStatus.value,
+                    search: searchInput.value
+                });
+                alert('Filtres appliqués');
+            });
+            
+            resetFiltersBtn.addEventListener('click', function() {
+                filterRole.value = '';
+                filterDepartment.value = '';
+                filterStatus.value = 'active';
+                searchInput.value = '';
+                
+                // Dans une implémentation réelle, on réinitialiserait également l'affichage
+                alert('Filtres réinitialisés');
+            });
+            
+            // Afficher / cacher le mot de passe
+            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+            
+            togglePasswordButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const passwordField = this.parentElement.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (passwordField.type === 'password') {
+                        passwordField.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordField.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+            
+            // Sélectionner / désélectionner tous les utilisateurs
+            const selectAllUsers = document.getElementById('selectAllUsers');
+            const userCheckboxes = document.querySelectorAll('input[name="selected_users[]"]');
+            
+            selectAllUsers.addEventListener('change', function() {
+                userCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+            
+            userCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (!this.checked) {
+                        selectAllUsers.checked = false;
+                    } else {
+                        // Vérifier si toutes les checkboxes sont cochées
+                        const allChecked = Array.from(userCheckboxes).every(cb => cb.checked);
+                        selectAllUsers.checked = allChecked;
+                    }
+                });
+            });
+            
+            // Actions groupées
+            const bulkAction = document.getElementById('bulkAction');
+            const applyBulkActionBtn = document.getElementById('applyBulkAction');
+            
+            applyBulkActionBtn.addEventListener('click', function() {
+                if (!bulkAction.value) {
+                    alert('Veuillez sélectionner une action.');
+                    return;
+                }
+                
+                const selectedUsers = Array.from(userCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                
+                if (selectedUsers.length === 0) {
+                    alert('Veuillez sélectionner au moins un utilisateur.');
+                    return;
+                }
+                
+                // Confirmation avant d'appliquer l'action
+                if (bulkAction.value === 'delete') {
+                    if (!confirm(`Êtes-vous sûr de vouloir supprimer ${selectedUsers.length} utilisateur(s) ?`)) {
+                        return;
+                    }
+                }
+                
+                console.log({
+                    action: bulkAction.value,
+                    users: selectedUsers
+                });
+                
+                alert(`Action "${bulkAction.value}" appliquée à ${selectedUsers.length} utilisateur(s).`);
+            });
+            
+            // Exportation des utilisateurs
+            const exportUsersBtn = document.getElementById('exportUsersBtn');
+            
+            exportUsersBtn.addEventListener('click', function() {
+                alert('Exportation des utilisateurs au format CSV...');
+                // Dans une implémentation réelle, cette fonction générerait
+                // un fichier CSV ou Excel avec les utilisateurs
+            });
+            
+            // Actions sur les utilisateurs individuels
+            const viewButtons = document.querySelectorAll('.table-actions .btn-primary');
+            const editButtons = document.querySelectorAll('.table-actions .btn-warning');
+            const statusButtons = document.querySelectorAll('.table-actions .btn-danger, .table-actions .btn-success');
+            
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const userId = row.querySelector('input[name="selected_users[]"]').value;
+                    const userName = row.cells[2].textContent;
+                    
+                    alert(`Visualisation des détails de l'utilisateur: ${userName} (ID: ${userId})`);
+                    // Dans une implémentation réelle, on redirigerait vers
+                    // une page de détail ou on afficherait un modal avec les détails
+                });
+            });
+            
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const userId = row.querySelector('input[name="selected_users[]"]').value;
+                    const userName = row.cells[2].textContent;
+                    
+                    alert(`Modification de l'utilisateur: ${userName} (ID: ${userId})`);
+                    
+                    // Dans une implémentation réelle, on chargerait les données de l'utilisateur
+                    // et on ouvrirait le modal d'édition avec ces données
+                    userModal.classList.add('show');
+                    document.querySelector('.modal-title').textContent = 'Modifier un utilisateur';
+                    
+                    // Simulation de chargement des données
+                    document.getElementById('userName').value = userName.split(' ')[0];
+                    document.getElementById('userFirstName').value = userName.split(' ')[1] || '';
+                    document.getElementById('userEmail').value = row.cells[3].textContent;
+                    
+                    // Le type de rôle détermine les champs spécifiques à afficher
+                    const role = row.cells[4].textContent.trim();
+                    if (role === 'Étudiant') {
+                        userRole.value = 'student';
+                        studentFields.style.display = 'block';
+                    } else if (role === 'Enseignant') {
+                        userRole.value = 'teacher';
+                        teacherFields.style.display = 'block';
+                    } else if (role === 'Resp. Scolarité') {
+                        userRole.value = 'academic';
+                    } else if (role === 'Comptable') {
+                        userRole.value = 'accountant';
+                    }
+                    
+                    // Département
+                    document.getElementById('userDepartment').value = row.cells[5].textContent === 'Informatique' ? 'info' : 
+                                                                     (row.cells[5].textContent === 'Mathématiques' ? 'math' : 
+                                                                     (row.cells[5].textContent === 'Administration' ? 'admin' : 
+                                                                     (row.cells[5].textContent === 'Finance' ? 'finance' : '')));
+                    
+                    // Statut
+                    const status = row.cells[7].textContent.trim();
+                    document.getElementById('userStatus').value = status === 'Actif' ? 'active' : 
+                                                               (status === 'Inactif' ? 'inactive' : 
+                                                               (status === 'En attente' ? 'pending' : ''));
+                });
+            });
+            
+            statusButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const userId = row.querySelector('input[name="selected_users[]"]').value;
+                    const userName = row.cells[2].textContent;
+                    const isActivate = this.classList.contains('btn-success');
+                    
+                    if (isActivate) {
+                        alert(`Activation de l'utilisateur: ${userName} (ID: ${userId})`);
+                    } else {
+                        alert(`Désactivation de l'utilisateur: ${userName} (ID: ${userId})`);
+                    }
+                    
+                    // Dans une implémentation réelle, on enverrait une requête
+                    // pour changer le statut de l'utilisateur
+                });
+            });
+        });
+    </script>
+</body>
+</html>

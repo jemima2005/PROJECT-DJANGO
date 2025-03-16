@@ -1,0 +1,219 @@
+<!-- dashboard/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Online School</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #4e73df;
+            background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            padding: 2rem;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header img {
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        
+        .login-header h2 {
+            color: #333;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: #6c757d;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-form .input-group {
+            position: relative;
+        }
+        
+        .login-form .input-group i {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .login-form .form-control {
+            padding-left: 3rem;
+        }
+        
+        .login-form .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6c757d;
+        }
+        
+        .login-footer a {
+            color: #4e73df;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #e3e6f0;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .role-option:hover {
+            background-color: #f8f9fc;
+        }
+        
+        .role-option.active {
+            border-color: #4e73df;
+            background-color: #eef0fa;
+        }
+        
+        .role-option i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #4e73df;
+        }
+        
+        .role-option p {
+            margin: 0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="../assets/images/logo.png" alt="Online School Logo">
+            <h2>Online School</h2>
+            <p>Connectez-vous à votre compte</p>
+        </div>
+        
+        <div class="role-selector">
+            <div class="role-option active" data-role="student">
+                <i class="fas fa-user-graduate"></i>
+                <p>Étudiant</p>
+            </div>
+            <div class="role-option" data-role="teacher">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <p>Enseignant</p>
+            </div>
+            <div class="role-option" data-role="admin">
+                <i class="fas fa-user-shield"></i>
+                <p>Administration</p>
+            </div>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class="form-control" id="email" placeholder="Adresse email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" id="password" placeholder="Mot de passe" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div>
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Se souvenir de moi</label>
+                    </div>
+                    <a href="#">Mot de passe oublié?</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </form>
+        
+        <div class="login-footer">
+            <p>Vous n'avez pas de compte? Contactez l'administration</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des rôles
+            const roleOptions = document.querySelectorAll('.role-option');
+            let selectedRole = 'student';
+            
+            roleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedRole = this.getAttribute('data-role');
+                });
+            });
+            
+            // Gestion du formulaire de connexion
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Simulation de connexion (à remplacer par une véritable API)
+                console.log(`Tentative de connexion avec: ${email}, ${password}, rôle: ${selectedRole}`);
+                
+                // Redirection basée sur le rôle
+                switch(selectedRole) {
+                    case 'student':
+                        window.location.href = 'student/index.html';
+                        break;
+                    case 'teacher':
+                        window.location.href = './teacher/index.html';
+                        break;
+                    case 'admin':
+                        window.location.href = './admin/index.html';
+                        break;
+                    default:
+                        window.location.href = '../student/index.html';
+                }
+            });
+        });
+    </script>
+</body>

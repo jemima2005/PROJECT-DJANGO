@@ -8,8 +8,6 @@ class Evaluation(models.Model):
     developpement = models.TextField()
     description = models.TextField()
     date_creation = models.DateField()
-    date_limite = models.DateField()
-    correction = models.TextField()
     bareme = models.FloatField()
     support = models.FileField(upload_to='evaluations/')
     enseignant_id = models.ForeignKey('accounts.Enseignant', on_delete=models.CASCADE)

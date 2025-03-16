@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction à la programmation - Online School</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="student-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="../assets/images/logo.png" alt="Online School Logo" class="logo">
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="courses.html" class="active">Mes cours</a></li>
+                    <li><a href="forum.html">Forums</a></li>
+                    <li><a href="evaluations.html">Évaluations</a></li>
+                </ul>
+            </nav>
+            <div class="profile-dropdown">
+                <img src="../assets/images/student-avatar.jpg" alt="Profil" class="profile-img" id="profileDropdown">
+                <div class="dropdown-menu" id="profileMenu">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i> Mon profil
+                    </a>
+                    <a href="settings.html" class="dropdown-item">
+                        <i class="fas fa-cog"></i> Paramètres
+                    </a>
+                    <a href="../dashboard/index.html" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Course header -->
+    <div class="course-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Introduction à la programmation</h1>
+                    <div class="course-meta">
+                        <span><i class="fas fa-user"></i> Bernard Dupont</span>
+                        <span><i class="fas fa-calendar"></i> Semestre 1 - 2022/2023</span>
+                        <span><i class="fas fa-clock"></i> 30 heures</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="course-progress-container">
+                        <div class="progress-circle">
+                            <span class="progress-value">75%</span>
+                        </div>
+                        <div class="progress-label">Votre progression</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course navigation -->
+    <div class="course-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#content" class="active">Contenu</a></li>
+                <li><a href="#forum">Forum</a></li>
+                <li><a href="#evaluations">Évaluations</a></li>
+                <li><a href="#resources">Ressources</a></li>
+                <li><a href="#grades">Notes</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <main class="container mt-4">
+        <div class="row">
+            <!-- Course sidebar (modules) -->
+            <div class="col-md-4">
+                <div class="card course-modules">
+                    <div class="card-header">
+                        <h3>Modules du cours</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="module-list">
+                            <li class="module-item active">
+                                <div class="module-header" data-toggle="collapse" data-target="#module1Content">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span>Module 1: Introduction à la programmation</span>
+                                    <span class="module-progress">100%</span>
+                                </div>
+                                <div class="module-content show" id="module1Content">
+                                    <ul class="lesson-list">
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>1.1 Qu'est-ce que la programmation?</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>1.2 Historique des langages de programmation</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>1.3 Installation de l'environnement</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>Quiz: Introduction</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="module-item">
+                                <div class="module-header" data-toggle="collapse" data-target="#module2Content">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>Module 2: Variables et types de données</span>
+                                    <span class="module-progress">75%</span>
+                                </div>
+                                <div class="module-content collapse" id="module2Content">
+                                    <ul class="lesson-list">
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>2.1 Types de données de base</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item completed">
+                                            <a href="#">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>2.2 Variables et constantes</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item in-progress">
+                                            <a href="#" class="current-lesson">
+                                                <i class="fas fa-circle"></i>
+                                                <span>2.3 Opérateurs et expressions</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>Quiz: Variables et types</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="module-item">
+                                <div class="module-header" data-toggle="collapse" data-target="#module3Content">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>Module 3: Structures conditionnelles</span>
+                                    <span class="module-progress">0%</span>
+                                </div>
+                                <div class="module-content collapse" id="module3Content">
+                                    <ul class="lesson-list">
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>3.1 Instructions if-else</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>3.2 Switch case</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>3.3 Opérateurs ternaires</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>Quiz: Structures conditionnelles</span>
+                                            </a>
+                                        </li>
+                                        <li class="lesson-item">
+                                            <a href="#">
+                                                <i class="far fa-circle"></i>
+                                                <span>TP: Exercices conditionnels</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="module-item">
+                                <div class="module-header" data-toggle="collapse" data-target="#module4Content">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>Module 4: Boucles et itérations</span>
+                                    <span class="module-progress">0%</span>
+                                </div>
+                                <div class="module-content collapse" id="module4Content">
+                                    <!-- Contenu du module 4 -->
+                                </div>
+                            </li>
+                            <li class="module-item">
+                                <div class="module-header" data-toggle="collapse" data-target="#module5Content">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>Module 5: Fonctions</span>
+                                    <span class="module-progress">0%</span>
+                                </div>
+                                <div class="module-content collapse" id="module5Content">
+                                    <!-- Contenu du module 5 -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course content (current lesson) -->
+            <div class="col-md-8">
+                <div class="lesson-content">
+                    <div class="lesson-title">
+                        <h2>2.3 Opérateurs et expressions</h2>
+                    </div>
+                    
+                    <div class="lesson-body">
+                        <p>Dans cette leçon, nous allons explorer les opérateurs en Python et comment les utiliser pour créer des expressions. Les opérateurs sont des symboles spéciaux qui effectuent des opérations sur des variables et des valeurs.</p>
+                        
+                        <h3>Opérateurs arithmétiques</h3>
+                        <p>Les opérateurs arithmétiques sont utilisés pour effectuer des opérations mathématiques de base:</p>
+                        
+                        <div class="code-block">
+                            <pre><code>
+# Addition
+a = 5 + 3  # a vaut 8
+
+# Soustraction
+b = 10 - 4  # b vaut 6
+
+# Multiplication
+c = 4 * 5  # c vaut 20
+
+# Division
+d = 20 / 4  # d vaut 5.0 (notez qu'il s'agit d'un float)
+
+# Division entière
+e = 20 // 3  # e vaut 6 (la partie décimale est tronquée)
+
+# Modulo (reste de la division)
+f = 20 % 3  # f vaut 2
+
+# Puissance
+g = 2 ** 3  # g vaut 8 (2 puissance 3)
+                            </code></pre>
+                        </div>
+                        
+                        <h3>Opérateurs de comparaison</h3>
+                        <p>Les opérateurs de comparaison sont utilisés pour comparer deux valeurs:</p>
+                        
+                        <div class="code-block">
+                            <pre><code>
+# Égal à
+a == b  # Renvoie True si a est égal à b
+
+# Différent de
+a != b  # Renvoie True si a est différent de b
+
+# Supérieur à
+a > b  # Renvoie True si a est supérieur à b
+
+# Inférieur à
+a < b  # Renvoie True si a est inférieur à b
+
+# Supérieur ou égal à
+a >= b  # Renvoie True si a est supérieur ou égal à b
+
+# Inférieur ou égal à
+a <= b  # Renvoie True si a est inférieur ou égal à b
+                            </code></pre>
+                        </div>
+                        
+                        <h3>Opérateurs logiques</h3>
+                        <p>Les opérateurs logiques sont utilisés pour combiner des expressions conditionnelles:</p>
+                        
+                        <div class="code-block">
+                            <pre><code>
+# ET logique
+a and b  # Renvoie True si a et b sont True
+
+# OU logique
+a or b  # Renvoie True si a ou b est True
+
+# NON logique
+not a  # Renvoie True si a est False, et False si a est True
+                            </code></pre>
+                        </div>
+                        
+                        <h3>Opérateurs d'affectation</h3>
+                        <p>Les opérateurs d'affectation sont utilisés pour assigner des valeurs à des variables:</p>
+                        
+                        <div class="code-block">
+                            <pre><code>
+# Affectation simple
+a = 5
+
+# Affectation avec addition
+a += 3  # Équivalent à a = a + 3
+
+# Affectation avec soustraction
+a -= 2  # Équivalent à a = a - 2
+
+# Affectation avec multiplication
+a *= 4  # Équivalent à a = a * 4
+
+# Affectation avec division
+a /= 2  # Équivalent à a = a / 2
+                            </code></pre>
+                        </div>
+                        
+                        <h3>Exercice pratique</h3>
+                        <p>Essayez de résoudre l'exercice suivant pour tester votre compréhension:</p>
+                        
+                        <div class="exercise-box">
+                            <p><strong>Exercice:</strong> Calculez la moyenne de trois nombres et vérifiez si elle est supérieure à 10.</p>
+                            <p>Commencez avec les valeurs a = 12, b = 8, et c = 14.</p>
+                            <ul>
+                                <li>Calculez la moyenne</li>
+                                <li>Vérifiez si elle est supérieure à 10</li>
+                                <li>Affichez un message approprié</li>
+                            </ul>
+                            <button class="btn btn-primary mt-2" id="showSolutionBtn">Voir la solution</button>
+                            <div class="solution" id="solutionBox" style="display: none;">
+                                <div class="code-block">
+                                    <pre><code>
+a = 12
+b = 8
+c = 14
+
+# Calcul de la moyenne
+moyenne = (a + b + c) / 3
+
+# Vérification
+est_superieur_a_10 = moyenne > 10
+
+# Affichage du résultat
+if est_superieur_a_10:
+    print(f"La moyenne est {moyenne}, elle est supérieure à 10.")
+else:
+    print(f"La moyenne est {moyenne}, elle n'est pas supérieure à 10.")
+
+# Résultat:
+# La moyenne est 11.333333333333334, elle est supérieure à 10.
+                                    </code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-container">
+                            <h3>Vidéo explicative</h3>
+                            <div class="responsive-video">
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Introduction aux opérateurs en Python" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-navigation">
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Précédent
+                        </a>
+                        <button class="btn btn-success" id="markAsCompleteBtn">
+                            <i class="fas fa-check"></i> Marquer comme terminé
+                        </button>
+                        <a href="#" class="btn btn-primary">
+                            Suivant <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Comments section -->
+                <div class="lesson-comments mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Questions et commentaires (3)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="comment">
+                                <div class="comment-author">
+                                    <img src="../assets/images/student-avatar2.jpg" alt="Lucas Martin">
+                                    <div>
+                                        <span class="author-name">Lucas Martin</span>
+                                        <span class="comment-date">il y a 2 jours</span>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>Est-ce que quelqu'un peut m'expliquer la différence entre la division normale (/) et la division entière (//) en Python ?</p>
+                                </div>
+                                <div class="comment-actions">
+                                    <button class="btn btn-sm btn-light">
+                                        <i class="fas fa-reply"></i> Répondre
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="comment comment-reply">
+                                <div class="comment-author">
+                                    <img src="../assets/images/teacher-avatar.jpg" alt="Bernard Dupont">
+                                    <div>
+                                        <span class="author-name">Bernard Dupont</span>
+                                        <span class="badge badge-primary">Enseignant</span>
+                                        <span class="comment-date">il y a 1 jour</span>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>Bonjour Lucas, la division normale (/) renvoie toujours un nombre à virgule flottante (float), même si le résultat est un nombre entier. Par exemple, 4 / 2 donnera 2.0.</p>
+                                    <p>La division entière (//) tronque la partie décimale et renvoie un entier. Par exemple, 5 // 2 donnera 2 (et non 2.5).</p>
+                                </div>
+                                <div class="comment-actions">
+                                    <button class="btn btn-sm btn-light">
+                                        <i class="fas fa-reply"></i> Répondre
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="comment">
+                                <div class="comment-author">
+                                    <img src="../assets/images/student-avatar3.jpg" alt="Émilie Bernard">
+                                    <div>
+                                        <span class="author-name">Émilie Bernard</span>
+                                        <span class="comment-date">il y a 8 heures</span>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>Est-ce qu'il y aura des exercices supplémentaires sur les opérateurs bit à bit ? Je trouve ce concept un peu difficile à comprendre.</p>
+                                </div>
+                                <div class="comment-actions">
+                                    <button class="btn btn-sm btn-light">
+                                        <i class="fas fa-reply"></i> Répondre
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="add-comment mt-4">
+                                <h4>Ajouter un commentaire</h4>
+                                <textarea class="form-control" rows="3" placeholder="Écrivez votre commentaire ou question..."></textarea>
+                                <button class="btn btn-primary mt-2">Publier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="student-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Online School</h4>
+                    <p>La plateforme d'e-learning intuitive et interactive pour une expérience d'apprentissage optimale.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="courses.html">Cours</a></li>
+                        <li><a href="forum.html">Forums</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="help.html">Aide</a></li>
+                        <li><a href="terms.html">Conditions d'utilisation</a></li>
+                        <li><a href="privacy.html">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Contact</h4>
+                    <p>
+                        <i class="fas fa-envelope"></i> contact@onlineschool.fr<br>
+                        <i class="fas fa-phone"></i> +33 1 23 45 67 89<br>
+                        <i class="fas fa-map-marker-alt"></i> 123 Avenue de l'Éducation, 75000 Paris
+                    </p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Online School. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle profile dropdown
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            profileDropdown.addEventListener('click', function() {
+                profileMenu.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.matches('#profileDropdown') && !profileMenu.contains(event.target)) {
+                    profileMenu.classList.remove('show');
+                }
+            });
+            
+            // Module toggling
+            const moduleHeaders = document.querySelectorAll('.module-header');
+            
+            moduleHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const targetId = this.getAttribute('data-target');
+                    const content = document.querySelector(targetId);
+                    
+                    if (content.classList.contains('show')) {
+                        content.classList.remove('show');
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-right');
+                    } else {
+                        content.classList.add('show');
+                        icon.classList.remove('fa-chevron-right');
+                        icon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+            
+            // Toggle solution visibility
+            const showSolutionBtn = document.getElementById('showSolutionBtn');
+            const solutionBox = document.getElementById('solutionBox');
+            
+            showSolutionBtn.addEventListener('click', function() {
+                if (solutionBox.style.display === 'none') {
+                    solutionBox.style.display = 'block';
+                    showSolutionBtn.textContent = 'Masquer la solution';
+                } else {
+                    solutionBox.style.display = 'none';
+                    showSolutionBtn.textContent = 'Voir la solution';
+                }
+            });
+            
+            // Mark as complete functionality
+            const markAsCompleteBtn = document.getElementById('markAsCompleteBtn');
+            
+            markAsCompleteBtn.addEventListener('click', function() {
+                if (this.classList.contains('btn-success')) {
+                    // Mark as complete
+                    this.innerHTML = '<i class="fas fa-check"></i> Terminé';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-secondary');
+                    
+                    // Simulate updating the progress
+                    alert('Leçon marquée comme terminée! Votre progression a été mise à jour.');
+                } else {
+                    // Mark as incomplete
+                    this.innerHTML = '<i class="fas fa-check"></i> Marquer comme terminé';
+                    this.classList.remove('btn-secondary');
+                    this.classList.add('btn-success');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

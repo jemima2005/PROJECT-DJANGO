@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Responsable de Scolarité - Online School</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Online School</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="index.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Tableau de bord
+                    </a>
+                </li>
+                <li>
+                    <a href="students.html">
+                        <i class="fas fa-user-graduate"></i>
+                        Étudiants
+                    </a>
+                </li>
+                <li>
+                    <a href="classes.html">
+                        <i class="fas fa-chalkboard"></i>
+                        Classes
+                    </a>
+                </li>
+                <li>
+                    <a href="teachers.html">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Enseignants
+                    </a>
+                </li>
+                <li>
+                    <a href="courses.html">
+                        <i class="fas fa-book"></i>
+                        Cours
+                    </a>
+                </li>
+                <li>
+                    <a href="enrollments.html">
+                        <i class="fas fa-user-plus"></i>
+                        Inscriptions
+                    </a>
+                </li>
+                <li>
+                    <a href="reports.html">
+                        <i class="fas fa-chart-bar"></i>
+                        Rapports
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user-circle"></i>
+                        Mon profil
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="../index.html">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar">
+                <button type="button" id="sidebarCollapse" class="navbar-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="navbar-search">
+                    <input type="text" class="form-control" placeholder="Rechercher...">
+                </div>
+
+                <div class="navbar-user">
+                    <img src="../../assets/images/academic-avatar.jpg" alt="Responsable de scolarité">
+                    <span>Marie Laurent</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 class="h3 mb-0">Tableau de bord Responsable de Scolarité</h1>
+                    <div>
+                        <button class="btn btn-primary" id="exportReportBtn">
+                            <i class="fas fa-file-export"></i> Exporter rapport
+                        </button>
+                        <button class="btn btn-success" id="createEnrollmentBtn">
+                            <i class="fas fa-user-plus"></i> Nouvelle inscription
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard-cards">
+                    <div class="stat-card stat-card-primary">
+                        <div class="stat-card-body">
+                            <div class="stat-card-title">Étudiants inscrits</div>
+                            <div class="stat-card-value">562</div>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-card-success">
+                        <div class="stat-card-body">
+                            <div class="stat-card-title">Classes actives</div>
+                            <div class="stat-card-value">24</div>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-chalkboard"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-card-warning">
+                        <div class="stat-card-body">
+                            <div class="stat-card-title">Enseignants</div>
+                            <div class="stat-card-value">38</div>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-card-danger">
+                        <div class="stat-card-body">
+                            <div class="stat-card-title">Demandes en attente</div>
+                            <div class="stat-card-value">15</div>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Inscriptions par filière</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="enrollmentChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Évolution des inscriptions</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="enrollmentTrendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Applications -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h6>Demandes d'inscription récentes</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Email</th>
+                                        <th>Filière</th>
+                                        <th>Niveau</th>
+                                        <th>Date de demande</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Dubois</td>
+                                        <td>Lucas</td>
+                                        <td>lucas.dubois@example.com</td>
+                                        <td>Informatique</td>
+                                        <td>L1</td>
+                                        <td>15/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i
+                                                        class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i
+                                                        class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Rejeter"><i
+                                                        class="fas fa-times"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Leclerc</td>
+                                        <td>Emma</td>
+                                        <td>emma.leclerc@example.com</td>
+                                        <td>Mathématiques</td>
+                                        <td>L2</td>
+                                        <td>14/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i
+                                                        class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i
+                                                        class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Rejeter"><i
+                                                        class="fas fa-times"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bernard</td>
+                                        <td>Nicolas</td>
+                                        <td>nicolas.bernard@example.com</td>
+                                        <td>Économie</td>
+                                        <td>L3</td>
+                                        <td>13/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i
+                                                        class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i
+                                                        class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Rejeter"><i
+                                                        class="fas fa-times"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Petit</td>
+                                        <td>Julie</td>
+                                        <td>julie.petit@example.com</td>
+                                        <td>Physique</td>
+                                        <td>M1</td>
+                                        <td>12/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i
+                                                        class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i
+                                                        class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Rejeter"><i
+                                                        class="fas fa-times"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Moreau</td>
+                                        <td>Antoine</td>
+                                        <td>antoine.moreau@example.com</td>
+                                        <td>Informatique</td>
+                                        <td>M2</td>
+                                        <td>10/03/2023</td>
+                                        <td><span class="badge bg-warning">En attente</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-primary" title="Voir"><i
+                                                        class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approuver"><i
+                                                        class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Rejeter"><i
+                                                        class="fas fa-times"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="applications.html" class="btn btn-primary">Voir toutes les demandes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h6>Activités récentes</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="activity-timeline">
+                            <li class="activity-item">
+                                <div class="activity-dot bg-success"></div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Inscription approuvée</div>
+                                    <div class="activity-text">
+                                        Vous avez approuvé l'inscription de <strong>Martin Sophie</strong> en <strong>L1
+                                            Informatique</strong>
+                                    </div>
+                                    <div class="activity-time">il y a 2 heures</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-dot bg-primary"></div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Classe créée</div>
+                                    <div class="activity-text">
+                                        Vous avez créé une nouvelle classe <strong>M2 Informatique - Semestre 2</strong>
+                                    </div>
+                                    <div class="activity-time">il y a 3 heures</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-dot bg-warning"></div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Cours affecté</div>
+                                    <div class="activity-text">
+                                        Vous avez affecté le cours <strong>Intelligence artificielle</strong> à
+                                        <strong>Bernard Dupont</strong>
+                                    </div>
+                                    <div class="activity-time">il y a 5 heures</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-dot bg-danger"></div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Inscription rejetée</div>
+                                    <div class="activity-text">
+                                        Vous avez rejeté l'inscription de <strong>Lemaire Thomas</strong> en <strong>L3
+                                            Économie</strong>
+                                    </div>
+                                    <div class="activity-time">il y a 1 jour</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-dot bg-info"></div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Rapport généré</div>
+                                    <div class="activity-text">
+                                        Vous avez généré le rapport <strong>Inscriptions février 2023</strong>
+                                    </div>
+                                    <div class="activity-time">il y a 2 jours</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour créer une inscription -->
+    <div class="modal-backdrop" id="createEnrollmentModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h5 class="modal-title">Créer une nouvelle inscription</h5>
+                <button type="button" class="modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createEnrollmentForm">
+                    <div class="form-group">
+                        <label for="studentName">Nom</label>
+                        <input type="text" class="form-control" id="studentName" placeholder="Nom de l'étudiant"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentFirstName">Prénom</label>
+                        <input type="text" class="form-control" id="studentFirstName" placeholder="Prénom de l'étudiant"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" class="form-control" id="studentEmail" placeholder="Email de l'étudiant"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPhone">Téléphone</label>
+                        <input type="tel" class="form-control" id="studentPhone" placeholder="Téléphone de l'étudiant">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentBirthdate">Date de naissance</label>
+                        <input type="date" class="form-control" id="studentBirthdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentDepartment">Filière</label>
+                        <select class="form-control" id="studentDepartment" required>
+                            <option value="">Sélectionnez une filière</option>
+                            <option value="info">Informatique</option>
+                            <option value="math">Mathématiques</option>
+                            <option value="phys">Physique</option>
+                            <option value="eco">Économie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentLevel">Niveau</label>
+                        <select class="form-control" id="studentLevel" required>
+                            <option value="">Sélectionnez un niveau</option>
+                            <option value="L1">Licence 1</option>
+                            <option value="L2">Licence 2</option>
+                            <option value="L3">Licence 3</option>
+                            <option value="M1">Master 1</option>
+                            <option value="M2">Master 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentStatus">Statut</label>
+                        <select class="form-control" id="studentStatus" required>
+                            <option value="active">Actif</option>
+                            <option value="pending">En attente</option>
+                            <option value="pending-payment">En attente de paiement</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveEnrollmentBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle Sidebar
+            document.getElementById('sidebarCollapse').addEventListener('click', function () {
+                document.getElementById('sidebar').classList.toggle('active');
+                document.getElementById('content').classList.toggle('active');
+            });
+
+            // Modal de création d'inscription
+            const createEnrollmentBtn = document.getElementById('createEnrollmentBtn');
+            const createEnrollmentModal = document.getElementById('createEnrollmentModal');
+            const closeButtons = document.querySelectorAll('[data-dismiss="modal"]');
+            const saveEnrollmentBtn = document.getElementById('saveEnrollmentBtn');
+
+            createEnrollmentBtn.addEventListener('click', function () {
+                createEnrollmentModal.classList.add('show');
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    createEnrollmentModal.classList.remove('show');
+                });
+            });
+
+            saveEnrollmentBtn.addEventListener('click', function () {
+                // Simuler la sauvegarde d'une inscription
+                alert('Inscription créée avec succès !');
+                createEnrollmentModal.classList.remove('show');
+            });
+
+            // Enrollment Chart
+            const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');
+            const enrollmentChart = new Chart(enrollmentCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Informatique', 'Mathématiques', 'Physique', 'Économie', 'Biologie'],
+                    datasets: [{
+                        label: 'Répartition par filière',
+                        data: [210, 120, 85, 95, 52],
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.8)',
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(231, 74, 59, 0.8)',
+                            'rgba(54, 185, 204, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Enrollment Trend Chart
+            const trendCtx = document.getElementById('enrollmentTrendChart').getContext('2d');
+            const trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sep', 'Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar'],
+                    datasets: [{
+                        label: 'Inscriptions 2022-2023',
+                        data: [480, 510, 520, 534, 548, 555, 562],
+                        backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Inscriptions 2021-2022',
+                        data: [450, 470, 485, 495, 510, 520, 530],
+                        backgroundColor: 'rgba(28, 200, 138, 0.2)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 400
+                        }
+                    }
+                }
+            });
+
+            // Export Report Button
+            const exportReportBtn = document.getElementById('exportReportBtn');
+
+            exportReportBtn.addEventListener('click', function () {
+                alert('Le rapport a été généré et exporté au format PDF.');
+            });
+        });
+    </script>
+</body>
+
+</html>
