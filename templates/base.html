@@ -1,0 +1,751 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>EduMall - LMS & e-Learning Platform Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon.png">
+
+    <!-- CSS (Font, Vendor, Icon, Plugins & Style CSS files) -->
+
+    <!-- Font CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS (Bootstrap & Icon Font) -->
+    <link rel="stylesheet" href="{% static 'css/vendor/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vendor/edumall-icon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vendor/bootstrap.min.css' %}">
+
+    <!-- Plugins CSS (All Plugins Files) -->
+    <link rel="stylesheet" href="{% static 'css/plugins/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/jquery.powertip.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/glightbox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/flatpickr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/ion.rangeSlider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/select2.min.css' %}">
+
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <main class="main-wrapper">
+
+        <!-- Header start -->
+        <div class="header-section header-sticky">
+
+            <!-- Header Top Start -->
+            <div class="header-top-04">
+                <div class="container custom-container">
+
+                    <div class="row gy-2 align-items-center">
+                        <div class="col-sm-4">
+
+                            <!-- Header Top Bar Wrapper Info Start -->
+                            <div class="header-contact__box">
+                                <div class="header-contact__icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="header-contact__info">
+                                    <a class="header-contact__phone" href="tel:(+1)234567899">(+1) 234567899</a>
+                                    <a class="header-contact__email" href="mailto:info@edumall.com">info@edumall.com</a>
+                                </div>
+                            </div>
+                            <!-- Header Top Bar Wrapper Info End -->
+
+                        </div>
+                        <div class="col-sm-4 col-5">
+
+                            <!-- Header Logo Start -->
+                            <div class="header-logo text-center">
+                                <a class="header-logo__logo" href="index.html"><img src="assets/images/dark-logo.png"
+                                        width="296" height="64" alt="Logo"></a>
+                            </div>
+                            <!-- Header Logo End -->
+
+                        </div>
+                        <div class="col-sm-4 col-7">
+
+                            <!-- Header Top Bar Wrapper Info Start -->
+                            <div class="header-top-bar-wrap__info d-flex justify-content-end align-items-center">
+
+                                <div class="header-top-bar-wrap_language header-top-bar-wrap_language-02">
+                                    <a class="language-toggle" href="#"><span>English</span></a>
+
+                                    <ul class="language-dropdown">
+                                        <li><a href="#">Français</a></li>
+                                        <li><a href="#">Deutsch</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="header-user-02__box d-none d-lg-flex">
+                                    <div class="header-user-02__icon">
+                                        <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="header-user-02__info">
+                                        <button class="header-user-02__link" data-bs-toggle="modal"
+                                            data-bs-target="#loginModal">Log in</button>
+                                        <button class="header-user-02__link" data-bs-toggle="modal"
+                                            data-bs-target="#registerModal">Register</button>
+                                    </div>
+                                </div>
+
+                                <!-- Header Mobile Toggle Start -->
+                                <div class="header-toggle header-toggle-02 d-xl-none">
+                                    <button class="header-toggle__btn" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasMobileMenu">
+                                        <span class="line"></span>
+                                        <span class="line"></span>
+                                        <span class="line"></span>
+                                    </button>
+                                </div>
+                                <!-- Header Mobile Toggle End -->
+                            </div>
+                            <!-- Header Top Bar Wrapper Info End -->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Header Top End -->
+
+            <!-- Header Main Start -->
+            <div class="header-main-03 d-none d-xl-block">
+                <div class="container custom-container">
+
+                    <!-- Header Navigation Start -->
+                    <div class="header-navigation">
+                        <nav class="menu-primary">
+                            <ul class="menu-primary_container menu-primary_container-02 justify-content-center">
+                                <li><a class="active" href="#"><span>Home</span></a>
+
+                                    <ul class="mega-menu">
+                                        <li>
+                                            <!-- Mega Menu Content Start -->
+                                            <div class="mega-menu-content">
+                                                <div class="row">
+                                                    <div class="col-xl-3">
+                                                        <div class="menu-content-list">
+                                                            <a href="index.html" class="menu-content-list__link">Main
+                                                                Demo <span class="badge hot">Hot</span></a>
+                                                            <a href="index-course-hub.html"
+                                                                class="menu-content-list__link">Course Hub</a>
+                                                            <a href="index-online-academy.html"
+                                                                class="menu-content-list__link">Online Academy <span
+                                                                    class="badge hot">Hot</span></a>
+                                                            <a href="index-university.html"
+                                                                class="menu-content-list__link">University</a>
+                                                            <a href="index-education-center.html"
+                                                                class="menu-content-list__link">Education Center <span
+                                                                    class="badge hot">Hot</span></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3">
+                                                        <div class="menu-content-list">
+                                                            <a href="index-language-academic.html"
+                                                                class="menu-content-list__link">Language Academic</a>
+                                                            <a href="index-single-instructor.html"
+                                                                class="menu-content-list__link">Single Instructor</a>
+                                                            <a href="index-dev.html" class="menu-content-list__link">Dev
+                                                                <span class="badge new">New</span></a>
+                                                            <a href="index-online-art.html"
+                                                                class="menu-content-list__link">Online Art <span
+                                                                    class="badge new">New</span></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="menu-content-banner"
+                                                            style="background-image: url(assets/images/home-megamenu-bg.jpg);">
+                                                            <h4 class="menu-content-banner__title">Achieve Your Goals
+                                                                With EduMall</h4>
+                                                            <a href="#"
+                                                                class="menu-content-banner__btn btn btn-primary btn-hover-secondary">Purchase
+                                                                now</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Mega Menu Content Start -->
+                                        </li>
+                                    </ul>
+
+
+
+
+                                </li>
+                                <li>
+                                    <a href="#"><span>Courses</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="course-grid-01.html"><span>Grid Basic Layout</span></a></li>
+                                        <li><a href="course-grid-02.html"><span>Grid Modern Layout</span></a></li>
+                                        <li><a href="course-grid-left-sidebar.html"><span>Grid Left Sidebar</span></a>
+                                        </li>
+                                        <li><a href="course-grid-right-sidebar.html"><span>Grid Right Sidebar</span></a>
+                                        </li>
+                                        <li><a href="course-list.html"><span>List Basic Layout</span></a></li>
+                                        <li><a href="course-list-left-sidebar.html"><span>List Left Sidebar</span></a>
+                                        </li>
+                                        <li><a href="course-list-right-sidebar.html"><span>List Right Sidebar</span></a>
+                                        </li>
+                                        <li><a href="course-category.html"><span>Category Page</span></a></li>
+                                        <li>
+                                            <a href="#"><span>Single Layout</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="course-single-layout-01.html"><span>Layout 01</span></a>
+                                                </li>
+                                                <li><a href="course-single-layout-02.html"><span>Layout 02</span></a>
+                                                </li>
+                                                <li><a href="course-single-layout-03.html"><span>Layout 03</span></a>
+                                                </li>
+                                                <li><a href="course-single-layout-04.html"><span>Layout 04</span></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Blog</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog-grid-01.html"><span>Grid Basic Layout</span></a></li>
+                                        <li><a href="blog-grid-02.html"><span>Grid Wide</span></a></li>
+                                        <li><a href="blog-grid-left-sidebar.html"><span>Grid Left Sidebar</span></a>
+                                        </li>
+                                        <li><a href="blog-grid-right-sidebar.html"><span>Grid Right Sidebar</span></a>
+                                        </li>
+                                        <li><a href="blog-list-style-01.html"><span>List Layout 01</span></a></li>
+                                        <li><a href="blog-list-style-02.html"><span>List Layout 02</span></a></li>
+                                        <li>
+                                            <a href="#"><span>Single Layouts</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="blog-details-left-sidebar.html"><span>Left
+                                                            Sidebar</span></a></li>
+                                                <li><a href="blog-details-right-sidebar.html"><span>Right
+                                                            Sidebar</span></a></li>
+                                                <li><a href="blog-details.html"><span>No Sidebar</span></a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Pages</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="become-an-instructor.html"><span>Become an Instructor</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="instructors.html"><span>Instructor</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="dashboard-my-courses.html"><span>My Courses</span></a></li>
+                                                <li><a href="dashboard-announcement.html"><span>Announcements</span></a>
+                                                </li>
+                                                <li><a href="dashboard-withdraw.html"><span>Withdrawals</span></a></li>
+                                                <li><a href="dashboard-quiz-attempts.html"><span>Quiz
+                                                            Attempts</span></a></li>
+                                                <li><a href="dashboard-question-answer.html"><span>Question &
+                                                            Answer</span></a></li>
+                                                <li><a href="dashboard-assignments.html"><span>Assignments</span></a>
+                                                </li>
+                                                <li><a href="dashboard-students.html"><span>My Students</span></a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="about.html"><span>About us</span></a></li>
+                                        <li><a href="about-02.html"><span>About us 02</span></a></li>
+                                        <li><a href="contact-us.html"><span>Contact us</span></a></li>
+                                        <li><a href="contact-us-02.html"><span>Contact us 02</span></a></li>
+                                        <li><a href="membership-plans.html"><span>Membership plans</span></a></li>
+                                        <li><a href="faqs.html"><span>FAQs</span></a></li>
+                                        <li><a href="404-page.html"><span>404 Page</span></a></li>
+                                        <li>
+                                            <a href="#"><span>Dashboard</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="dashboard-index.html"><span>Dashboard</span></a></li>
+                                                <li><a href="dashboard-student-index.html"><span>Dashboard
+                                                            Student</span></a></li>
+                                                <li><a href="dashboard-profile.html"><span>My Profile</span></a></li>
+                                                <li><a href="dashboard-all-course.html"><span>Enrolled
+                                                            Courses</span></a></li>
+                                                <li><a href="dashboard-wishlist.html"><span>Wishlist</span></a></li>
+                                                <li><a href="dashboard-reviews.html"><span>Reviews</span></a></li>
+                                                <li><a href="dashboard-my-quiz-attempts.html"><span>My Quiz
+                                                            Attempts</span></a></li>
+                                                <li><a href="dashboard-purchase-history.html"><span>Purchase
+                                                            History</span></a></li>
+                                                <li><a href="dashboard-settings.html"><span>Settings</span></a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Features</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"><span>Events</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="event-grid-sidebar.html"><span>Event Listing 01</span></a>
+                                                </li>
+                                                <li><a href="event-grid.html"><span>Event Listing 02</span></a></li>
+                                                <li><a href="event-list.html"><span>Event Listing 03</span></a></li>
+                                                <li><a href="event-list-sidebar.html"><span>Event Listing 04</span></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><span>Single Layouts</span></a>
+                                                    <ul class="sub-menu">
+                                                        <li><a href="event-details-layout-01.html"><span>Layout
+                                                                    01</span></a></li>
+                                                        <li><a href="event-details-layout-02.html"><span>Layout
+                                                                    02</span></a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#"><span>Shop</span></a>
+                                            <ul class="sub-menu">
+                                                <li><a href="shop-default.html"><span>Shop – Default</span></a></li>
+                                                <li><a href="shop-left-sidebar.html"><span>Shop – Left
+                                                            Sidebar</span></a></li>
+                                                <li><a href="shop-right-sidebar.html"><span>Shop – Right
+                                                            Sidebar</span></a></li>
+                                                <li><a href="my-account.html"><span>My account</span></a></li>
+                                                <li><a href="wishlist.html"><span>Wishlist</span></a></li>
+                                                <li><a href="cart.html"><span>Cart</span></a></li>
+                                                <li><a href="cart-empty.html"><span>Cart Empty</span></a></li>
+                                                <li><a href="checkout.html"><span>Checkout</span></a></li>
+                                                <li>
+                                                    <a href="#"><span>Single Layouts</span></a>
+                                                    <ul class="sub-menu">
+                                                        <li><a href="shop-single-list-left-sidebar.html"><span>List –
+                                                                    Left Sidebar</span></a></li>
+                                                        <li><a href="shop-single-list-right-sidebar.html"><span>List –
+                                                                    Right Sidebar</span></a></li>
+                                                        <li><a href="shop-single-list-no-sidebar.html"><span>List – No
+                                                                    Sidebar</span></a></li>
+                                                        <li><a href="shop-single-tab-left-sidebar.html"><span>Tabs –
+                                                                    Left Sidebar</span></a></li>
+                                                        <li><a href="shop-single-tab-right-sidebar.html"><span>Tabs –
+                                                                    Right Sidebar</span></a></li>
+                                                        <li><a href="shop-single-tab-no-sidebar.html"><span>Tabs – No
+                                                                    Sidebar</span></a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="zoom-meetings.html"><span>Zoom Meetings</span></a></li>
+                                        <li><a href="zoom-meetings-single.html"><span>Zoom Meeting Single</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Header Navigation End -->
+
+                </div>
+            </div>
+            <!-- Header Main End -->
+
+        </div>
+        <!-- Header End -->
+
+
+
+        {% block content %}
+        {% endblock %}
+
+
+
+        <!-- Footer Start -->
+        <div class="footer-section">
+
+            <!-- Footer Widget Area Start -->
+            <div class="footer-widget-area section-padding-01">
+                <div class="container custom-container">
+                    <div class="row gy-6">
+
+                        <div class="col-lg-4 col-md-6 order-lg-3">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget">
+                                <h4 class="footer-widget__title">Sign Up for Our Newsletter</h4>
+
+                                <p class="footer-widget__description">Receive weekly newsletter with educational
+                                    materials, popular books and much more!</p>
+
+                                <form action="#">
+                                    <div class="footer-widget__form">
+                                        <input type="text" placeholder="Your e-mail">
+                                        <button class="btn btn-secondary btn-hover-third">Subscribe</button>
+                                    </div>
+                                </form>
+
+                                <div class="footer-widget__social-02">
+                                    <a class="twitter" href="https://twitter.com/" target="_blank"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="facebook" href="https://www.facebook.com/" target="_blank"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="skype" href="#" target="_blank"><i class="fab fa-skype"></i></a>
+                                    <a class="youtube" href="https://www.youtube.com/" target="_blank"><i
+                                            class="fab fa-youtube"></i></a>
+                                    <a class="linkedin" href="https://www.linkedin.com/" target="_blank"><i
+                                            class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 order-lg-2">
+                            <div class="row gy-6">
+
+                                <div class="col-sm-6">
+                                    <!-- Footer Widget Start -->
+                                    <div class="footer-widget">
+                                        <h4 class="footer-widget__title">About</h4>
+
+                                        <ul class="footer-widget_link footer-widget_link-02">
+                                            <li><a href="about.html">About Us</a></li>
+                                            <li><a href="course-grid-left-sidebar.html">Courses</a></li>
+                                            <li><a href="instructors.html">Instructor</a></li>
+                                            <li><a href="event-grid-sidebar.html">Events</a></li>
+                                            <li><a href="become-an-instructor.html">Become A Teacher</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- Footer Widget End -->
+                                </div>
+                                <div class="col-sm-6">
+                                    <!-- Footer Widget Start -->
+                                    <div class="footer-widget">
+                                        <h4 class="footer-widget__title">Links</h4>
+
+                                        <ul class="footer-widget_link footer-widget_link-02">
+                                            <li><a href="blog-grid-left-sidebar.html">News & Blogs</a></li>
+                                            <li><a href="#">Library</a></li>
+                                            <li><a href="#">Gallery</a></li>
+                                            <li><a href="#">Partners</a></li>
+                                            <li><a href="#">Career</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- Footer Widget End -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 order-lg-1">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget">
+                                <a href="#" class="footer-widget__logo"><img src="assets/images/dark-logo.png"
+                                        alt="Logo" width="150" height="32"></a>
+
+                                <p class="footer-widget__description mb-10">Lorem ipsum dolor sit amet, consectetur
+                                    adipisc ing elit. Nunc maximus, nulla utlaoki comm odo sagittis.</p>
+
+                                <p class="footer-widget__copyright mt-0">&copy; 2023 <span> EduMall </span> Made with <i
+                                        class="fa fa-heart"></i> by <a
+                                        href="https://1.envato.market/c/417168/275988/4415?subId1=hastheme&subId2=demo&subId3=https%3A%2F%2Fthemeforest.net%2Fuser%2Fbootxperts%2Fportfolio&u=https%3A%2F%2Fthemeforest.net%2Fuser%2Fbootxperts%2Fportfolio">BootXperts</a>
+                                </p>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Widget Area End -->
+
+        </div>
+        <!-- Footer End -->
+
+        <!--Back To Start-->
+        <button id="backBtn" class="back-to-top backBtn">
+            <i class="arrow-top fas fa-arrow-up"></i>
+            <i class="arrow-bottom fas fa-arrow-up"></i>
+        </button>
+        <!--Back To End-->
+
+
+    </main>
+
+    <!-- Log In Modal Start -->
+    <div class="modal fade" id="loginModal">
+        <div class="modal-dialog modal-dialog-centered modal-login">
+
+            <!-- Modal Wrapper Start -->
+            <div class="modal-wrapper">
+                <button class="modal-close" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+
+                <!-- Modal Content Start -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                        <p class="modal-description">Don't have an account yet? <button data-bs-toggle="modal"
+                                data-bs-target="#registerModal">Sign up for free</button></p>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#">
+                            <div class="modal-form">
+                                <label class="form-label">Username or email</label>
+                                <input type="text" class="form-control" placeholder="Your username or email">
+                            </div>
+                            <div class="modal-form">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="modal-form d-flex justify-content-between flex-wrap gap-2">
+                                <div class="form-check">
+                                    <input type="checkbox" id="rememberme">
+                                    <label for="rememberme">Remember me</label>
+                                </div>
+                                <div class="text-end">
+                                    <a class="modal-form__link" href="#">Forgot your password?</a>
+                                </div>
+                            </div>
+                            <div class="modal-form">
+                                <button class="btn btn-primary btn-hover-secondary w-100">Log In</button>
+                            </div>
+                        </form>
+
+                        <div class="modal-social-option">
+                            <p>or Log-in with</p>
+
+                            <ul class="modal-social-btn">
+                                <li><a href="#" class="btn facebook"><i class="fab fa-facebook-square"></i> Gacebook</a>
+                                </li>
+                                <li><a href="#" class="btn google"><i class="fab fa-google"></i> Google</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Content End -->
+
+            </div>
+            <!-- Modal Wrapper End -->
+
+        </div>
+    </div>
+    <!-- Log In Modal End -->
+
+    <!-- Log In Modal Start -->
+    <div class="modal fade" id="registerModal">
+        <div class="modal-dialog modal-dialog-centered modal-register">
+
+            <!-- Modal Wrapper Start -->
+            <div class="modal-wrapper">
+                <button class="modal-close" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+
+                <!-- Modal Content Start -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sign Up</h5>
+                        <p class="modal-description">Already have an account? <button data-bs-toggle="modal"
+                                data-bs-target="#loginModal">Log in</button></p>
+                    </div>
+                    <div class="modal-body">
+
+                        <form action="#">
+                            <div class="row gy-5">
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">Username</label>
+                                        <input type="text" class="form-control" placeholder="username">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">Email</label>
+                                        <input type="text" class="form-control" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="modal-form">
+                                        <label class="form-label">Re-Enter Password</label>
+                                        <input type="password" class="form-control" placeholder="Re-Enter Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="modal-form form-check">
+                                        <input type="checkbox" id="privacy">
+                                        <label for="privacy">Accept the Terms and Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="modal-form">
+                                        <button class="btn btn-primary btn-hover-secondary w-100">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Modal Content End -->
+
+            </div>
+            <!-- Modal Wrapper End -->
+
+        </div>
+    </div>
+    <!-- Log In Modal End -->
+
+    <!-- Edumall Demo Option Start -->
+    <div class="edumall-demo-option">
+
+        <div class="edumall-demo-option__toolbar">
+            <button class="toolbar-action demo-open" data-bs-tooltip="tooltip" data-bs-placement="left"
+                title="Select Demo"><i class="fas fa-pencil-ruler"></i></button>
+            <a class="toolbar-action" href="https://hasthemes.com/contact-us/" data-bs-tooltip="tooltip"
+                data-bs-placement="left" title="Support Channel"><i class="far fa-life-ring"></i></a>
+            <a class="toolbar-action" href="https://1.envato.market/qnL5nL" data-bs-tooltip="tooltip"
+                data-bs-placement="left" title="Purchase EduMall"><i class="fas fa-shopping-basket"></i></a>
+        </div>
+
+        <div class="edumall-demo-option__panel">
+
+            <div class="edumall-demo-option__header">
+                <h5 class="edumall-demo-option__title">EduMall - Professional LMS Education Center HTML Template</h5>
+                <a class="edumall-demo-option__btn btn btn-primary btn-hover-secondary"
+                    href="https://1.envato.market/qnL5nL"><i class="fas fa-shopping-basket"></i> Buy Now</a>
+            </div>
+
+            <div class="edumall-demo-option__body">
+                <!-- <div class="edumall-demo-option-item">
+                <a href="" data-bs-tooltip="tooltip" data-bs-placement="top" title="Landing Page">
+                    <img src="assets/images/demo/landing.jpg" alt="">
+                </a>
+            </div> -->
+                <div class="edumall-demo-option-item">
+                    <a href="index.html" data-bs-tooltip="tooltip" data-bs-placement="top" title="Main Demo">
+                        <img src="assets/images/demo/home-01.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-course-hub.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Course Hub">
+                        <img src="assets/images/demo/home-02.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-online-academy.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Online Academy">
+                        <img src="assets/images/demo/home-03.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-education-center.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Education Center">
+                        <img src="assets/images/demo/home-04.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-university.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="University">
+                        <img src="assets/images/demo/home-05.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-language-academic.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Language Academic">
+                        <img src="assets/images/demo/home-06.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-single-instructor.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Single Instructor">
+                        <img src="assets/images/demo/home-07.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-dev.html" data-bs-tooltip="tooltip" data-bs-placement="top" title="Dev">
+                        <img src="assets/images/demo/home-08.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+                <div class="edumall-demo-option-item">
+                    <a href="index-online-art.html" data-bs-tooltip="tooltip" data-bs-placement="top"
+                        title="Online Art">
+                        <img src="assets/images/demo/home-09.jpg" alt="Home" width="130" height="158">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Edumall Demo Option End -->
+
+
+
+
+    <!-- JS Vendor, Plugins & Activation Script Files -->
+
+    <!-- Vendors JS -->
+   <!-- Vendor JS -->
+   <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
+   <script src="{% static 'js/vendor/jquery-3.6.0.min.js' %}"></script>
+   <script src="{% static 'js/vendor/jquery-migrate-3.3.2.min.js' %}"></script>
+   <script src="{% static 'js/vendor/bootstrap.bundle.min.js' %}"></script>
+
+   <!-- Plugins JS -->
+   <script src="{% static 'js/plugins/aos.js' %}"></script>
+   <script src="{% static 'js/plugins/parallax.js' %}"></script>
+   <script src="{% static 'js/plugins/swiper-bundle.min.js' %}"></script>
+   <script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+   <script src="{% static 'js/plugins/jquery.powertip.min.js' %}"></script>
+   <script src="{% static 'js/plugins/nice-select.min.js' %}"></script>
+   <script src="{% static 'js/plugins/glightbox.min.js' %}"></script>
+   <script src="{% static 'js/plugins/jquery.sticky-kit.min.js' %}"></script>
+   <script src="{% static 'js/plugins/imagesloaded.pkgd.min.js' %}"></script>
+   <script src="{% static 'js/plugins/masonry.pkgd.min.js' %}"></script>
+   <script src="{% static 'js/plugins/flatpickr.js' %}"></script>
+   <script src="{% static 'js/plugins/range-slider.js' %}"></script>
+   <script src="{% static 'js/plugins/select2.min.js' %}"></script>
+
+   <!-- Activation JS -->
+   <script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
