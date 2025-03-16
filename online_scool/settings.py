@@ -45,6 +45,12 @@ INSTALLED_APPS = [
     'accounts',
     'notification',
 
+    'etudiant',
+    'enseignant',
+    'admin_app',  # 'admin' est un mot réservé, donc on utilise 'admin_app'
+    'accounting',
+    'academic',
+
 ]
 
 MIDDLEWARE = [

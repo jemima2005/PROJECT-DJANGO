@@ -29,6 +29,12 @@ urlpatterns = [
     path('forums/', include('forums.urls')),
     path('', include('accounts.urls')),
     path('notification/', include('notification.urls')),
+    path('etudiant/', include('etudiant.urls')),
+    path('enseignant/', include('enseignant.urls')),
+    path('admin_app/', include('admin_app.urls')),  # Eviter 'admin' car réservé
+    path('accounting/', include('accounting.urls')),
+    path('academic/', include('academic.urls')),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
