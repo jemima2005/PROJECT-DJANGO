@@ -1,1 +1,45 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+*.swn
+
+# Virtual Environment
 venv/
+env/
+.env
+.venv/
+ENV/
+env.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+/media/
+staticfiles/
+
+# Ignore secrets and settings
+.env
+config/settings/local.py
+config/settings/dev.py
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# JetBrains IDEs
+.idea/
+
+# Migrations (optional, if you don't want to track them)
+**/migrations/*.py
+**/migrations/*.pyc

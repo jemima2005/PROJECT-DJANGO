@@ -1,68 +1,8 @@
-<!-- dashboard/teacher/courses.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Cours - Online School</title>
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Online School</h3>
-            </div>
+{% extends "teacher/base.html" %}
+{% load static %}
+        {% block title %}Mes Cours - Online School{% endblock %}
 
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="index.html">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Tableau de bord
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="courses.html">
-                        <i class="fas fa-book"></i>
-                        Mes cours
-                    </a>
-                </li>
-                <li>
-                    <a href="students.html">
-                        <i class="fas fa-user-graduate"></i>
-                        Mes étudiants
-                    </a>
-                </li>
-                <li>
-                    <a href="evaluations.html">
-                        <i class="fas fa-clipboard-check"></i>
-                        Évaluations
-                    </a>
-                </li>
-                <li>
-                    <a href="forums.html">
-                        <i class="fas fa-comments"></i>
-                        Forums
-                    </a>
-                </li>
-                <li>
-                    <a href="profile.html">
-                        <i class="fas fa-user-circle"></i>
-                        Mon profil
-                    </a>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <a href="../index.html">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
-            </div>
-        </nav>
-
+        {% block content %}
         <!-- Page Content -->
         <div id="content">
             <nav class="navbar">
@@ -75,7 +15,7 @@
                 </div>
                 
                 <div class="navbar-user">
-                    <img src="../../assets/images/teacher-avatar.jpg" alt="Enseignant">
+                    <img src="{% static 'images/teacher-avatar.jpg' %}" alt="Enseignant">
                     <span>Bernard Dupont</span>
                 </div>
             </nav>
@@ -83,9 +23,9 @@
             <div class="container-fluid">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h1 class="h3 mb-0">Mes cours</h1>
-                    <button class="btn btn-primary" id="createCourseBtn">
+                    <a href="{% url "cours_enseignant_detail" %}" class="btn btn-primary" id="createCourseBtn">
                         <i class="fas fa-plus"></i> Créer un cours
-                    </button>
+                    </a>
                 </div>
                 
                 <!-- Filtres -->
@@ -362,8 +302,9 @@
                 </div>
             </div>
         </div>
-    </div>
+        {% endblock %}
 
+    {% block content_2 %}
     <!-- Modal pour créer un cours -->
     <div class="modal-backdrop" id="createCourseModal">
         <div class="modal-dialog">
@@ -422,8 +363,10 @@
             </div>
         </div>
     </div>
+    {% endblock content_2 %}
 
-    <script src="../../assets/js/main.js"></script>
+    {% block script %}
+    <script src="{% static 'js/main.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle Sidebar
@@ -475,7 +418,8 @@
             });
         });
     </script>
-    
+    {% endblock script %}
+    {% block style %}
     <style>
         /* Styles spécifiques pour cette page */
         .course-grid {
@@ -549,5 +493,4 @@
             margin-top: 20px;
         }
     </style>
-</body>
-</html>
+    {% endblock style %}

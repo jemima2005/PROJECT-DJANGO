@@ -1,15 +1,16 @@
-<!-- dashboard/teacher/index.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Enseignant - Online School</title>
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <title>{% block title %}Dashboard Enseignant - Online School{% endblock %}</title>
+    <link rel="stylesheet" href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    {% block style %}{% endblock style %}
 </head>
 
 <body>
@@ -21,26 +22,26 @@
             </div>
 
             <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="index.html">
+                <li class="{% if request.resolver_match.url_name == 'home_page_enseignant' %}active{% endif %}">
+                    <a href="{% url "home_page_enseignant" %}">
                         <i class="fas fa-tachometer-alt"></i>
                         Tableau de bord
                     </a>
                 </li>
-                <li>
-                    <a href="courses.html">
+                <li class="{% if request.resolver_match.url_name == 'cours_enseignant' %}active{% endif %}">
+                    <a href="{% url "cours_enseignant" %}">
                         <i class="fas fa-book"></i>
                         Mes cours
                     </a>
                 </li>
                 <li>
-                    <a href="students.html">
+                    <a href="">
                         <i class="fas fa-user-graduate"></i>
                         Mes étudiants
                     </a>
                 </li>
-                <li>
-                    <a href="evaluations.html">
+                <li class="{% if request.resolver_match.url_name == 'evaluation_enseignant' %}active{% endif %}">
+                    <a href="{% url "evaluation_enseignant" %}">
                         <i class="fas fa-clipboard-check"></i>
                         Évaluations
                     </a>
@@ -60,146 +61,29 @@
             </ul>
 
             <div class="sidebar-footer">
-                <a href="../index.html">
+                <a href="{% url "home_page_enseignant" %}">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>
             </div>
         </nav>
 
-        <!-- Page Content -->
-        <div id="content">
-            <nav class="navbar">
-                <button type="button" id="sidebarCollapse" class="navbar-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
+        
+                
 
-                <div class="navbar-search">
-                    <input type="text" class="form-control" placeholder="Rechercher...">
-                </div>
+                
 
-                <div class="navbar-user">
-                    <img src="../../assets/images/teacher-avatar.jpg" alt="Enseignant">
-                    <span>Bernard Dupont</span>
-                </div>
-            </nav>
+                
+           
 
-            <div class="container-fluid">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h1 class="h3 mb-0">Tableau de bord Enseignant</h1>
-                    <button class="btn btn-primary" id="createCourseBtn">
-                        <i class="fas fa-plus"></i> Créer un cours
-                    </button>
-                </div>
+        {% block content %}
 
+        {% endblock %}
 
-
-
-
-
-
-
-
-
-
-
-                {% block content %}{% endblock %}
-
-
-
-
-
-
-
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // Toggle Sidebar
-                        document.getElementById('sidebarCollapse').addEventListener('click', function () {
-                            document.getElementById('sidebar').classList.toggle('active');
-                            document.getElementById('content').classList.toggle('active');
-                        });
-
-                        // Modal de création de cours
-                        const createCourseBtn = document.getElementById('createCourseBtn');
-                        const createCourseModal = document.getElementById('createCourseModal');
-                        const closeButtons = document.querySelectorAll('[data-dismiss="modal"]');
-                        const saveCourseBtn = document.getElementById('saveCourseBtn');
-
-                        createCourseBtn.addEventListener('click', function () {
-                            createCourseModal.classList.add('show');
-                        });
-
-                        closeButtons.forEach(button => {
-                            button.addEventListener('click', function () {
-                                createCourseModal.classList.remove('show');
-                            });
-                        });
-
-                        saveCourseBtn.addEventListener('click', function () {
-                            // Simuler la sauvegarde d'un cours
-                            alert('Cours créé avec succès !');
-                            createCourseModal.classList.remove('show');
-                        });
-
-                        // Student Activity Chart
-                        const studentActivityCtx = document.getElementById('studentActivityChart').getContext('2d');
-                        const studentActivityChart = new Chart(studentActivityCtx, {
-                            type: 'line',
-                            data: {
-                                labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                                datasets: [{
-                                    label: 'Connexions',
-                                    data: [65, 78, 52, 68, 82, 45, 32],
-                                    backgroundColor: 'rgba(78, 115, 223, 0.2)',
-                                    borderColor: 'rgba(78, 115, 223, 1)',
-                                    borderWidth: 2,
-                                    tension: 0.4
-                                }]
-                            },
-                            options: {
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-
-                        // Course Performance Chart
-                        const coursePerformanceCtx = document.getElementById('coursePerformanceChart').getContext('2d');
-                        const coursePerformanceChart = new Chart(coursePerformanceCtx, {
-                            type: 'bar',
-                            data: {
-                                labels: ['Prog.', 'Algo.', 'BDD', 'Web', 'IA', 'Réseau', 'Sécurité', 'Mobile'],
-                                datasets: [{
-                                    label: 'Note moyenne',
-                                    data: [13.5, 14.2, 12.8, 15.7, 11.9, 13.2, 14.6, 13.8],
-                                    backgroundColor: [
-                                        'rgba(78, 115, 223, 0.8)',
-                                        'rgba(28, 200, 138, 0.8)',
-                                        'rgba(246, 194, 62, 0.8)',
-                                        'rgba(231, 74, 59, 0.8)',
-                                        'rgba(54, 185, 204, 0.8)',
-                                        'rgba(133, 135, 150, 0.8)',
-                                        'rgba(255, 159, 64, 0.8)',
-                                        'rgba(153, 102, 255, 0.8)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        max: 20
-                                    }
-                                }
-                            }
-                        });
-                    });
-                </script>
+        {% block content_2 %}{% endblock content_2 %}
+    </div>
+    {% block script %}
+    
+    {% endblock script %}
 </body>
 
 </html>

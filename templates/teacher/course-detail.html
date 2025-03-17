@@ -1,70 +1,506 @@
-<!-- dashboard/teacher/course-detail.html -->
-<!DOCTYPE html>
-<html lang="fr">
+{% extends "teacher/base.html" %}
+{% load static %}
+{% block title %}Détail du cours - Online School{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détail du cours - Online School</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
+{% block style %}
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            color: #5a5c69;
+        }
+    
+        .wrapper {
+            display: flex;
+            width: 100%;
+        }
+    
+        /* Sidebar */
+        #sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 999;
+            background: #4e73df;
+            color: #fff;
+            transition: all 0.3s;
+        }
+    
+        #sidebar.active {
+            margin-left: -250px;
+        }
+    
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #3b5bdb;
+        }
+    
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #677de0;
+        }
+    
+        #sidebar ul li a {
+            padding: 10px;
+            display: block;
+            color: #fff;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+    
+        #sidebar ul li a:hover {
+            background: #3b5bdb;
+            border-left: 3px solid #fff;
+        }
+    
+        #sidebar ul li.active > a {
+            background: #3b5bdb;
+            border-left: 3px solid #fff;
+        }
+    
+        #sidebar ul li a i {
+            margin-right: 10px;
+        }
+    
+        .sidebar-footer {
+            padding: 15px;
+            background: #3b5bdb;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    
+        .sidebar-footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+    
+        /* Contenu principal */
+        #content {
+            width: calc(100% - 250px);
+            padding: 20px;
+            min-height: 100vh;
+            transition: all 0.3s;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    
+        #content.active {
+            width: 100%;
+        }
+    
+        /* Navbar */
+        .navbar {
+            padding: 15px 10px;
+            background: #fff;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+            border-radius: 0.35rem;
+            margin-bottom: 20px;
+        }
+    
+        .navbar-btn {
+            box-shadow: none;
+            outline: none !important;
+            border: none;
+            background: transparent;
+            color: #5a5c69;
+        }
+    
+        .navbar-search {
+            margin: 0 auto;
+            width: 50%;
+        }
+    
+        .navbar-user {
+            display: flex;
+            align-items: center;
+        }
+    
+        .navbar-user img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    
+        /* Styles spécifiques pour cette page */
+        .course-meta {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+    
+        .course-meta .badge {
+            font-size: 0.9rem;
+            padding: 0.4rem 0.6rem;
+        }
+    
+        .course-meta .text-muted {
+            margin-left: 10px;
+        }
+    
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+    
+        /* Styles pour les onglets */
+        .nav-tabs {
+            border-bottom: 1px solid #e3e6f0;
+        }
+    
+        .nav-tabs .nav-link {
+            border: none;
+            color: #5a5c69;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+        }
+    
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            color: #4e73df;
+        }
+    
+        .nav-tabs .nav-link.active {
+            color: #4e73df;
+            border-bottom: 2px solid #4e73df;
+            background-color: transparent;
+        }
+    
+        /* Styles pour les pills */
+        .nav-pills .nav-link {
+            color: #5a5c69;
+            font-weight: 600;
+        }
+    
+        .nav-pills .nav-link.active {
+            background-color: #4e73df;
+            color: white;
+        }
+    
+        /* Styles pour les informations du cours */
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+    
+        .info-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f9fc;
+        }
+    
+        .info-label i {
+            width: 20px;
+            text-align: center;
+            margin-right: 5px;
+        }
+    
+        /* Styles pour les prochaines séances */
+        .upcoming-sessions {
+            list-style: none;
+            padding: 0;
+        }
+    
+        .session-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f9fc;
+        }
+    
+        .session-date {
+            background-color: #4e73df;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            padding: 5px 10px;
+            margin-right: 15px;
+            min-width: 50px;
+        }
+    
+        .session-date .day {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: block;
+        }
+    
+        .session-date .month {
+            font-size: 0.8rem;
+            display: block;
+        }
+    
+        .session-details {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .session-time {
+            font-weight: 600;
+        }
+    
+        /* Styles pour les annonces */
+        .announcement {
+            border-bottom: 1px solid #f8f9fc;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+    
+        .announcement:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+    
+        .announcement-header h6 {
+            margin: 0;
+        }
+    
+        /* Styles pour les modules */
+        .modules-container {
+            margin-bottom: 20px;
+        }
+    
+        .module-card {
+            border: 1px solid #e3e6f0;
+            border-radius: 0.35rem;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+    
+        .module-header {
+            background-color: #f8f9fc;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+    
+        .module-header h5 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+    
+        .module-header h5 i {
+            margin-right: 10px;
+        }
+    
+        .module-actions {
+            display: flex;
+            gap: 5px;
+        }
+    
+        .module-content {
+            padding: 15px;
+            border-top: 1px solid #f8f9fc;
+        }
+    
+        .lesson-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .lesson-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #f8f9fc;
+        }
+    
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+    
+        .lesson-info {
+            display: flex;
+            align-items: center;
+        }
+    
+        .lesson-title {
+            margin-right: 10px;
+        }
+    
+        .lesson-type {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    
+        .lesson-type.pdf {
+            background-color: #e74a3b;
+            color: white;
+        }
+    
+        .lesson-type.video {
+            background-color: #1cc88a;
+            color: white;
+        }
+    
+        .lesson-type.text {
+            background-color: #4e73df;
+            color: white;
+        }
+    
+        .lesson-type.quiz {
+            background-color: #f6c23e;
+            color: white;
+        }
+    
+        .lesson-type.assignment {
+            background-color: #36b9cc;
+            color: white;
+        }
+    
+        .lesson-actions {
+            display: flex;
+            gap: 5px;
+        }
+    
+        .module-footer {
+            padding-top: 15px;
+            text-align: center;
+        }
+    
+        /* Styles pour la liste des étudiants */
+        .students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    
+        .students-actions {
+            display: flex;
+            gap: 10px;
+        }
+    
+        .search-container {
+            width: 300px;
+        }
+    
+        /* Styles pour les graphiques */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+    
+        /* Style pour les badges */
+        .badge {
+            padding: 0.3em 0.6em;
+        }
+    
+        .badge.bg-success {
+            background-color: #1cc88a;
+            color: white;
+        }
+    
+        .badge.bg-warning {
+            background-color: #f6c23e;
+            color: white;
+        }
+    
+        .badge.bg-danger {
+            background-color: #e74a3b;
+            color: white;
+        }
+    
+        /* Styles pour la modal */
+        .modal-backdrop.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1050;
+        }
+    
+        .modal-backdrop {
+            display: none;
+        }
+    
+        .modal-dialog {
+            width: 500px;
+            max-width: 90%;
+            background-color: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+    
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e3e6f0;
+        }
+    
+        .modal-title {
+            margin: 0;
+        }
+    
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    
+        .modal-body {
+            padding: 1rem;
+        }
+    
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem;
+            border-top: 1px solid #e3e6f0;
+            gap: 10px;
+        }
+    
+        /* Responsive */
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: -250px;
+            }
+            #sidebar.active {
+                margin-left: 0;
+            }
+            #content {
+                width: 100%;
+            }
+            #content.active {
+                width: calc(100% - 250px);
+            }
+            .navbar-search {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+    {% endblock style %}
 
-<body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Online School</h3>
-            </div>
-
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="index.html">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Tableau de bord
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="courses.html">
-                        <i class="fas fa-book"></i>
-                        Mes cours
-                    </a>
-                </li>
-                <li>
-                    <a href="students.html">
-                        <i class="fas fa-user-graduate"></i>
-                        Mes étudiants
-                    </a>
-                </li>
-                <li>
-                    <a href="evaluations.html">
-                        <i class="fas fa-clipboard-check"></i>
-                        Évaluations
-                    </a>
-                </li>
-                <li>
-                    <a href="forums.html">
-                        <i class="fas fa-comments"></i>
-                        Forums
-                    </a>
-                </li>
-                <li>
-                    <a href="profile.html">
-                        <i class="fas fa-user-circle"></i>
-                        Mon profil
-                    </a>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <a href="../index.html">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
-            </div>
-        </nav>
+    {% block content %}
         <!-- Page Content -->
         <div id="content">
             <nav class="navbar">
@@ -103,6 +539,8 @@
                         </button>
                     </div>
                 </div>
+
+
                 <!-- Onglets du cours -->
                 <ul class="nav nav-tabs" id="courseTabs" role="tablist">
                     <li class="nav-item">
@@ -616,11 +1054,13 @@
                         </div>
                     </div>
                 </div>
+
+                
             </div>
         </div>
-    </div>
+        {% endblock %}
 
-
+    {% block script %}
     <!-- Scripts -->
      <!-- Scripts nécessaires -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -814,501 +1254,4 @@
             }
         });
     </script>
-
-<style>
-    /* Styles généraux */
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f8f9fc;
-        color: #5a5c69;
-    }
-
-    .wrapper {
-        display: flex;
-        width: 100%;
-    }
-
-    /* Sidebar */
-    #sidebar {
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        z-index: 999;
-        background: #4e73df;
-        color: #fff;
-        transition: all 0.3s;
-    }
-
-    #sidebar.active {
-        margin-left: -250px;
-    }
-
-    #sidebar .sidebar-header {
-        padding: 20px;
-        background: #3b5bdb;
-    }
-
-    #sidebar ul.components {
-        padding: 20px 0;
-        border-bottom: 1px solid #677de0;
-    }
-
-    #sidebar ul li a {
-        padding: 10px;
-        display: block;
-        color: #fff;
-        border-left: 3px solid transparent;
-        transition: all 0.3s;
-        text-decoration: none;
-    }
-
-    #sidebar ul li a:hover {
-        background: #3b5bdb;
-        border-left: 3px solid #fff;
-    }
-
-    #sidebar ul li.active > a {
-        background: #3b5bdb;
-        border-left: 3px solid #fff;
-    }
-
-    #sidebar ul li a i {
-        margin-right: 10px;
-    }
-
-    .sidebar-footer {
-        padding: 15px;
-        background: #3b5bdb;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .sidebar-footer a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    /* Contenu principal */
-    #content {
-        width: calc(100% - 250px);
-        padding: 20px;
-        min-height: 100vh;
-        transition: all 0.3s;
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    #content.active {
-        width: 100%;
-    }
-
-    /* Navbar */
-    .navbar {
-        padding: 15px 10px;
-        background: #fff;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
-        border-radius: 0.35rem;
-        margin-bottom: 20px;
-    }
-
-    .navbar-btn {
-        box-shadow: none;
-        outline: none !important;
-        border: none;
-        background: transparent;
-        color: #5a5c69;
-    }
-
-    .navbar-search {
-        margin: 0 auto;
-        width: 50%;
-    }
-
-    .navbar-user {
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar-user img {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    /* Styles spécifiques pour cette page */
-    .course-meta {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-    }
-
-    .course-meta .badge {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.6rem;
-    }
-
-    .course-meta .text-muted {
-        margin-left: 10px;
-    }
-
-    .course-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    /* Styles pour les onglets */
-    .nav-tabs {
-        border-bottom: 1px solid #e3e6f0;
-    }
-
-    .nav-tabs .nav-link {
-        border: none;
-        color: #5a5c69;
-        font-weight: 600;
-        padding: 0.75rem 1rem;
-    }
-
-    .nav-tabs .nav-link:hover {
-        border-color: transparent;
-        color: #4e73df;
-    }
-
-    .nav-tabs .nav-link.active {
-        color: #4e73df;
-        border-bottom: 2px solid #4e73df;
-        background-color: transparent;
-    }
-
-    /* Styles pour les pills */
-    .nav-pills .nav-link {
-        color: #5a5c69;
-        font-weight: 600;
-    }
-
-    .nav-pills .nav-link.active {
-        background-color: #4e73df;
-        color: white;
-    }
-
-    /* Styles pour les informations du cours */
-    .info-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .info-list li {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #f8f9fc;
-    }
-
-    .info-label i {
-        width: 20px;
-        text-align: center;
-        margin-right: 5px;
-    }
-
-    /* Styles pour les prochaines séances */
-    .upcoming-sessions {
-        list-style: none;
-        padding: 0;
-    }
-
-    .session-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #f8f9fc;
-    }
-
-    .session-date {
-        background-color: #4e73df;
-        color: white;
-        border-radius: 5px;
-        text-align: center;
-        padding: 5px 10px;
-        margin-right: 15px;
-        min-width: 50px;
-    }
-
-    .session-date .day {
-        font-size: 1.2rem;
-        font-weight: 700;
-        display: block;
-    }
-
-    .session-date .month {
-        font-size: 0.8rem;
-        display: block;
-    }
-
-    .session-details {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .session-time {
-        font-weight: 600;
-    }
-
-    /* Styles pour les annonces */
-    .announcement {
-        border-bottom: 1px solid #f8f9fc;
-        padding-bottom: 15px;
-        margin-bottom: 15px;
-    }
-
-    .announcement:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
-
-    .announcement-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 5px;
-    }
-
-    .announcement-header h6 {
-        margin: 0;
-    }
-
-    /* Styles pour les modules */
-    .modules-container {
-        margin-bottom: 20px;
-    }
-
-    .module-card {
-        border: 1px solid #e3e6f0;
-        border-radius: 0.35rem;
-        margin-bottom: 15px;
-        overflow: hidden;
-    }
-
-    .module-header {
-        background-color: #f8f9fc;
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .module-header h5 {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-
-    .module-header h5 i {
-        margin-right: 10px;
-    }
-
-    .module-actions {
-        display: flex;
-        gap: 5px;
-    }
-
-    .module-content {
-        padding: 15px;
-        border-top: 1px solid #f8f9fc;
-    }
-
-    .lesson-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .lesson-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #f8f9fc;
-    }
-
-    .lesson-item:last-child {
-        border-bottom: none;
-    }
-
-    .lesson-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .lesson-title {
-        margin-right: 10px;
-    }
-
-    .lesson-type {
-        padding: 3px 8px;
-        border-radius: 3px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .lesson-type.pdf {
-        background-color: #e74a3b;
-        color: white;
-    }
-
-    .lesson-type.video {
-        background-color: #1cc88a;
-        color: white;
-    }
-
-    .lesson-type.text {
-        background-color: #4e73df;
-        color: white;
-    }
-
-    .lesson-type.quiz {
-        background-color: #f6c23e;
-        color: white;
-    }
-
-    .lesson-type.assignment {
-        background-color: #36b9cc;
-        color: white;
-    }
-
-    .lesson-actions {
-        display: flex;
-        gap: 5px;
-    }
-
-    .module-footer {
-        padding-top: 15px;
-        text-align: center;
-    }
-
-    /* Styles pour la liste des étudiants */
-    .students-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .students-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .search-container {
-        width: 300px;
-    }
-
-    /* Styles pour les graphiques */
-    .chart-container {
-        position: relative;
-        height: 300px;
-        width: 100%;
-    }
-
-    /* Style pour les badges */
-    .badge {
-        padding: 0.3em 0.6em;
-    }
-
-    .badge.bg-success {
-        background-color: #1cc88a;
-        color: white;
-    }
-
-    .badge.bg-warning {
-        background-color: #f6c23e;
-        color: white;
-    }
-
-    .badge.bg-danger {
-        background-color: #e74a3b;
-        color: white;
-    }
-
-    /* Styles pour la modal */
-    .modal-backdrop.show {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1050;
-    }
-
-    .modal-backdrop {
-        display: none;
-    }
-
-    .modal-dialog {
-        width: 500px;
-        max-width: 90%;
-        background-color: white;
-        border-radius: 0.35rem;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid #e3e6f0;
-    }
-
-    .modal-title {
-        margin: 0;
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-
-    .modal-body {
-        padding: 1rem;
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        padding: 1rem;
-        border-top: 1px solid #e3e6f0;
-        gap: 10px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        #sidebar {
-            margin-left: -250px;
-        }
-        #sidebar.active {
-            margin-left: 0;
-        }
-        #content {
-            width: 100%;
-        }
-        #content.active {
-            width: calc(100% - 250px);
-        }
-        .navbar-search {
-            width: 100%;
-            margin: 10px 0;
-        }
-    }
-</style>
-</body>
-</html>
+    {% endblock script %}
