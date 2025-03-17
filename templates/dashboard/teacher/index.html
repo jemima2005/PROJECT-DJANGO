@@ -1,0 +1,241 @@
+<!-- templates/dashboard/teacher/index.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Dashboard Enseignant - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li class="active">
+    <a href="{% url 'dashboard:teacher_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:teacher_courses' %}">
+        <i class="fas fa-book"></i>
+        Mes cours
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-graduate"></i>
+        Mes étudiants
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:teacher_evaluations' %}">
+        <i class="fas fa-clipboard-check"></i>
+        Évaluations
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-comments"></i>
+        Forums
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-circle"></i>
+        Mon profil
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1 class="h3 mb-0">Tableau de bord Enseignant</h1>
+    <button class="btn btn-primary" id="createCourseBtn">
+        <i class="fas fa-plus"></i> Créer un cours
+    </button>
+</div>
+
+<!-- Dashboard Cards -->
+<div class="dashboard-cards">
+    <div class="stat-card stat-card-primary">
+        <div class="stat-card-body">
+            <div class="stat-card-title">Mes cours</div>
+            <div class="stat-card-value">8</div>
+        </div>
+        <div class="stat-card-icon">
+            <i class="fas fa-book"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-card-success">
+        <div class="stat-card-body">
+            <div class="stat-card-title">
+                <div class="stat-card-title">Étudiants</div>
+           <div class="stat-card-value">156</div>
+       </div>
+       <div class="stat-card-icon">
+           <i class="fas fa-user-graduate"></i>
+       </div>
+   </div>
+   
+   <div class="stat-card stat-card-warning">
+       <div class="stat-card-body">
+           <div class="stat-card-title">Évaluations créées</div>
+           <div class="stat-card-value">24</div>
+       </div>
+       <div class="stat-card-icon">
+           <i class="fas fa-tasks"></i>
+       </div>
+   </div>
+   
+   <div class="stat-card stat-card-danger">
+       <div class="stat-card-body">
+           <div class="stat-card-title">Messages non lus</div>
+           <div class="stat-card-value">12</div>
+       </div>
+       <div class="stat-card-icon">
+           <i class="fas fa-envelope"></i>
+       </div>
+   </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mt-4">
+   <div class="col-md-6">
+       <div class="card">
+           <div class="card-header">
+               <h6>Activité des étudiants</h6>
+           </div>
+           <div class="card-body">
+               <div class="chart-container">
+                   <canvas id="studentActivityChart"></canvas>
+               </div>
+           </div>
+       </div>
+   </div>
+   
+   <div class="col-md-6">
+       <div class="card">
+           <div class="card-header">
+               <h6>Performance moyenne par cours</h6>
+           </div>
+           <div class="card-body">
+               <div class="chart-container">
+                   <canvas id="coursePerformanceChart"></canvas>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+<!-- Upcoming Classes -->
+<div class="card mt-4">
+   <div class="card-header">
+       <h6>Prochaines séances</h6>
+   </div>
+   <div class="card-body">
+       <div class="table-responsive">
+           <table class="table table-hover">
+               <thead>
+                   <tr>
+                       <th>Cours</th>
+                       <th>Classe</th>
+                       <th>Date</th>
+                       <th>Heure</th>
+                       <th>Salle</th>
+                       <th>Actions</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr>
+                       <td>Introduction à la programmation</td>
+                       <td>L1 Info</td>
+                       <td>18/03/2023</td>
+                       <td>08:00 - 10:00</td>
+                       <td>Salle 105</td>
+                       <td>
+                           <div class="table-actions">
+                               <button class="btn btn-sm btn-primary" title="Détails"><i class="fas fa-eye"></i></button>
+                               <button class="btn btn-sm btn-success" title="Prendre présence"><i class="fas fa-user-check"></i></button>
+                               <button class="btn btn-sm btn-warning" title="Modifier"><i class="fas fa-edit"></i></button>
+                           </div>
+                       </td>
+                   </tr>
+                   <!-- Autres séances... -->
+               </tbody>
+           </table>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+       // Student Activity Chart
+       const studentActivityCtx = document.getElementById('studentActivityChart').getContext('2d');
+       const studentActivityChart = new Chart(studentActivityCtx, {
+           type: 'line',
+           data: {
+               labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+               datasets: [{
+                   label: 'Connexions',
+                   data: [65, 78, 52, 68, 82, 45, 32],
+                   backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                   borderColor: 'rgba(78, 115, 223, 1)',
+                   borderWidth: 2,
+                   tension: 0.4
+               }]
+           },
+           options: {
+               maintainAspectRatio: false,
+               scales: {
+                   y: {
+                       beginAtZero: true
+                   }
+               }
+           }
+       });
+       
+       // Course Performance Chart
+       const coursePerformanceCtx = document.getElementById('coursePerformanceChart').getContext('2d');
+       const coursePerformanceChart = new Chart(coursePerformanceCtx, {
+           type: 'bar',
+           data: {
+               labels: ['Prog.', 'Algo.', 'BDD', 'Web', 'IA', 'Réseau', 'Sécurité', 'Mobile'],
+               datasets: [{
+                   label: 'Note moyenne',
+                   data: [13.5, 14.2, 12.8, 15.7, 11.9, 13.2, 14.6, 13.8],
+                   backgroundColor: [
+                       'rgba(78, 115, 223, 0.8)',
+                       'rgba(28, 200, 138, 0.8)',
+                       'rgba(246, 194, 62, 0.8)',
+                       'rgba(231, 74, 59, 0.8)',
+                       'rgba(54, 185, 204, 0.8)',
+                       'rgba(133, 135, 150, 0.8)',
+                       'rgba(255, 159, 64, 0.8)',
+                       'rgba(153, 102, 255, 0.8)'
+                   ],
+                   borderWidth: 1
+               }]
+           },
+           options: {
+               maintainAspectRatio: false,
+               scales: {
+                   y: {
+                       beginAtZero: true,
+                       max: 20
+                   }
+               }
+           }
+       });
+       
+       // Modal pour créer un cours
+       const createCourseBtn = document.getElementById('createCourseBtn');
+       
+       if (createCourseBtn) {
+           createCourseBtn.addEventListener('click', function() {
+               // Rediriger vers une page de création de cours ou afficher un modal
+               alert('Redirection vers la page de création de cours...');
+           });
+       }
+   });
+</script>
+{% endblock %}

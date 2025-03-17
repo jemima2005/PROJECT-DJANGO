@@ -1,524 +1,227 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forums - Online School</title>
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/student.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="student-header">
-        <div class="container">
-            <div class="logo-container">
-                <img src="../assets/images/logo.png" alt="Online School Logo" class="logo">
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="courses.html">Mes cours</a></li>
-                    <li><a href="forum.html" class="active">Forums</a></li>
-                    <li><a href="evaluations.html">Évaluations</a></li>
-                </ul>
-            </nav>
-            <div class="profile-dropdown">
-                <img src="../assets/images/student-avatar.jpg" alt="Profil" class="profile-img" id="profileDropdown">
-                <div class="dropdown-menu" id="profileMenu">
-                    <a href="profile.html" class="dropdown-item">
-                        <i class="fas fa-user-circle"></i> Mon profil
-                    </a>
-                    <a href="settings.html" class="dropdown-item">
-                        <i class="fas fa-cog"></i> Paramètres
-                    </a>
-                    <a href="../dashboard/index.html" class="dropdown-item">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- Main content -->
-    <main class="container mt-4">
-        <div class="forum-header">
-            <h1>Forums de discussion</h1>
-            <div class="forum-actions">
-                <div class="search-container">
-                    <input type="text" class="form-control" placeholder="Rechercher dans les forums...">
-                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </div>
+<!-- templates/student/forum.html -->
+ <!-- templates/student/forum.html -->
+{% extends 'student/base_student.html' %}
+{% load static %}
 
-        <!-- Forum tabs -->
-        <ul class="nav nav-tabs forum-tabs" id="forumTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="my-courses-tab" data-toggle="tab" href="#my-courses" role="tab">
-                    Mes cours
+{% block title %}Forum - Online School{% endblock %}
+
+{% block student_content %}
+<!-- Hero section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Forum</h1>
+        <p>Échangez avec vos enseignants et camarades</p>
+    </div>
+</section>
+
+<!-- Main content -->
+<main class="container">
+    <!-- Onglets du forum -->
+    <div class="forum-tabs mb-4">
+        <ul class="nav nav-tabs" id="forumTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">
+                    Forums généraux
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="courses-tab" data-toggle="tab" href="#courses" role="tab">
+                    Forums de cours
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="recent-tab" data-toggle="tab" href="#recent" role="tab">
                     Messages récents
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab">
-                    Populaires
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="general-tab" data-toggle="tab" href="#general" role="tab">
-                    Forum général
+                    Sujets populaires
                 </a>
             </li>
         </ul>
-        <!-- Tab content -->
-        <div class="tab-content forum-tab-content" id="forumTabsContent">
-            <!-- Mes cours tab -->
-            <div class="tab-pane fade show active" id="my-courses" role="tabpanel">
-                <div class="forum-category-container">
-                    <h2>Forums de mes cours</h2>
-                    <div class="forum-category">
-                        <div class="forum-category-header">
-                            <h3>Informatique</h3>
-                        </div>
-                        <div class="forum-list">
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=1">Introduction à la programmation</a></h4>
-                                    <p>Forum dédié au cours d'introduction à la programmation en Python.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">45</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">208</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Opérateurs en Python</a>
-                                        <p>par <a href="#">Bernard Dupont</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 2 heures</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-database"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=2">Bases de données</a></h4>
-                                    <p>Forum pour discuter des concepts et exercices du cours de bases de données.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">32</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">156</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Problème avec les jointures SQL</a>
-                                        <p>par <a href="#">Sophie Martin</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 4 heures</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-laptop-code"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=3">Développement Web</a></h4>
-                                    <p>Forum pour partager et résoudre les problèmes liés au développement web.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">38</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">192</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Flexbox vs Grid</a>
-                                        <p>par <a href="#">Thomas Leroy</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 1 jour</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    </div>
+    
+    <!-- Contenu des onglets -->
+    <div class="tab-content" id="forumTabsContent">
+        <!-- Forums généraux -->
+        <div class="tab-pane fade show active" id="general" role="tabpanel">
+            <div class="forum-header">
+                <h2>Forums généraux</h2>
+                <div class="forum-actions">
+                    <div class="search-container">
+                        <input type="text" class="form-control" placeholder="Rechercher dans les forums...">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
-                    <div class="forum-category">
-                        <div class="forum-category-header">
-                            <h3>Mathématiques</h3>
+                </div>
+            </div>
+            
+            <div class="forum-category-container">
+                <!-- Annonces -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Annonces</h3>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Annonces officielles</h4>
+                                <p>Annonces importantes de l'administration</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">12</span>
+                                    <span class="stat-label">Sujets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">48</span>
+                                    <span class="stat-label">Messages</span>
+                                </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Modification des horaires d'examens</a><br>
+                                        par <a href="#">Admin</a>
+                                    </p>
+                                    <p>16 Mars 2023, 14:25</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="forum-list">
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-square-root-alt"></i>
+                        
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Événements et activités</h4>
+                                <p>Informations sur les événements à venir</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">8</span>
+                                    <span class="stat-label">Sujets</span>
                                 </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=4">Algèbre linéaire</a></h4>
-                                    <p>Forum dédié au cours d'algèbre linéaire et ses applications.</p>
+                                <div class="stat">
+                                    <span class="stat-value">32</span>
+                                    <span class="stat-label">Messages</span>
                                 </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">25</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">118</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Diagonalisation des matrices</a>
-                                        <p>par <a href="#">Claire Martin</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 3 jours</p>
-                                    </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Hackathon de printemps</a><br>
+                                        par <a href="#">Sophie Martin</a>
+                                    </p>
+                                    <p>15 Mars 2023, 09:15</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Messages récents tab -->
-            <div class="tab-pane fade" id="recent" role="tabpanel">
-                <div class="recent-messages">
-                    <h2>Messages récents</h2>
-                    <div class="message-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <img src="../assets/images/teacher-avatar.jpg" alt="Bernard Dupont">
+                
+                <!-- Entraide -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Entraide étudiante</h3>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-question-circle"></i>
                             </div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <a href="forum-detail.html?id=1&post=123" class="message-title">Opérateurs en Python</a>
-                                    <span class="message-meta">dans <a href="forum-detail.html?id=1">Introduction à la programmation</a></span>
+                            <div class="forum-info">
+                                <h4>Questions générales</h4>
+                                <p>Posez vos questions sur la vie étudiante</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">25</span>
+                                    <span class="stat-label">Sujets</span>
                                 </div>
-                                <div class="message-preview">
-                                    <p>Les opérateurs bit à bit sont souvent mal compris. Voici un exemple simple qui illustre leur utilisation...</p>
-                                </div>
-                                <div class="message-footer">
-                                    <span class="message-author">Bernard Dupont</span>
-                                    <span class="message-time">il y a 2 heures</span>
+                                <div class="stat">
+                                    <span class="stat-value">128</span>
+                                    <span class="stat-label">Messages</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <img src="../assets/images/student-avatar2.jpg" alt="Sophie Martin">
-                            </div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <a href="forum-detail.html?id=2&post=456" class="message-title">Problème avec les jointures SQL</a>
-                                    <span class="message-meta">dans <a href="forum-detail.html?id=2">Bases de données</a></span>
-                                </div>
-                                <div class="message-preview">
-                                    <p>J'ai du mal à comprendre comment fonctionne la jointure LEFT JOIN. Pouvez-vous m'expliquer avec un exemple simple ?</p>
-                                </div>
-                                <div class="message-footer">
-                                    <span class="message-author">Sophie Martin</span>
-                                    <span class="message-time">il y a 4 heures</span>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Logement étudiant</a><br>
+                                        par <a href="#">Thomas Petit</a>
+                                    </p>
+                                    <p>17 Mars 2023, 11:42</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <img src="../assets/images/student-avatar3.jpg" alt="Lucas Dubois">
+                        
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-hands-helping"></i>
                             </div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <a href="forum-detail.html?id=1&post=789" class="message-title">Question sur les listes en Python</a>
-                                    <span class="message-meta">dans <a href="forum-detail.html?id=1">Introduction à la programmation</a></span>
+                            <div class="forum-info">
+                                <h4>Ressources et partage</h4>
+                                <p>Partagez des ressources utiles avec vos camarades</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">18</span>
+                                    <span class="stat-label">Sujets</span>
                                 </div>
-                                <div class="message-preview">
-                                    <p>Quelle est la différence entre append() et extend() pour les listes en Python ? Dans quels cas utiliser l'un plutôt que l'autre ?</p>
-                                </div>
-                                <div class="message-footer">
-                                    <span class="message-author">Lucas Dubois</span>
-                                    <span class="message-time">il y a 6 heures</span>
+                                <div class="stat">
+                                    <span class="stat-value">87</span>
+                                    <span class="stat-label">Messages</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <img src="../assets/images/teacher-avatar2.jpg" alt="Claire Martin">
-                            </div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <a href="forum-detail.html?id=4&post=321" class="message-title">Ressources supplémentaires pour l'algèbre linéaire</a>
-                                    <span class="message-meta">dans <a href="forum-detail.html?id=4">Algèbre linéaire</a></span>
-                                </div>
-                                <div class="message-preview">
-                                    <p>Voici quelques ressources complémentaires pour vous aider à mieux comprendre les concepts clés de l'algèbre linéaire...</p>
-                                </div>
-                                <div class="message-footer">
-                                    <span class="message-author">Claire Martin</span>
-                                    <span class="message-time">il y a 1 jour</span>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Ressources gratuites pour apprendre JavaScript</a><br>
+                                        par <a href="#">Léa Dubois</a>
+                                    </p>
+                                    <p>14 Mars 2023, 16:30</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Populaires tab -->
-            <div class="tab-pane fade" id="popular" role="tabpanel">
-                <div class="popular-topics">
-                    <h2>Sujets populaires</h2>
-                    <div class="topic-list">
-                        <div class="topic-item">
-                            <div class="topic-votes">
-                                <span class="vote-count">42</span>
-                                <span class="vote-label">votes</span>
-                            </div>
-                            <div class="topic-content">
-                                <h4><a href="forum-detail.html?id=1&post=101">Les meilleures ressources pour apprendre Python en 2023</a></h4>
-                                <div class="topic-meta">
-                                    <span class="topic-author">Par Bernard Dupont</span>
-                                    <span class="topic-date">il y a 2 semaines</span>
-                                    <span class="topic-replies">24 réponses</span>
-                                    <span class="topic-views">356 vues</span>
-                                </div>
-                                <div class="topic-tags">
-                                    <span class="tag">Python</span>
-                                    <span class="tag">Ressources</span>
-                                    <span class="tag">Débutant</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="topic-item">
-                            <div class="topic-votes">
-                                <span class="vote-count">38</span>
-                                <span class="vote-label">votes</span>
-                            </div>
-                            <div class="topic-content">
-                                <h4><a href="forum-detail.html?id=3&post=202">Guide complet du responsive design en 2023</a></h4>
-                                <div class="topic-meta">
-                                    <span class="topic-author">Par Thomas Leroy</span>
-                                    <span class="topic-date">il y a 3 semaines</span>
-                                    <span class="topic-replies">19 réponses</span>
-                                    <span class="topic-views">295 vues</span>
-                                </div>
-                                <div class="topic-tags">
-                                    <span class="tag">HTML</span>
-                                    <span class="tag">CSS</span>
-                                    <span class="tag">Responsive</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="topic-item">
-                            <div class="topic-votes">
-                                <span class="vote-count">35</span>
-                                <span class="vote-label">votes</span>
-                            </div>
-                            <div class="topic-content">
-                                <h4><a href="forum-detail.html?id=2&post=303">Les erreurs les plus courantes en SQL et comment les éviter</a></h4>
-                                <div class="topic-meta">
-                                    <span class="topic-author">Par Marie Laurent</span>
-                                    <span class="topic-date">il y a 1 mois</span>
-                                    <span class="topic-replies">31 réponses</span>
-                                    <span class="topic-views">412 vues</span>
-                                </div>
-                                <div class="topic-tags">
-                                    <span class="tag">SQL</span>
-                                    <span class="tag">Database</span>
-                                    <span class="tag">Erreurs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="topic-item">
-                            <div class="topic-votes">
-                                <span class="vote-count">29</span>
-                                <span class="vote-label">votes</span>
-                            </div>
-                            <div class="topic-content">
-                                <h4><a href="forum-detail.html?id=1&post=404">Astuces pour optimiser vos algorithmes Python</a></h4>
-                                <div class="topic-meta">
-                                    <span class="topic-author">Par Michel Blanc</span>
-                                    <span class="topic-date">il y a 1 mois</span>
-                                    <span class="topic-replies">17 réponses</span>
-                                    <span class="topic-views">278 vues</span>
-                                </div>
-                                <div class="topic-tags">
-                                    <span class="tag">Python</span>
-                                    <span class="tag">Algorithmes</span>
-                                    <span class="tag">Optimisation</span>
-                                </div>
-                            </div>
-                        </div>
+                
+                <!-- Divers -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Divers</h3>
                     </div>
-                </div>
-            </div>
-            <!-- Forum général tab -->
-            <div class="tab-pane fade" id="general" role="tabpanel">
-                <div class="general-forum">
-                    <h2>Forum général</h2>
-                    <div class="forum-category">
-                        <div class="forum-category-header">
-                            <h3>Annonces</h3>
-                        </div>
-                        <div class="forum-list">
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-bullhorn"></i>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Café virtuel</h4>
+                                <p>Discussions informelles et détente</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">42</span>
+                                    <span class="stat-label">Sujets</span>
                                 </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=100">Annonces officielles</a></h4>
-                                    <p>Informations importantes de l'administration de l'école.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">12</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">48</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Changements d'horaires - Semestre 2</a>
-                                        <p>par <a href="#">Admin</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 2 jours</p>
-                                    </div>
+                                <div class="stat">
+                                    <span class="stat-value">256</span>
+                                    <span class="stat-label">Messages</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="forum-category">
-                        <div class="forum-category-header">
-                            <h3>Campus & Vie étudiante</h3>
-                        </div>
-                        <div class="forum-list">
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=101">Vie sur le campus</a></h4>
-                                    <p>Discussions sur les événements, activités et la vie sur le campus.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">35</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">189</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Tournoi de foot inter-filières</a>
-                                        <p>par <a href="#">Alex Dupuis</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 5 heures</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=102">Entraide académique</a></h4>
-                                    <p>Forum pour s'entraider dans les études et partager des ressources.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">42</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">215</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Groupe de révision - Examens finaux</a>
-                                        <p>par <a href="#">Marie Laurent</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 1 jour</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="forum-category">
-                        <div class="forum-category-header">
-                            <h3>Général</h3>
-                        </div>
-                        <div class="forum-list">
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-coffee"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=103">Pause café</a></h4>
-                                    <p>Discussions générales et sujets divers non académiques.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">68</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">324</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Recommandations de séries</a>
-                                        <p>par <a href="#">Thomas Leroy</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 12 heures</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="forum-item">
-                                <div class="forum-icon">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div class="forum-info">
-                                    <h4><a href="forum-detail.html?id=104">Carrières & Stages</a></h4>
-                                    <p>Informations sur les opportunités professionnelles et stages.</p>
-                                </div>
-                                <div class="forum-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">29</span>
-                                        <span class="stat-label">Sujets</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">142</span>
-                                        <span class="stat-label">Messages</span>
-                                    </div>
-                                </div>
-                                <div class="forum-last-post">
-                                    <div class="last-post-info">
-                                        <a href="#">Stage développeur web - Startup</a>
-                                        <p>par <a href="#">Claire Martin</a></p>
-                                        <p><i class="far fa-clock"></i> il y a 3 jours</p>
-                                    </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Meilleurs films/séries tech à voir</a><br>
+                                        par <a href="#">Nicolas Martin</a>
+                                    </p>
+                                    <p>17 Mars 2023, 18:05</p>
                                 </div>
                             </div>
                         </div>
@@ -526,89 +229,595 @@
                 </div>
             </div>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="student-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Online School</h4>
-                    <p>La plateforme d'e-learning intuitive et interactive pour une expérience d'apprentissage optimale.</p>
-                </div>
-                <div class="col-md-2">
-                    <h4>Liens utiles</h4>
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="courses.html">Cours</a></li>
-                        <li><a href="forum.html">Forums</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="help.html">Aide</a></li>
-                        <li><a href="terms.html">Conditions d'utilisation</a></li>
-                        <li><a href="privacy.html">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Contact</h4>
-                    <p>
-                        <i class="fas fa-envelope"></i> contact@onlineschool.fr<br>
-                        <i class="fas fa-phone"></i> +33 1 23 45 67 89<br>
-                        <i class="fas fa-map-marker-alt"></i> 123 Avenue de l'Éducation, 75000 Paris
-                    </p>
+        
+        <!-- Forums de cours -->
+        <div class="tab-pane fade" id="courses" role="tabpanel">
+            <div class="forum-header">
+                <h2>Forums de cours</h2>
+                <div class="forum-actions">
+                    <div class="search-container">
+                        <input type="text" class="form-control" placeholder="Rechercher dans les forums...">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 Online School. Tous droits réservés.</p>
+            
+            <div class="forum-category-container">
+                <!-- Cours 1 -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Introduction à la programmation</h3>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Forum général du cours</h4>
+                                <p>Discussions sur le contenu et les activités du cours</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">28</span>
+                                    <span class="stat-label">Sujets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">145</span>
+                                    <span class="stat-label">Messages</span>
+                                </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Problème avec les list comprehensions</a><br>
+                                        par <a href="#">Paul Dupuis</a>
+                                    </p>
+                                    <p>17 Mars 2023, 15:30</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Aide aux exercices</h4>
+                                <p>Entraide pour les exercices et projets</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">15</span>
+                                    <span class="stat-label">Sujets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">87</span>
+                                    <span class="stat-label">Messages</span>
+                                </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Exercice sur les boucles while</a><br>
+                                        par <a href="#">Bernard Dupont</a>
+                                    </p>
+                                    <p>16 Mars 2023, 11:15</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cours 2 -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Bases de données</h3>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Forum général du cours</h4>
+                                <p>Discussions sur le contenu et les activités du cours</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">18</span>
+                                    <span class="stat-label">Sujets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">76</span>
+                                    <span class="stat-label">Messages</span>
+                                </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Différence entre LEFT JOIN et RIGHT JOIN</a><br>
+                                        par <a href="#">Claire Martin</a>
+                                    </p>
+                                    <p>15 Mars 2023, 14:25</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cours 3 -->
+                <div class="forum-category">
+                    <div class="forum-category-header">
+                        <h3>Développement Web</h3>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="forum-info">
+                                <h4>Forum général du cours</h4>
+                                <p>Discussions sur le contenu et les activités du cours</p>
+                            </div>
+                            <div class="forum-stats">
+                                <div class="stat">
+                                    <span class="stat-value">22</span>
+                                    <span class="stat-label">Sujets</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">98</span>
+                                    <span class="stat-label">Messages</span>
+                                </div>
+                            </div>
+                            <div class="forum-last-post">
+                                <div class="last-post-info">
+                                    <p>
+                                        <a href="#">Problème avec Flexbox</a><br>
+                                        par <a href="#">Emma Richard</a>
+                                    </p>
+                                    <p>16 Mars 2023, 09:45</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+        
+        <!-- Messages récents -->
+        <div class="tab-pane fade" id="recent" role="tabpanel">
+            <div class="forum-header">
+                <h2>Messages récents</h2>
+            </div>
+            
+            <div class="recent-messages">
+                <div class="message-list">
+                    <!-- Message 1 -->
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="{% static 'images/avatars/student1.jpg' %}" alt="Avatar">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-title">Problème avec les list comprehensions</span>
+                                <span class="message-meta">Introduction à la programmation • Forum général</span>
+                            </div>
+                            <div class="message-preview">
+                                <p>Bonjour, j'ai du mal à comprendre la syntaxe des list comprehensions quand on utilise plusieurs conditions...</p>
+                            </div>
+                            <div class="message-footer">
+                                <span>par <a href="#">Paul Dupuis</a>, 17 Mars 2023, 15:30</span>
+                                <span>12 réponses</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Message 2 -->
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="{% static 'images/avatars/teacher1.jpg' %}" alt="Avatar">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-title">Re: Différence entre LEFT JOIN et RIGHT JOIN</span>
+                                <span class="message-meta">Bases de données • Forum général</span>
+                            </div>
+                            <div class="message-preview">
+                                <p>La principale différence est que LEFT JOIN garde toutes les lignes de la table de gauche, même s'il n'y a pas de correspondance...</p>
+                            </div>
+                            <div class="message-footer">
+                                <span>par <a href="#">Claire Martin</a>, 15 Mars 2023, 14:25</span>
+                                <span>Réponse à <a href="#">Marie Lefevre</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Message 3 -->
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <img src="{% static 'images/avatars/student2.jpg' %}" alt="Avatar">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-title">Logement étudiant</span>
+                                <span class="message-meta">Questions générales • Entraide étudiante</span>
+                            </div>
+                            <div class="message-preview">
+                                <p>Est-ce que quelqu'un connaît une bonne résidence étudiante près du campus ? Je cherche quelque chose pour la rentrée prochaine...</p>
+                            </div>
+                            <div class="message-footer">
+                                <span>par <a href="#">Thomas Petit</a>, 17 Mars 2023, 11:42</span>
+                                <span>5 réponses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sujets populaires -->
+        <div class="tab-pane fade" id="popular" role="tabpanel">
+            <div class="forum-header">
+                <h2>Sujets populaires</h2>
+            </div>
+            
+            <div class="popular-topics">
+                <div class="topic-list">
+                    <!-- Sujet 1 -->
+                    <div class="topic-item">
+                        <div class="topic-votes">
+                            <span class="vote-count">28</span>
+                            <span class="vote-label">Votes</span>
+                        </div>
+                        <div class="topic-content">
+                            <h4><a href="#">Ressources gratuites pour apprendre JavaScript</a></h4>
+                            <div class="topic-meta">
+                                <span><i class="fas fa-user"></i> Léa Dubois</span>
+                                <span><i class="fas fa-comments"></i> 18 réponses</span>
+                                <span><i class="fas fa-eye"></i> 245 vues</span>
+                            </div>
+                            <div class="topic-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Ressources</span>
+                                <span class="tag">Apprentissage</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sujet 2 -->
+                    <div class="topic-item">
+                        <div class="topic-votes">
+                            <span class="vote-count">24</span>
+                            <span class="vote-label">Votes</span>
+                        </div>
+                        <div class="topic-content">
+                            <h4><a href="#">Meilleurs outils pour un développeur débutant</a></h4>
+                            <div class="topic-meta">
+                                <span><i class="fas fa-user"></i> Marc Dubois</span>
+                                <span><i class="fas fa-comments"></i> 22 réponses</span>
+                                <span><i class="fas fa-eye"></i> 312 vues</span>
+                            </div>
+                            <div class="topic-tags">
+                                <span class="tag">Outils</span>
+                                <span class="tag">Débutant</span>
+                                <span class="tag">IDE</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sujet 3 -->
+                    <div class="topic-item">
+                        <div class="topic-votes">
+                            <span class="vote-count">19</span>
+                            <span class="vote-label">Votes</span>
+                        </div>
+                        <div class="topic-content">
+                            <h4><a href="#">Comment organiser son temps pour les projets de groupe ?</a></h4>
+                            <div class="topic-meta">
+                                <span><i class="fas fa-user"></i> Sophie Martin</span>
+                                <span><i class="fas fa-comments"></i> 15 réponses</span>
+                                <span><i class="fas fa-eye"></i> 198 vues</span>
+                            </div>
+                            <div class="topic-tags">
+                                <span class="tag">Gestion de projet</span>
+                                <span class="tag">Travail en équipe</span>
+                                <span class="tag">Organisation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Créer un nouveau sujet -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Créer un nouveau sujet</h3>
+        </div>
+        <div class="card-body">
+            <form id="newTopicForm">
+                <div class="form-group">
+                    <label for="topicTitle">Titre du sujet</label>
+                    <input type="text" class="form-control" id="topicTitle" placeholder="Titre clair et concis">
+                </div>
+                <div class="form-group">
+                    <label for="topicCategory">Catégorie</label>
+                    <select class="form-control" id="topicCategory">
+                        <option value="">Sélectionnez une catégorie</option>
+                        <optgroup label="Forums généraux">
+                            <option value="general-questions">Questions générales</option>
+                            <option value="resources">Ressources et partage</option>
+                            <option value="cafe">Café virtuel</option>
+                        </optgroup>
+                        <optgroup label="Forums de cours">
+                            <option value="programming">Introduction à la programmation</option>
+                            <option value="database">Bases de données</option>
+                            <option value="webdev">Développement Web</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="topicMessage">Message</label>
+                    <textarea class="form-control rich-editor" id="topicMessage" rows="6" placeholder="Détaillez votre question ou sujet de discussion..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="topicTags">Tags (séparés par des virgules)</label>
+                    <input type="text" class="form-control" id="topicTags" placeholder="ex: python, exercice, aide">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="notifyReplies">
+                        <label class="form-check-label" for="notifyReplies">
+                            M'avertir des réponses par email
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Créer le sujet</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
 
-    <script src="../assets/js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle profile dropdown
-            const profileDropdown = document.getElementById('profileDropdown');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            profileDropdown.addEventListener('click', function() {
-                profileMenu.classList.toggle('show');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!event.target.matches('#profileDropdown') && !profileMenu.contains(event.target)) {
-                    profileMenu.classList.remove('show');
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des onglets du forum
+        const tabLinks = document.querySelectorAll('#forumTabs a');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Masquer tous les panneaux
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+                
+                // Désactiver tous les onglets
+                tabLinks.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Activer l'onglet cliqué
+                this.classList.add('active');
+                
+                // Afficher le panneau correspondant
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.classList.add('show', 'active');
                 }
             });
+        });
+        
+        // Gestion de la recherche dans les forums
+        const searchInputs = document.querySelectorAll('.search-container input');
+        const searchButtons = document.querySelectorAll('.search-container button');
+        
+        for (let i = 0; i < searchInputs.length; i++) {
+            const input = searchInputs[i];
+            const button = searchButtons[i];
             
-            // Tab navigation
-            const tabLinks = document.querySelectorAll('.nav-tabs .nav-link');
-            const tabContents = document.querySelectorAll('.tab-content .tab-pane');
+            if (input && button) {
+                button.addEventListener('click', function() {
+                    const searchValue = input.value.trim();
+                    if (searchValue) {
+                        // Simulation de recherche (à remplacer par un appel API réel)
+                        console.log('Recherche dans les forums:', searchValue);
+                        showNotification(`Recherche de "${searchValue}" en cours...`, 'info');
+                    } else {
+                        showNotification('Veuillez entrer un terme de recherche.', 'warning');
+                    }
+                });
+                
+                // Permettre la recherche avec la touche Entrée
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        button.click();
+                    }
+                });
+            }
+        }
+        
+        // Soumission du formulaire pour nouveau sujet
+        const newTopicForm = document.getElementById('newTopicForm');
+        
+        if (newTopicForm) {
+            newTopicForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les valeurs du formulaire
+                const title = document.getElementById('topicTitle').value.trim();
+                const category = document.getElementById('topicCategory').value;
+                const message = document.getElementById('topicMessage').value.trim();
+                const tags = document.getElementById('topicTags').value.trim();
+                
+                // Validation basique
+                if (!title) {
+                    showNotification('Veuillez entrer un titre pour votre sujet.', 'warning');
+                    return;
+                }
+                
+                if (!category) {
+                    showNotification('Veuillez sélectionner une catégorie pour votre sujet.', 'warning');
+                    return;
+                }
+                
+                if (!message) {
+                    showNotification('Veuillez entrer un message pour votre sujet.', 'warning');
+                    return;
+                }
+                
+                // Simuler l'envoi (à remplacer par un appel API réel)
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création en cours...';
+                
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                    
+                    // Réinitialiser le formulaire
+                    this.reset();
+                    
+                    // Notification de succès
+                    showNotification('Votre sujet a été créé avec succès !', 'success');
+                    
+                    // Dans un cas réel, vous redirigeriez vers le nouveau sujet
+                    // window.location.href = '/student/forum/topic/123';
+                }, 1500);
+            });
+        }
+        
+        // Éditeur de texte riche pour le message
+        const richEditor = document.querySelector('.rich-editor');
+        
+        if (richEditor) {
+            // Créer une barre d'outils simple
+            const toolbar = document.createElement('div');
+            toolbar.className = 'editor-toolbar mb-2';
+            toolbar.innerHTML = `
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="bold" title="Gras"><i class="fas fa-bold"></i></button>
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="italic" title="Italique"><i class="fas fa-italic"></i></button>
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="underline" title="Souligné"><i class="fas fa-underline"></i></button>
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="insertUnorderedList" title="Liste à puces"><i class="fas fa-list-ul"></i></button><button type="button" class="btn btn-sm btn-light mr-1" data-cmd="insertOrderedList" title="Liste numérotée"><i class="fas fa-list-ol"></i></button>
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="createLink" title="Insérer un lien"><i class="fas fa-link"></i></button>
+                <button type="button" class="btn btn-sm btn-light mr-1" data-cmd="code" title="Code"><i class="fas fa-code"></i></button>
+            `;
             
-            tabLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
+            // Insérer la barre d'outils avant l'éditeur
+            richEditor.parentNode.insertBefore(toolbar, richEditor);
+            
+            // Ajouter les événements aux boutons
+            const editorButtons = toolbar.querySelectorAll('button');
+            
+            editorButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const command = this.getAttribute('data-cmd');
                     
-                    // Remove active class from all tabs
-                    tabLinks.forEach(tab => tab.classList.remove('active'));
-                    tabContents.forEach(content => {
-                        content.classList.remove('show', 'active');
-                    });
+                    if (command === 'createLink') {
+                        const url = prompt('Entrez l\'URL du lien:');
+                        if (url) {
+                            document.execCommand(command, false, url);
+                        }
+                    } else if (command === 'code') {
+                        // Insérer des balises <code>
+                        const selectedText = window.getSelection().toString();
+                        if (selectedText) {
+                            const codeText = '`' + selectedText + '`';
+                            document.execCommand('insertText', false, codeText);
+                        } else {
+                            document.execCommand('insertText', false, '`` ');
+                        }
+                    } else {
+                        document.execCommand(command, false, null);
+                    }
                     
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetContent = document.getElementById(targetId);
-                    targetContent.classList.add('show', 'active');
+                    richEditor.focus();
                 });
             });
+        }
+        
+        // Animation des items du forum au survol
+        const forumItems = document.querySelectorAll('.forum-item');
+        
+        forumItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8f9fa';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '#fff';
+            });
         });
-    </script>
-</body>
-</html>
+        
+        // Fonction pour afficher des notifications
+        function showNotification(message, type = 'info') {
+            // Créer l'élément de notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${type === 'info' ? 'fa-info-circle' : 
+                                   type === 'success' ? 'fa-check-circle' : 
+                                   type === 'warning' ? 'fa-exclamation-triangle' : 
+                                   'fa-times-circle'}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${message}</p>
+                </div>
+                <button class="close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Créer ou récupérer le conteneur de notifications
+            let notificationsContainer = document.querySelector('.notifications-container');
+            
+            if (!notificationsContainer) {
+                notificationsContainer = document.createElement('div');
+                notificationsContainer.className = 'notifications-container';
+                document.body.appendChild(notificationsContainer);
+            }
+            
+            // Ajouter la notification
+            notificationsContainer.appendChild(notification);
+            
+            // Gestion du bouton de fermeture
+            notification.querySelector('.close').addEventListener('click', function() {
+                notification.classList.add('fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                    
+                    // Nettoyer le conteneur s'il est vide
+                    if (notificationsContainer.children.length === 0) {
+                        notificationsContainer.remove();
+                    }
+                }, 300);
+            });
+            
+            // Fermeture automatique après 3 secondes
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => {
+                        notification.remove();
+                        
+                        // Nettoyer le conteneur s'il est vide
+                        if (notificationsContainer.children.length === 0) {
+                            notificationsContainer.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+    });
+</script>
+{% endblock %}

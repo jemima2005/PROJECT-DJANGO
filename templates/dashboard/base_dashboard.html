@@ -1,0 +1,62 @@
+<!-- templates/dashboard/base_dashboard.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Online School</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            {% block sidebar_items %}{% endblock %}
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="{% url 'accounts:logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+        <nav class="navbar">
+            <button type="button" id="sidebarCollapse" class="navbar-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="navbar-search">
+                <input type="text" class="form-control" placeholder="Rechercher...">
+            </div>
+            
+            <div class="navbar-user">
+                <img src="{% static 'images/default-avatar.jpg' %}" alt="User">
+                <span>{{ request.user.get_full_name }}</span>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            {% block dashboard_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle Sidebar
+        document.getElementById('sidebarCollapse').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('content').classList.toggle('active');
+        });
+    });
+</script>
+{% endblock %}

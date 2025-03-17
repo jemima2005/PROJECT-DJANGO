@@ -1,372 +1,181 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil Étudiant - Online School</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/student.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="student-header">
-        <div class="container">
-            <div class="logo-container">
-                <img src="../assets/images/logo.png" alt="Online School Logo" class="logo">
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="active">Accueil</a></li>
-                    <li><a href="courses.html">Mes cours</a></li>
-                    <li><a href="forum.html">Forums</a></li>
-                    <li><a href="evaluations.html">Évaluations</a></li>
-                </ul>
-            </nav>
-            <div class="profile-dropdown">
-                <img src="../assets/images/student-avatar.jpg" alt="Profil" class="profile-img" id="profileDropdown">
-                <div class="dropdown-menu" id="profileMenu">
-                    <a href="profile.html" class="dropdown-item">
-                        <i class="fas fa-user-circle"></i> Mon profil
-                    </a>
-                    <a href="settings.html" class="dropdown-item">
-                        <i class="fas fa-cog"></i> Paramètres
-                    </a>
-                    <a href="../dashboard/index.html" class="dropdown-item">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
+<!-- templates/student/index.html -->
+{% extends 'student/base_student.html' %}
+{% load static %}
+
+{% block title %}Accueil Étudiant - Online School{% endblock %}
+
+{% block student_content %}
+<!-- Hero section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Bienvenue, {{ request.user.first_name }}</h1>
+        <p>Prêt(e) à continuer votre apprentissage aujourd'hui ?</p>
+    </div>
+</section>
+
+<!-- Main content -->
+<main class="container">
+    <!-- Progress summary -->
+    <section class="summary-section">
+        <h2>Votre progression</h2>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-book"></i></div>
+                <div class="stat-info">
+                    <h3>5</h3>
+                    <p>Cours actifs</p>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <!-- Hero section -->
-    <section class="hero-section">
-        <div class="container">
-            <h1>Bienvenue, Marie Dupont</h1>
-            <p>Prêt(e) à continuer votre apprentissage aujourd'hui ?</p>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+                <div class="stat-info">
+                    <h3>3</h3>
+                    <p>Devoirs à rendre</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stat-info">
+                    <h3>75%</h3>
+                    <p>Progression moyenne</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-medal"></i></div>
+                <div class="stat-info">
+                    <h3>14.5/20</h3>
+                    <p>Moyenne générale</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Main content -->
-    <main class="container">
-        <!-- Progress summary -->
-        <section class="summary-section">
-            <h2>Votre progression</h2>
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-book"></i></div>
-                    <div class="stat-info">
-                        <h3>5</h3>
-                        <p>Cours actifs</p>
+    <!-- Recent courses -->
+    <section class="recent-courses">
+        <div class="section-header">
+            <h2>Cours récents</h2>
+            <a href="{% url 'etudiant:student_courses' %}" class="btn btn-primary">Voir tous mes cours</a>
+        </div>
+        <div class="course-grid">
+            <!-- Course 1 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url({% static 'images/course-programming.jpg' %});"></div>
+                <div class="course-content">
+                    <h3 class="course-title">Introduction à la programmation</h3>
+                    <p class="course-description">Apprendre les bases de la programmation avec Python.</p>
+                    <div class="course-meta">
+                        <span><i class="fas fa-user"></i> Bernard Dupont</span>
+                        <span><i class="fas fa-clock"></i> 10h restantes</span>
                     </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-tasks"></i></div>
-                    <div class="stat-info">
-                        <h3>3</h3>
-                        <p>Devoirs à rendre</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="stat-info">
-                        <h3>75%</h3>
-                        <p>Progression moyenne</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-medal"></i></div>
-                    <div class="stat-info">
-                        <h3>14.5/20</h3>
-                        <p>Moyenne générale</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Recent courses -->
-        <section class="recent-courses">
-            <div class="section-header">
-                <h2>Cours récents</h2>
-                <a href="courses.html" class="btn btn-primary">Voir tous mes cours</a>
-            </div>
-            <div class="course-grid">
-                <!-- Course 1 -->
-                <div class="course-card">
-                    <div class="course-image" style="background-image: url(../assets/images/course-programming.jpg);"></div>
-                    <div class="course-content">
-                        <h3 class="course-title">Introduction à la programmation</h3>
-                        <p class="course-description">Apprendre les bases de la programmation avec Python.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user"></i> Bernard Dupont</span>
-                            <span><i class="fas fa-clock"></i> 10h restantes</span>
+                    <div class="course-progress">
+                        <div class="progress-text">
+                            <span>Progression: 75%</span>
                         </div>
-                        <div class="course-progress">
-                            <div class="progress-text">
-                                <span>Progression: 75%</span>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 75%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 2 -->
-                <div class="course-card">
-                    <div class="course-image" style="background-image: url(../assets/images/course-database.jpg);"></div>
-                    <div class="course-content">
-                        <h3 class="course-title">Bases de données</h3>
-                        <p class="course-description">Conception et utilisation des bases de données relationnelles.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user"></i> Claire Martin</span>
-                            <span><i class="fas fa-clock"></i> 15h restantes</span>
-                        </div>
-                        <div class="course-progress">
-                            <div class="progress-text">
-                                <span>Progression: 50%</span>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 50%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 3 -->
-                <div class="course-card">
-                    <div class="course-image" style="background-image: url(../assets/images/course-webdev.jpg);"></div>
-                    <div class="course-content">
-                        <h3 class="course-title">Développement Web</h3>
-                        <p class="course-description">Apprenez HTML, CSS et JavaScript pour créer des sites modernes.</p>
-                        <div class="course-meta">
-                            <span><i class="fas fa-user"></i> Thomas Leroy</span>
-                            <span><i class="fas fa-clock"></i> 20h restantes</span>
-                        </div>
-                        <div class="course-progress">
-                            <div class="progress-text">
-                                <span>Progression: 30%</span>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 30%;"></div>
-                            </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 75%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Upcoming events and deadlines -->
-        <section class="upcoming-events">
-            <div class="section-header">
-                <h2>Événements à venir</h2>
-                <a href="calendar.html" class="btn btn-primary">Voir mon calendrier</a>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <!-- Deadlines -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Échéances</h3>
-                        </div>
-                        <div class="card-body">
-                            <ul class="event-list">
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">20</span>
-                                        <span class="month">Mar</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>TP2 - Algorithmes avancés</h4>
-                                        <p>À rendre avant 23:59</p>
-                                    </div>
-                                </li>
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">25</span>
-                                        <span class="month">Mar</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>Quiz - Bases de données</h4>
-                                        <p>Ouvert de 14:00 à 15:30</p>
-                                    </div>
-                                </li>
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">02</span>
-                                        <span class="month">Avr</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>Projet final - Développement Web</h4>
-                                        <p>À rendre avant 23:59</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+            
+            <!-- Course 2 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url({% static 'images/course-database.jpg' %});"></div>
+                <div class="course-content">
+                    <h3 class="course-title">Bases de données</h3>
+                    <p class="course-description">Conception et utilisation des bases de données relationnelles.</p>
+                    <div class="course-meta">
+                        <span><i class="fas fa-user"></i> Claire Martin</span>
+                        <span><i class="fas fa-clock"></i> 15h restantes</span>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Upcoming classes -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Prochains cours</h3>
+                    <div class="course-progress">
+                        <div class="progress-text">
+                            <span>Progression: 50%</span>
                         </div>
-                        <div class="card-body">
-                            <ul class="event-list">
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">18</span>
-                                        <span class="month">Mar</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>Introduction à la programmation</h4>
-                                        <p>08:00 - 10:00, Salle 105</p>
-                                    </div>
-                                </li>
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">19</span>
-                                        <span class="month">Mar</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>Bases de données</h4>
-                                        <p>13:30 - 15:30, Labo 5</p>
-                                    </div>
-                                </li>
-                                <li class="event-item">
-                                    <div class="event-date">
-                                        <span class="day">20</span>
-                                        <span class="month">Mar</span>
-                                    </div>
-                                    <div class="event-details">
-                                        <h4>Développement Web</h4>
-                                        <p>08:00 - 11:00, Labo 3</p>
-                                    </div>
-                                </li>
-                            </ul>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 50%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Recent forum activity -->
-        <section class="forum-activity">
-            <div class="section-header">
-                <h2>Activité récente des forums</h2>
-                <a href="forum.html" class="btn btn-primary">Voir tous les forums</a>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <ul class="activity-list">
-                        <li class="activity-item">
-                            <div class="activity-avatar">
-                                <img src="../assets/images/teacher-avatar.jpg" alt="Bernard Dupont">
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-header">
-                                    <span class="activity-author">Bernard Dupont</span>
-                                    <span class="activity-time">il y a 2 heures</span>
-                                </div>
-                                <div class="activity-message">
-                                    <p>A répondu à votre question dans <a href="#">Forum Introduction à la programmation</a></p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="activity-item">
-                            <div class="activity-avatar">
-                                <img src="../assets/images/student-avatar2.jpg" alt="Lucas Martin">
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-header">
-                                    <span class="activity-author">Lucas Martin</span>
-                                    <span class="activity-time">il y a 5 heures</span>
-                                </div>
-                                <div class="activity-message">
-                                    <p>A posé une question dans <a href="#">Forum Bases de données</a></p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="activity-item">
-                            <div class="activity-avatar">
-                                <img src="../assets/images/teacher-avatar2.jpg" alt="Claire Martin">
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-header">
-                                    <span class="activity-author">Claire Martin</span>
-                                    <span class="activity-time">il y a 1 jour</span>
-                                </div>
-                                <div class="activity-message">
-                                    <p>A publié une annonce dans <a href="#">Forum Bases de données</a></p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            
+            <!-- Course 3 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url({% static 'images/course-webdev.jpg' %});"></div>
+                <div class="course-content">
+                    <h3 class="course-title">Développement Web</h3>
+                    <p class="course-description">Apprenez HTML, CSS et JavaScript pour créer des sites modernes.</p>
+                    <div class="course-meta">
+                        <span><i class="fas fa-user"></i> Thomas Leroy</span>
+                        <span><i class="fas fa-clock"></i> 20h restantes</span>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-text">
+                            <span>Progression: 30%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 30%;"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="student-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Online School</h4>
-                    <p>La plateforme d'e-learning intuitive et interactive pour une expérience d'apprentissage optimale.</p>
-                </div>
-                <div class="col-md-2">
-                    <h4>Liens utiles</h4>
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="courses.html">Cours</a></li>
-                        <li><a href="forum.html">Forums</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="help.html">Aide</a></li>
-                        <li><a href="terms.html">Conditions d'utilisation</a></li>
-                        <li><a href="privacy.html">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Contact</h4>
-                    <p>
-                        <i class="fas fa-envelope"></i> contact@onlineschool.fr<br>
-                        <i class="fas fa-phone"></i> +33 1 23 45 67 89<br>
-                        <i class="fas fa-map-marker-alt"></i> 123 Avenue de l'Éducation, 75000 Paris
-                    </p>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Online School. Tous droits réservés.</p>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script src="../assets/js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle profile dropdown
-            const profileDropdown = document.getElementById('profileDropdown');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            profileDropdown.addEventListener('click', function() {
-                profileMenu.classList.toggle('show');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!event.target.matches('#profileDropdown') && !profileMenu.contains(event.target)) {
-                    profileMenu.classList.remove('show');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+    <!-- Upcoming events and deadlines -->
+    <section class="upcoming-events">
+        <div class="section-header">
+            <h2>Événements à venir</h2>
+            <a href="#" class="btn btn-primary">Voir mon calendrier</a>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Deadlines -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Échéances</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="event-list">
+                            <li class="event-item">
+                                <div class="event-date">
+                                    <span class="day">20</span>
+                                    <span class="month">Mar</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>TP2 - Algorithmes avancés</h4>
+                                    <p>À rendre avant 23:59</p>
+                                </div>
+                            </li>
+                            <!-- Autres échéances... -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Upcoming classes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Prochains cours</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="event-list">
+                            <li class="event-item">
+                                <div class="event-date">
+                                    <span class="day">18</span>
+                                    <span class="month">Mar</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Introduction à la programmation</h4>
+                                    <p>08:00 - 10:00, Salle 105</p>
+                                </div>
+                            </li>
+                            <!-- Autres cours... -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

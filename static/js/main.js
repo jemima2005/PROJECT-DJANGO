@@ -310,6 +310,104 @@ function loadContent(url, targetId, callback = null) {
         });
 }
 
+/**
+ * Fonction pour gérer l'envoi des formulaires via AJAX
+ * @param {string} formId - L'ID du formulaire
+ * @param {string} url - L'URL à laquelle envoyer les données
+ * @param {function} successCallback - Fonction à exécuter en cas de succès
+ * @param {function} errorCallback - Fonction à exécuter en cas d'erreur
+ */
+function handleFormSubmit(formId, url, successCallback = null, errorCallback = null) {
+    const form = document.getElementById(formId);
+    if (!form) {
+        console.error(`Form with ID ${formId} not found`);
+        return;
+    }
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('[type="submit"]');
+        
+        // Désactiver le bouton de soumission pendant l'envoi
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...';
+        }
+        
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (successCallback && typeof successCallback === 'function') {
+                successCallback(data);
+            } else {
+                showNotification('Opération réussie!', 'success');
+            }
+        })
+        .catch(error => {
+            if (errorCallback && typeof errorCallback === 'function') {
+                errorCallback(error);
+            } else {
+                showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+                console.error('Error submitting form:', error);
+            }
+        })
+        .finally(() => {
+            // Réactiver le bouton de soumission
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = submitButton.getAttribute('data-original-text') || 'Envoyer';
+            }
+        });
+    });
+    
+    // Sauvegarder le texte original du bouton
+    const submitButton = form.querySelector('[type="submit"]');
+    if (submitButton) {
+        submitButton.setAttribute('data-original-text', submitButton.innerHTML);
+    }
+}
+
+/**
+ * Fonction pour créer un graphique avec Chart.js
+ * @param {string} canvasId - L'ID du canvas
+ * @param {string} type - Le type de graphique (line, bar, pie, etc.)
+ * @param {object} data - Les données du graphique
+ * @param {object} options - Les options du graphique
+ * @returns {Chart} - L'instance du graphique
+ */
+function createChart(canvasId, type, data, options = {}) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) {
+        console.error(`Canvas with ID ${canvasId} not found`);
+        return null;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    return new Chart(ctx, {
+        type: type,
+        data: data,
+        options: options
+    });
+}
+
+/**
+ * Fonction pour confirmer une action
+ * @param {string} message - Le message de confirmation
+ * @param {function} callback - Fonction à exécuter si l'utilisateur confirme
+ */
+function confirmAction(message, callback) {
+    if (confirm(message)) {
+        if (callback && typeof callback === 'function') {
+            callback();
+        }
+    }
+}
+
 // Initialiser les fonctionnalités communes lorsque le DOM est chargé
 document.addEventListener('DOMContentLoaded', function() {
     initDropdowns();
@@ -326,4 +424,51 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
     });
+
+    // Initialiser les tooltips
+    const tooltipElements = document.querySelectorAll('[data-toggle="tooltip"]');
+    tooltipElements.forEach(element => {
+        const title = element.getAttribute('title') || element.getAttribute('data-title');
+        if (title) {
+            element.setAttribute('data-title', title);
+            element.removeAttribute('title'); // Éviter le tooltip par défaut du navigateur
+            
+            element.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = this.getAttribute('data-title');
+                
+                document.body.appendChild(tooltip);
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
+                tooltip.style.left = `${rect.left + (rect.width - tooltip.offsetWidth) / 2}px`;
+                tooltip.classList.add('show');
+                
+                this.addEventListener('mouseleave', function onMouseLeave() {
+                    tooltip.remove();
+                    this.removeEventListener('mouseleave', onMouseLeave);
+                });
+            });
+        }
+    });
+
+    // Initialiser les boutons scroll-to-top
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    if (scrollToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });

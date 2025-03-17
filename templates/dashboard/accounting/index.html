@@ -1,0 +1,178 @@
+<!-- templates/dashboard/academic/index.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Dashboard Responsable de Scolarité - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li class="active">
+    <a href="{% url 'dashboard:academic_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:academic_students' %}">
+        <i class="fas fa-user-graduate"></i>
+        Étudiants
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:academic_classes' %}">
+        <i class="fas fa-chalkboard"></i>
+        Classes
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-chalkboard-teacher"></i>
+        Enseignants
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-book"></i>
+        Cours
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-plus"></i>
+        Inscriptions
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-chart-bar"></i>
+        Rapports
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1 class="h3 mb-0">Tableau de bord Responsable de Scolarité</h1>
+    <div>
+        <button class="btn btn-primary" id="exportReportBtn">
+            <i class="fas fa-file-export"></i> Exporter rapport
+        </button>
+        <button class="btn btn-success" id="createEnrollmentBtn">
+            <i class="fas fa-user-plus"></i> Nouvelle inscription
+        </button>
+    </div>
+</div>
+
+<!-- Dashboard Cards -->
+<div class="dashboard-cards">
+    <div class="stat-card stat-card-primary">
+        <div class="stat-card-body">
+            <div class="stat-card-title">Étudiants inscrits</div>
+            <div class="stat-card-value">562</div>
+        </div>
+        <div class="stat-card-icon">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-card-success">
+        <div class="stat-card-body">
+            <div class="stat-card-title">Classes actives</div>
+            <div class="stat-card-value">24</div>
+        </div>
+        <div class="stat-card-icon">
+            <i class="fas fa-chalkboard"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-card-warning">
+        <div class="stat-card-body">
+            <div class="stat-card-title">Enseignants</div>
+            <div class="stat-card-value">38</div>
+        </div>
+        <div class="stat-card-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-card-danger">
+        <div class="stat-card-body">
+            <div class="stat-card-title">Demandes en attente</div>
+            <div class="stat-card-value">15</div>
+        </div>
+        <div class="stat-card-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Applications -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h6>Demandes d'inscription récentes</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Filière</th>
+                        <th>Niveau</th>
+                        <th>Date de demande</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dubois</td>
+                        <td>Lucas</td>
+                        <td>lucas.dubois@example.com</td>
+                        <td>Informatique</td>
+                        <td>L1</td>
+                        <td>15/03/2023</td>
+                        <td><span class="badge bg-warning">En attente</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" title="Voir"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-success" title="Approuver"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-sm btn-danger" title="Rejeter"><i class="fas fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Autres demandes... -->
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-3">
+            <a href="#" class="btn btn-primary">Voir toutes les demandes</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Export Report Button
+        const exportReportBtn = document.getElementById('exportReportBtn');
+        
+        if (exportReportBtn) {
+            exportReportBtn.addEventListener('click', function() {
+                alert('Le rapport a été généré et exporté au format PDF.');
+            });
+        }
+        
+        // Create Enrollment Button
+        const createEnrollmentBtn = document.getElementById('createEnrollmentBtn');
+        
+        if (createEnrollmentBtn) {
+            createEnrollmentBtn.addEventListener('click', function() {
+                alert('Redirection vers la page de création d\'inscription...');
+            });
+        }
+    });
+</script>
+{% endblock %}

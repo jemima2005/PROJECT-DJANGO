@@ -1,6 +1,7 @@
 # accounts/models.py
 from django.db import models
-
+from django.utils.deprecation import MiddlewareMixin
+from django.contrib.auth.hashers import make_password, check_password
 
 class Utilisateur(models.Model):
     id = models.AutoField(primary_key=True)
@@ -16,6 +17,23 @@ class Utilisateur(models.Model):
         verbose_name = "Utilisateur"
         verbose_name_plural = "Utilisateurs"
 
+    def __str__(self):
+        return f"{self.nom} - {self.prenom}"
+    
+    # ✅ Méthode pour sécuriser le mot de passe
+    def set_password(self, raw_password):
+        self.mot_de_passe = make_password(raw_password)
+
+    # ✅ Méthode pour vérifier un mot de passe
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.mot_de_passe)
+    
+    # ✅ Surcharge de save pour hacher le mot de passe avant l'enregistrement
+    def save(self, *args, **kwargs):
+        if not self.pk or not Utilisateur.objects.filter(pk=self.pk, mot_de_passe=self.mot_de_passe).exists():
+            self.mot_de_passe = make_password(self.mot_de_passe)
+        super().save(*args, **kwargs)
+
 
 class Role(models.Model):
     id = models.AutoField(primary_key=True)
@@ -26,6 +44,9 @@ class Role(models.Model):
         verbose_name = "Rôle"
         verbose_name_plural = "Rôles"
 
+    def __str__(self):
+        return f"{self.type_role}"
+
 
 class RoleDesUtilisateur(models.Model):
     id = models.AutoField(primary_key=True)
@@ -35,6 +56,9 @@ class RoleDesUtilisateur(models.Model):
     class Meta:
         verbose_name = "Rôle des utilisateurs"
         verbose_name_plural = "Rôles des utilisateurs"
+
+    def __str__(self):
+        return f"{self.utilisateur.nom} - {self.role.type_role}"
 
 
 class Administrateur(models.Model):
@@ -123,4 +147,56 @@ class Enseignant(models.Model):
 
 
 
-
+class UserRoleMiddleware(MiddlewareMixin):
+    """
+    Middleware pour attacher l'utilisateur personnalisé à la requête
+    en fonction de l'utilisateur Django authentifié
+    """
+    
+    def process_request(self, request):
+        # Si l'utilisateur est authentifié et que l'ID utilisateur est en session
+        if request.user.is_authenticated and 'utilisateur_id' in request.session:
+            utilisateur_id = request.session.get('utilisateur_id')
+            
+            try:
+                # Récupérer l'utilisateur personnalisé
+                utilisateur = Utilisateur.objects.get(id=utilisateur_id)
+                request.utilisateur = utilisateur
+                
+                # Récupérer les rôles potentiels de l'utilisateur
+                try:
+                    request.etudiant = Etudiant.objects.get(email=utilisateur.email)
+                except Etudiant.DoesNotExist:
+                    request.etudiant = None
+                
+                try:
+                    request.enseignant = Enseignant.objects.get(email=utilisateur.email)
+                except Enseignant.DoesNotExist:
+                    request.enseignant = None
+                
+                try:
+                    request.administrateur = Administrateur.objects.get(email=utilisateur.email)
+                except Administrateur.DoesNotExist:
+                    request.administrateur = None
+                
+                try:
+                    request.resp_scolarite = ResponsableDeScolarite.objects.get(email=utilisateur.email)
+                except ResponsableDeScolarite.DoesNotExist:
+                    request.resp_scolarite = None
+                
+                # try:
+                #     request.comptable = Comptable.objects.get(email=utilisateur.email)
+                # except Comptable.DoesNotExist:
+                #     request.comptable = None
+                
+            except Utilisateur.DoesNotExist:
+                # Si l'utilisateur n'existe plus, nettoyer la session
+                del request.session['utilisateur_id']
+                request.utilisateur = None
+        else:
+            request.utilisateur = None
+            request.etudiant = None
+            request.enseignant = None
+            request.administrateur = None
+            request.resp_scolarite = None
+            # request.comptable = None

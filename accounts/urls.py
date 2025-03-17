@@ -1,6 +1,10 @@
+# accounts/urls.py
 from django.urls import path
-from . import views  # Assurez-vous que vous importez les vues depuis le bon fichier
+from . import views
+
+app_name = 'accounts'
 
 urlpatterns = [
-    path('', views.home_page, name='index'),  # Associe la vue 'home_page' à l'URL racine
+    path('', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]

@@ -1,523 +1,509 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Évaluations - Online School</title>
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/student.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="student-header">
-        <div class="container">
-            <div class="logo-container">
-                <img src="../../assets/images/logo.png" alt="Online School Logo" class="logo">
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="courses.html">Mes cours</a></li>
-                    <li><a href="forum.html">Forums</a></li>
-                    <li><a href="evaluations.html" class="active">Évaluations</a></li>
-                </ul>
-            </nav>
-            <div class="profile-dropdown">
-                <img src="../assets/images/student-avatar.jpg" alt="Profil" class="profile-img" id="profileDropdown">
-                <div class="dropdown-menu" id="profileMenu">
-                    <a href="profile.html" class="dropdown-item">
-                        <i class="fas fa-user-circle"></i> Mon profil
-                    </a>
-                    <a href="settings.html" class="dropdown-item">
-                        <i class="fas fa-cog"></i> Paramètres
-                    </a>
-                    <a href="../dashboard/index.html" class="dropdown-item">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
+<!-- templates/student/evaluations.html -->
+ <!-- templates/student/evaluations.html -->
+{% extends 'student/base_student.html' %}
+{% load static %}
+
+{% block title %}Mes Évaluations - Online School{% endblock %}
+
+{% block student_content %}
+<!-- Hero section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Mes évaluations</h1>
+        <p>Consultez vos quiz, examens, et devoirs à rendre</p>
+    </div>
+</section>
+
+<!-- Main content -->
+<main class="container">
+    <!-- Filtres -->
+    <section class="filters-section mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="courseFilter">Cours</label>
+                            <select class="form-control" id="courseFilter">
+                                <option value="">Tous les cours</option>
+                                <option value="1">Introduction à la programmation</option>
+                                <option value="2">Bases de données</option>
+                                <option value="3">Développement Web</option>
+                                <option value="4">Algorithmes fondamentaux</option>
+                                <option value="5">Introduction aux réseaux</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="typeFilter">Type</label>
+                            <select class="form-control" id="typeFilter">
+                                <option value="">Tous les types</option>
+                                <option value="quiz">Quiz</option>
+                                <option value="exam">Examen</option>
+                                <option value="assignment">Devoir</option>
+                                <option value="project">Projet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="statusFilter">Statut</label>
+                            <select class="form-control" id="statusFilter">
+                                <option value="">Tous les statuts</option>
+                                <option value="upcoming">À venir</option>
+                                <option value="available">Disponibles</option>
+                                <option value="submitted">Soumis</option>
+                                <option value="graded">Notés</option>
+                                <option value="expired">Expirés</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="searchFilter">Recherche</label>
+                            <input type="text" class="form-control" id="searchFilter" placeholder="Titre ou mot-clé">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12 text-right">
+                        <button id="resetFilters" class="btn btn-secondary mr-2">
+                            <i class="fas fa-undo"></i> Réinitialiser
+                        </button>
+                        <button id="applyFilters" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Appliquer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Main content -->
-    <main class="container mt-4">
-        <div class="evaluations-header">
-            <h1>Mes Évaluations</h1>
-            <div class="evaluations-actions">
-                <div class="filter-container">
-                    <select class="form-control" id="filterStatus">
-                        <option value="all">Tous les statuts</option>
-                        <option value="pending">À faire</option>
-                        <option value="completed">Terminées</option>
-                        <option value="graded">Notées</option>
-                    </select>
-                    <select class="form-control" id="filterCourse">
-                        <option value="all">Tous les cours</option>
-                        <option value="1">Introduction à la programmation</option>
-                        <option value="2">Bases de données</option>
-                        <option value="3">Développement Web</option>
-                        <option value="4">Algorithmes avancés</option>
-                    </select>
+    <!-- Résumé des notes -->
+    <section class="grades-summary mb-4">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="grade-card">
+                    <div class="grade-value">15.2/20</div>
+                    <div class="grade-label">Moyenne générale</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="grade-card">
+                    <div class="grade-value">18/20</div>
+                    <div class="grade-label">Meilleure note</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="grade-card">
+                    <div class="grade-value">12/20</div>
+                    <div class="grade-label">Note la plus basse</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="grade-card">
+                    <div class="grade-value">90%</div>
+                    <div class="grade-label">Taux de complétion</div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Tabs -->
-        <ul class="nav nav-tabs evaluations-tabs" id="evaluationsTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab">
-                    À venir <span class="badge badge-primary">3</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab">
-                    En cours <span class="badge badge-warning">2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed" role="tab">
-                    Terminées <span class="badge badge-success">8</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="grades-tab" data-toggle="tab" href="#grades" role="tab">
-                    Mes notes
-                </a>
-            </li>
-        </ul>
+    <!-- Évaluations à faire -->
+    <section class="upcoming-evaluations mb-5">
+        <h2>Évaluations à faire prochainement</h2>
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> Vous avez <strong>3 évaluations</strong> à rendre dans les prochains jours.
+        </div>
+        <div class="evaluation-list">
+            <!-- Devoir à rendre -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon assignment">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>TP - Structures de contrôle</h4>
+                    <p><strong>Cours :</strong> Introduction à la programmation</p>
+                    <p><i class="fas fa-calendar-alt"></i> À rendre avant le 25/03/2023 (23:59)</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Durée estimée: 2h</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 15%</span>
+                    </div>
+                </div>
+                <div class="evaluation-status">
+                    <div class="countdown text-danger">4 jours restants</div>
+                    <a href="#" class="btn btn-primary">Commencer</a>
+                </div>
+            </div>
 
-        <!-- Tab content -->
-        <div class="tab-content evaluations-tab-content" id="evaluationsTabsContent">
-            <!-- À venir tab -->
-            <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
-                <div class="evaluation-list">
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon quiz">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="quiz.html?id=101">Quiz 3: Structures de données</a></h4>
-                            <p>Introduction à la programmation</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>22/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-clock"></i>
-                                <span>14:00 - 15:30</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-history"></i>
-                                <span>60 minutes</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status">
-                            <span class="badge badge-info">À venir</span>
-                            <div class="countdown">Dans 4 jours</div>
-                        </div>
+            <!-- Quiz programmé -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon quiz">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>Quiz sur SQL - Requêtes avancées</h4>
+                    <p><strong>Cours :</strong> Bases de données</p>
+                    <p><i class="fas fa-calendar-alt"></i> Prévu le 20/03/2023 (14:00-15:00)</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Durée: 1h</span>
                     </div>
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon assignment">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="assignment.html?id=202">TP2: Conception d'une base de données</a></h4>
-                            <p>Bases de données</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>25/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-clock"></i>
-                                <span>23:59</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-file-upload"></i>
-                                <span>Rendu de fichier</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status">
-                            <span class="badge badge-info">À venir</span>
-                            <div class="countdown">Dans 7 jours</div>
-                        </div>
-                    </div>
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon exam">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="exam.html?id=303">Examen intermédiaire</a></h4>
-                            <p>Développement Web</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>28/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-clock"></i>
-                                <span>10:00 - 12:00</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-history"></i>
-                                <span>120 minutes</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status">
-                            <span class="badge badge-info">À venir</span>
-                            <div class="countdown">Dans 10 jours</div>
-                        </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 10%</span>
                     </div>
                 </div>
-            </div>
-            
-            <!-- En cours tab -->
-            <div class="tab-pane fade" id="pending" role="tabpanel">
-                <div class="evaluation-list">
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon quiz">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="quiz.html?id=401">Quiz 2: Normalisation</a></h4>
-                            <p>Bases de données</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>15/03/2023 - 20/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-history"></i>
-                                <span>45 minutes</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-redo-alt"></i>
-                                <span>2 tentatives max.</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status">
-                            <span class="badge badge-warning">En cours</span>
-                            <a href="quiz.html?id=401" class="btn btn-primary">Commencer</a>
-                        </div>
-                    </div>
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon assignment">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="assignment.html?id=502">TP3: Algorithmes avancés</a></h4>
-                            <p>Algorithmes avancés</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>10/03/2023 - 18/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-clock"></i>
-                                <span>23:59</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-file-upload"></i>
-                                <span>Rendu de fichier</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status">
-                            <span class="badge badge-warning">En cours</span>
-                            <div class="countdown">Plus que 2 jours</div>
-                            <a href="assignment.html?id=502" class="btn btn-primary">Déposer</a>
-                        </div>
-                    </div>
+                <div class="evaluation-status">
+                    <div class="countdown text-warning">Dans 3 jours</div>
+                    <span class="badge badge-secondary">Non disponible</span>
                 </div>
             </div>
-            
-            <!-- Terminées tab -->
-            <div class="tab-pane fade" id="completed" role="tabpanel">
-                <div class="evaluation-list">
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon quiz">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="quiz-result.html?id=601">Quiz 1: Variables et types</a></h4>
-                            <p>Introduction à la programmation</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>05/03/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-history"></i>
-                                <span>30 minutes</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Noté automatiquement</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status completed">
-                            <span class="badge badge-success">Terminé</span>
-                            <div class="grade">18/20</div>
-                            <a href="quiz-result.html?id=601" class="btn btn-outline-primary">Voir le résultat</a>
-                        </div>
+
+            <!-- Examen à venir -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon exam">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>Examen de mi-semestre</h4>
+                    <p><strong>Cours :</strong> Introduction à la programmation</p>
+                    <p><i class="fas fa-calendar-alt"></i> Prévu le 15/04/2023 (09:00-11:00)</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Durée: 2h</span>
                     </div>
-                    <div class="evaluation-item">
-                        <div class="evaluation-icon assignment">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="evaluation-info">
-                            <h4><a href="assignment-result.html?id=702">TP1: Introduction SQL</a></h4>
-                            <p>Bases de données</p>
-                        </div>
-                        <div class="evaluation-details">
-                            <div class="detail">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>28/02/2023</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-user-check"></i>
-                                <span>Noté par enseignant</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-comments"></i>
-                                <span>Feedback disponible</span>
-                            </div>
-                        </div>
-                        <div class="evaluation-status completed">
-                            <span class="badge badge-success">Terminé</span>
-                            <div class="grade">15/20</div>
-                            <a href="assignment-result.html?id=702" class="btn btn-outline-primary">Voir le résultat</a>
-                        </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 30%</span>
                     </div>
-                    <!-- Autres évaluations terminées ici -->
+                </div>
+                <div class="evaluation-status">
+                    <div class="countdown">Dans 29 jours</div>
+                    <span class="badge badge-secondary">Non disponible</span>
                 </div>
             </div>
-            
-            <!-- Mes notes tab -->
-            <div class="tab-pane fade" id="grades" role="tabpanel">
-                <div class="grades-container">
-                    <div class="grades-summary">
-                        <div class="grade-card">
-                            <div class="grade-value">14.5</div>
-                            <div class="grade-label">Moyenne générale</div>
-                        </div>
-                        <div class="grade-card">
-                            <div class="grade-value">16.2</div>
-                            <div class="grade-label">Introduction à la programmation</div>
-                        </div>
-                        <div class="grade-card">
-                            <div class="grade-value">13.8</div>
-                            <div class="grade-label">Bases de données</div>
-                        </div>
-                        <div class="grade-card">
-                            <div class="grade-value">15.3</div>
-                            <div class="grade-label">Algorithmes avancés</div>
-                        </div>
-                        <div class="grade-card">
-                            <div class="grade-value">12.7</div>
-                            <div class="grade-label">Développement Web</div>
-                        </div>
+        </div>
+    </section>
+
+    <!-- Évaluations terminées et notées -->
+    <section class="completed-evaluations mb-5">
+        <h2>Évaluations terminées et notées</h2>
+        <div class="evaluation-list">
+            <!-- Quiz noté -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon quiz">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>Quiz - Variables et Types</h4>
+                    <p><strong>Cours :</strong> Introduction à la programmation</p>
+                    <p><i class="fas fa-calendar-check"></i> Terminé le 10/03/2023</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Durée: 30min</span>
                     </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 5%</span>
+                    </div>
+                </div>
+                <div class="evaluation-status completed">
+                    <div class="grade">18/20</div>
+                    <a href="#" class="btn btn-outline-primary">Revoir</a>
+                </div>
+            </div>
+
+            <!-- Devoir noté -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon assignment">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>TP1 - Manipulation de structures de données</h4>
+                    <p><strong>Cours :</strong> Algorithmes fondamentaux</p>
+                    <p><i class="fas fa-calendar-check"></i> Terminé le 05/03/2023</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Temps passé: 1h45</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 15%</span>
+                    </div>
+                </div>
+                <div class="evaluation-status completed">
+                    <div class="grade">16/20</div>
+                    <a href="#" class="btn btn-outline-primary">Revoir</a>
+                </div>
+            </div>
+
+            <!-- Projet noté -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon assignment">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>Projet - Topologie réseau et configuration</h4>
+                    <p><strong>Cours :</strong> Introduction aux réseaux</p>
+                    <p><i class="fas fa-calendar-check"></i> Terminé le 28/02/2023</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Temps passé: 10h</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 40%</span>
+                    </div>
+                </div>
+                <div class="evaluation-status completed">
+                    <div class="grade">15/20</div>
+                    <a href="#" class="btn btn-outline-primary">Revoir</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Évaluations soumises en attente de notation -->
+    <section class="pending-evaluations mb-5">
+        <h2>Évaluations en attente de notation</h2>
+        <div class="evaluation-list">
+            <!-- Devoir soumis -->
+            <div class="evaluation-item">
+                <div class="evaluation-icon assignment">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="evaluation-info">
+                    <h4>TP2 - Manipulation DOM avec JavaScript</h4>
+                    <p><strong>Cours :</strong> Développement Web</p>
+                    <p><i class="fas fa-calendar-check"></i> Soumis le 12/03/2023</p>
+                </div>
+                <div class="evaluation-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Temps passé: 3h20</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-percentage"></i>
+                        <span>Pondération: 20%</span>
+                    </div>
+                </div>
+                <div class="evaluation-status">
+                    <div class="pending-badge">
+                        <span class="badge badge-warning">En attente de correction</span>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary">Voir</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendrier des évaluations -->
+    <section class="evaluation-calendar mb-5">
+        <h2>Calendrier des évaluations</h2>
+        <div class="card">
+            <div class="card-body">
+                <div id="evaluationCalendar"></div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des filtres
+        const resetFiltersBtn = document.getElementById('resetFilters');
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', function() {
+                document.getElementById('courseFilter').value = '';
+                document.getElementById('typeFilter').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('searchFilter').value = '';
+            });
+        }
+        
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', function() {
+                // Récupérer les valeurs des filtres
+                const course = document.getElementById('courseFilter').value;
+                const type = document.getElementById('typeFilter').value;
+                const status = document.getElementById('statusFilter').value;
+                const search = document.getElementById('searchFilter').value;
+                
+                // Construire la requête (simulation pour l'exemple)
+                const query = {
+                    course: course,
+                    type: type,
+                    status: status,
+                    search: search
+                };
+                
+                console.log('Applying filters:', query);
+                
+                // Simuler un chargement
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...';
+                
+                // Réinitialiser après un court délai (à remplacer par un appel API réel)
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-filter"></i> Appliquer';
                     
-                    <div class="grades-table-container">
-                        <h3>Détail des notes par cours</h3>
-                        
-                        <div class="course-grades">
-                            <h4>Introduction à la programmation</h4>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Évaluation</th>
-                                        <th>Type</th>
-                                        <th>Date</th>
-                                        <th>Note</th>
-                                        <th>Coefficient</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Quiz 1: Variables et types</td>
-                                        <td>Quiz</td>
-                                        <td>05/03/2023</td>
-                                        <td>18/20</td>
-                                        <td>1</td>
-                                        <td><a href="quiz-result.html?id=601" class="btn btn-sm btn-outline-primary">Détails</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>TP1: Algorithmes de base</td>
-                                        <td>Devoir</td>
-                                        <td>25/02/2023</td>
-                                        <td>16/20</td>
-                                        <td>2</td>
-                                        <td><a href="assignment-result.html?id=802" class="btn btn-sm btn-outline-primary">Détails</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Quiz 2: Structures de contrôle</td>
-                                        <td>Quiz</td>
-                                        <td>15/02/2023</td>
-                                        <td>14/20</td>
-                                        <td>1</td>
-                                        <td><a href="quiz-result.html?id=603" class="btn btn-sm btn-outline-primary">Détails</a></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3">Moyenne</th>
-                                        <th>16.2/20</th>
-                                        <th colspan="2"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        
-                        <div class="course-grades">
-                            <h4>Bases de données</h4>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Évaluation</th>
-                                        <th>Type</th>
-                                        <th>Date</th>
-                                        <th>Note</th>
-                                        <th>Coefficient</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>TP1: Introduction SQL</td>
-                                        <td>Devoir</td>
-                                        <td>28/02/2023</td>
-                                        <td>15/20</td>
-                                        <td>2</td>
-                                        <td><a href="assignment-result.html?id=702" class="btn btn-sm btn-outline-primary">Détails</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Quiz 1: Les bases du SQL</td>
-                                        <td>Quiz</td>
-                                        <td>15/02/2023</td>
-                                        <td>12/20</td>
-                                        <td>1</td>
-                                        <td><a href="quiz-result.html?id=701" class="btn btn-sm btn-outline-primary">Détails</a></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3">Moyenne</th>
-                                        <th>13.8/20</th>
-                                        <th colspan="2"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="student-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Online School</h4>
-                    <p>La plateforme d'e-learning intuitive et interactive pour une expérience d'apprentissage optimale.</p>
-                </div>
-                <div class="col-md-2">
-                    <h4>Liens utiles</h4>
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="courses.html">Cours</a></li>
-                        <li><a href="forum.html">Forums</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="help.html">Aide</a></li>
-                        <li><a href="terms.html">Conditions d'utilisation</a></li>
-                        <li><a href="privacy.html">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Contact</h4>
-                    <p>
-                        <i class="fas fa-envelope"></i> contact@onlineschool.fr<br>
-                        <i class="fas fa-phone"></i> +33 1 23 45 67 89<br>
-                        <i class="fas fa-map-marker-alt"></i> 123 Avenue de l'Éducation, 75000 Paris
-                    </p>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Online School. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../../assets/js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle profile dropdown
-            const profileDropdown = document.getElementById('profileDropdown');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            profileDropdown.addEventListener('click', function() {
-                profileMenu.classList.toggle('show');
+                    // Simuler une notification de filtrage réussi
+                    showNotification('Filtres appliqués avec succès !', 'success');
+                }, 800);
+            });
+        }
+        
+        // Animation des éléments d'évaluation
+        const evaluationItems = document.querySelectorAll('.evaluation-item');
+        
+        evaluationItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.transform = 'translateX(5px)';
             });
             
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!event.target.matches('#profileDropdown') && !profileMenu.contains(event.target)) {
-                    profileMenu.classList.remove('show');
+            item.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '#fff';
+                this.style.transform = 'translateX(0)';
+            });
+        });
+        
+        // Initialisation du calendrier
+        const calendarEl = document.getElementById('evaluationCalendar');
+        
+        if (calendarEl && typeof FullCalendar !== 'undefined') {
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,listMonth'
+                },
+                locale: 'fr',
+                firstDay: 1, // Lundi comme premier jour
+                height: 'auto',
+                events: [
+                    // Données simulées pour l'exemple
+                    {
+                        title: 'TP - Structures de contrôle',
+                        start: '2023-03-25T23:59:00',
+                        color: '#f6c23e'
+                    },
+                    {
+                        title: 'Quiz SQL - Requêtes avancées',
+                        start: '2023-03-20T14:00:00',
+                        end: '2023-03-20T15:00:00',
+                        color: '#4e73df'
+                    },
+                    {
+                        title: 'Examen de mi-semestre',
+                        start: '2023-04-15T09:00:00',
+                        end: '2023-04-15T11:00:00',
+                        color: '#e74a3b'
+                    },
+                    {
+                        title: 'Quiz - Variables et Types',
+                        start: '2023-03-10T14:00:00',
+                        end: '2023-03-10T14:30:00',
+                        color: '#858796'
+                    },
+                    {
+                        title: 'TP2 - Manipulation DOM',
+                        start: '2023-03-12T23:59:00',
+                        color: '#858796'
+                    },
+                ],
+                eventClick: function(info) {
+                    alert('Évaluation: ' + info.event.title);
                 }
             });
             
-            // Tab navigation
-            const tabLinks = document.querySelectorAll('.nav-tabs .nav-link');
-            const tabContents = document.querySelectorAll('.tab-content .tab-pane');
+            calendar.render();
+        }
+        
+        // Fonction pour afficher des notifications
+        function showNotification(message, type = 'info') {
+            // Créer l'élément de notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${type === 'info' ? 'fa-info-circle' : 
+                                   type === 'success' ? 'fa-check-circle' : 
+                                   type === 'warning' ? 'fa-exclamation-triangle' : 
+                                   'fa-times-circle'}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${message}</p>
+                </div>
+                <button class="close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
             
-            tabLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all tabs
-                    tabLinks.forEach(tab => tab.classList.remove('active'));
-                    tabContents.forEach(content => {
-                        content.classList.remove('show', 'active');
-                    });
-                    
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetContent = document.getElementById(targetId);
-                    targetContent.classList.add('show', 'active');
-                });
-            });
+            // Créer ou récupérer le conteneur de notifications
+            let notificationsContainer = document.querySelector('.notifications-container');
             
-            // Filtres
-            const filterStatus = document.getElementById('filterStatus');
-            const filterCourse = document.getElementById('filterCourse');
-            
-            function applyFilters() {
-                // Cette fonction serait implémentée pour filtrer les évaluations
-                console.log(`Filtrage - Statut: ${filterStatus.value}, Cours: ${filterCourse.value}`);
-                // Dans une implémentation réelle, vous filtreriez les éléments DOM
+            if (!notificationsContainer) {
+                notificationsContainer = document.createElement('div');
+                notificationsContainer.className = 'notifications-container';
+                document.body.appendChild(notificationsContainer);
             }
             
-            filterStatus.addEventListener('change', applyFilters);
-            filterCourse.addEventListener('change', applyFilters);
-        });
-    </script>
-</body>
-</html>
+            // Ajouter la notification
+            notificationsContainer.appendChild(notification);
+            
+            // Gestion du bouton de fermeture
+            notification.querySelector('.close').addEventListener('click', function() {
+                notification.classList.add('fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                    
+                    // Nettoyer le conteneur s'il est vide
+                    if (notificationsContainer.children.length === 0) {
+                        notificationsContainer.remove();
+                    }
+                }, 300);
+            });
+            
+            // Fermeture automatique après 3 secondes
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => {
+                        notification.remove();
+                        
+                        // Nettoyer le conteneur s'il est vide
+                        if (notificationsContainer.children.length === 0) {
+                            notificationsContainer.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+    });
+</script>
+{% endblock %}

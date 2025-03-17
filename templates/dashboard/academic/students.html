@@ -1,0 +1,1109 @@
+<!-- templates/dashboard/academic/students.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Gestion des Étudiants - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li>
+    <a href="{% url 'dashboard:academic_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li class="active">
+    <a href="{% url 'dashboard:academic_students' %}">
+        <i class="fas fa-user-graduate"></i>
+        Étudiants
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:academic_classes' %}">
+        <i class="fas fa-chalkboard"></i>
+        Classes
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-book"></i>
+        Programmes
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-calendar-alt"></i>
+        Emplois du temps
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-clipboard-check"></i>
+        Évaluations
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-chart-line"></i>
+        Rapports
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-cog"></i>
+        Paramètres
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Gestion des Étudiants</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addStudentModal">
+        <i class="fas fa-plus"></i> Ajouter un étudiant
+    </button>
+</div>
+
+<!-- Statistiques -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Étudiants</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">198</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Taux de Réussite</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">85%</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Nouveaux Inscrits (Mois)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">24</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Dossiers en Attente</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Filtres</h6>
+    </div>
+    <div class="card-body">
+        <form id="filterForm" class="row">
+            <div class="col-md-3 form-group">
+                <label for="classFilter">Classe</label>
+                <select id="classFilter" class="form-control">
+                    <option value="">Toutes les classes</option>
+                    <option value="l1-info-a">L1 Informatique Groupe A</option>
+                    <option value="l1-info-b">L1 Informatique Groupe B</option>
+                    <option value="l2-info">L2 Informatique</option>
+                    <option value="l3-info">L3 Informatique</option>
+                    <option value="m1-info">M1 Informatique</option>
+                    <option value="m2-info">M2 Informatique</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="statusFilter">Statut</label>
+                <select id="statusFilter" class="form-control">
+                    <option value="">Tous les statuts</option>
+                    <option value="active">Actif</option>
+                    <option value="inactive">Inactif</option>
+                    <option value="pending">En attente</option>
+                    <option value="graduated">Diplômé</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="yearFilter">Année d'Inscription</label>
+                <select id="yearFilter" class="form-control">
+                    <option value="">Toutes les années</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="searchFilter">Recherche</label>
+                <input type="text" id="searchFilter" class="form-control" placeholder="Nom, Email, ID...">
+            </div>
+            <div class="col-12 mt-3">
+                <button type="button" id="applyFilters" class="btn btn-primary">Appliquer</button>
+                <button type="button" id="resetFilters" class="btn btn-secondary">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Liste des étudiants -->
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold">Liste des Étudiants</h6>
+            <div class="bulk-actions">
+                <select id="bulkAction" class="form-control form-control-sm">
+                    <option value="">Actions groupées</option>
+                    <option value="activate">Activer</option>
+                    <option value="deactivate">Désactiver</option>
+                    <option value="export">Exporter</option>
+                    <option value="email">Envoyer un email</option>
+                </select>
+                <button id="applyBulkAction" class="btn btn-sm btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered datatable" id="studentsTable">
+                <thead>
+                    <tr>
+                        <th width="30">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Classe</th>
+                        <th>Téléphone</th>
+                        <th>Inscription</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Exemple de données -->
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="1" class="row-checkbox">
+                        </td>
+                        <td>ST-001</td>
+                        <td>Dupont Marie</td>
+                        <td>marie.dupont@example.com</td>
+                        <td>L1 Informatique Groupe A</td>
+                        <td>+33 6 12 34 56 78</td>
+                        <td>01/09/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="2" class="row-checkbox">
+                        </td>
+                        <td>ST-002</td>
+                        <td>Martin Thomas</td>
+                        <td>thomas.martin@example.com</td>
+                        <td>L1 Informatique Groupe A</td>
+                        <td>+33 6 23 45 67 89</td>
+                        <td>01/09/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="3" class="row-checkbox">
+                        </td>
+                        <td>ST-003</td>
+                        <td>Petit Sophie</td>
+                        <td>sophie.petit@example.com</td>
+                        <td>L1 Informatique Groupe B</td>
+                        <td>+33 6 34 56 78 90</td>
+                        <td>01/09/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="4" class="row-checkbox">
+                        </td>
+                        <td>ST-004</td>
+                        <td>Dubois Paul</td>
+                        <td>paul.dubois@example.com</td>
+                        <td>L2 Informatique</td>
+                        <td>+33 6 45 67 89 01</td>
+                        <td>01/09/2022</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="5" class="row-checkbox">
+                        </td>
+                        <td>ST-005</td>
+                        <td>Leroy Julie</td>
+                        <td>julie.leroy@example.com</td>
+                        <td>L3 Informatique</td>
+                        <td>+33 6 56 78 90 12</td>
+                        <td>01/09/2021</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="6" class="row-checkbox">
+                        </td>
+                        <td>ST-006</td>
+                        <td>Moreau Lucas</td>
+                        <td>lucas.moreau@example.com</td>
+                        <td>M1 Informatique</td>
+                        <td>+33 6 67 89 01 23</td>
+                        <td>01/09/2020</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="7" class="row-checkbox">
+                        </td>
+                        <td>ST-007</td>
+                        <td>Fournier Emma</td>
+                        <td>emma.fournier@example.com</td>
+                        <td>M2 Informatique</td>
+                        <td>+33 6 78 90 12 34</td>
+                        <td>01/09/2019</td>
+                        <td><span class="badge bg-warning text-white">En stage</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="8" class="row-checkbox">
+                        </td>
+                        <td>ST-008</td>
+                        <td>Girard Alexandre</td>
+                        <td>alexandre.girard@example.com</td>
+                        <td>L1 Informatique Groupe B</td>
+                        <td>+33 6 89 01 23 45</td>
+                        <td>01/09/2023</td>
+                        <td><span class="badge bg-danger text-white">Inactif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewStudentModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStudentModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet étudiant?', function() { alert('Étudiant supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ajouter Étudiant -->
+<div class="modal-backdrop" id="addStudentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un Nouvel Étudiant</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addStudentForm">
+                    <div class="form-group">
+                        <label for="studentFirstName">Prénom</label>
+                        <input type="text" class="form-control" id="studentFirstName" placeholder="Prénom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentLastName">Nom</label>
+                        <input type="text" class="form-control" id="studentLastName" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" class="form-control" id="studentEmail" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentClass">Classe</label>
+                        <select class="form-control" id="studentClass" required>
+                            <option value="">Sélectionner une classe</option>
+                            <option value="l1-info-a">L1 Informatique Groupe A</option>
+                            <option value="l1-info-b">L1 Informatique Groupe B</option>
+                            <option value="l2-info">L2 Informatique</option>
+                            <option value="l3-info">L3 Informatique</option>
+                            <option value="m1-info">M1 Informatique</option>
+                            <option value="m2-info">M2 Informatique</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPhone">Téléphone</label>
+                        <input type="tel" class="form-control" id="studentPhone" placeholder="+33 6 xx xx xx xx">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentAddress">Adresse</label>
+                        <textarea class="form-control" id="studentAddress" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentBirthDate">Date de Naissance</label>
+                        <input type="date" class="form-control" id="studentBirthDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEnrollmentDate">Date d'Inscription</label>
+                        <input type="date" class="form-control" id="studentEnrollmentDate" value="2023-09-01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentStatus">Statut</label>
+                        <select class="form-control" id="studentStatus" required>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="pending">En attente</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveStudentBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Voir Étudiant -->
+<div class="modal-backdrop" id="viewStudentModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Détails de l'Étudiant</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student-profile">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{% static 'images/default-avatar.jpg' %}" alt="Photo de l'étudiant" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;">
+                            <h5 class="mt-3">Dupont Marie</h5>
+                            <p class="text-muted">L1 Informatique Groupe A</p>
+                            <p><span class="badge bg-success text-white">Actif</span></p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="student-info">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3">Informations Personnelles</h6>
+                                        <div class="detail-item mb-2">
+                                            <strong>ID Étudiant:</strong>
+                                            <span>ST-001</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Email:</strong>
+                                            <span>marie.dupont@example.com</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Téléphone:</strong>
+                                            <span>+33 6 12 34 56 78</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Date de Naissance:</strong>
+                                            <span>12/05/2001</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Adresse:</strong>
+                                            <span>123 Rue des Étudiants, 75001 Paris</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3">Informations Académiques</h6>
+                                        <div class="detail-item mb-2">
+                                            <strong>Programme:</strong>
+                                            <span>Licence Informatique</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Année d'Inscription:</strong>
+                                            <span>01/09/2023</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Année Académique:</strong>
+                                            <span>2023-2024</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Moyenne Générale:</strong>
+                                            <span>14.5/20</span>
+                                        </div>
+                                        <div class="detail-item mb-2">
+                                            <strong>Crédits Validés:</strong>
+                                            <span>15/60</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Onglets pour les détails supplémentaires -->
+                    <div class="student-tabs mt-4">
+                        <ul class="nav nav-tabs" id="studentTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="grades-tab" data-toggle="tab" href="#grades" role="tab">Notes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="attendance-tab" data-toggle="tab" href="#attendance" role="tab">Présence</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab">Paiements</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab">Documents</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" role="tab">Notes Admin</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-3" id="studentTabContent">
+                            <div class="tab-pane fade show active" id="grades" role="tabpanel">
+                                <h6 class="mb-3">Relevé de Notes</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Cours</th>
+                                                <th>Crédits</th>
+                                                <th>Note</th>
+                                                <th>Statut</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Introduction à la Programmation</td>
+                                                <td>6</td>
+                                                <td>16/20</td>
+                                                <td><span class="badge bg-success text-white">Validé</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Algorithmes et Structures de Données</td>
+                                                <td>6</td>
+                                                <td>15/20</td>
+                                                <td><span class="badge bg-success text-white">Validé</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mathématiques pour l'Informatique</td>
+                                                <td>3</td>
+                                                <td>12/20</td>
+                                                <td><span class="badge bg-success text-white">Validé</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Anglais Technique</td>
+                                                <td>3</td>
+                                                <td>13/20</td>
+                                                <td><span class="badge bg-success text-white">Validé</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Culture Numérique</td>
+                                                <td>3</td>
+                                                <td>17/20</td>
+                                                <td><span class="badge bg-success text-white">Validé</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="attendance" role="tabpanel">
+                                <h6 class="mb-3">Registre de Présence</h6>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title">Taux de Présence Global</h6>
+                                                <div class="display-4">95%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Récapitulatif</h6>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Présent
+                                                        <span class="badge bg-primary rounded-pill">38</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Absent
+                                                        <span class="badge bg-danger rounded-pill">2</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Retard
+                                                        <span class="badge bg-warning rounded-pill">4</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Cours</th>
+                                                <th>Statut</th>
+                                                <th>Remarque</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>15/09/2023</td>
+                                                <td>Introduction à la Programmation</td>
+                                                <td><span class="badge bg-success">Présent</span></td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16/09/2023</td>
+                                                <td>Mathématiques pour l'Informatique</td>
+                                                <td><span class="badge bg-success">Présent</span></td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>18/09/2023</td>
+                                                <td>Algorithmes et Structures de Données</td>
+                                                <td><span class="badge bg-warning">Retard</span></td>
+                                                <td>15 minutes de retard</td>
+                                            </tr>
+                                            <tr>
+                                                <td>20/09/2023</td>
+                                                <td>Introduction à la Programmation</td>
+                                                <td><span class="badge bg-danger">Absent</span></td>
+                                                <td>Absence justifiée (certificat médical)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22/09/2023</td>
+                                                <td>Anglais Technique</td>
+                                                <td><span class="badge bg-success">Présent</span></td>
+                                                <td>-</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="payments" role="tabpanel">
+                                <h6 class="mb-3">Historique des Paiements</h6>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="alert alert-info">
+                                            <h6>Frais de scolarité 2023-2024</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <span>Montant total:</span>
+                                                <span>5000 €</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>Montant payé:</span>
+                                                <span>2000 €</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>Reste à payer:</span>
+                                                <strong>3000 €</strong>
+                                            </div>
+                                            <div class="progress mt-2">
+                                                <div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">40%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Échéancier</h6>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        01/09/2023 - 1000 €
+                                                        <span class="badge bg-success">Payé</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        01/11/2023 - 1000 €
+                                                        <span class="badge bg-success">Payé</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        01/01/2024 - 1000 €
+                                                        <span class="badge bg-warning">À venir</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        01/03/2024 - 1000 €
+                                                        <span class="badge bg-warning">À venir</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        01/05/2024 - 1000 €
+                                                        <span class="badge bg-warning">À venir</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Référence</th>
+                                                <th>Description</th>
+                                                <th>Montant</th>
+                                                <th>Méthode</th>
+                                                <th>Statut</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>01/09/2023</td>
+                                                <td>PAY-2023-001</td>
+                                                <td>Frais de scolarité 2023-2024 (Acompte 1/5)</td>
+                                                <td>1000 €</td>
+                                                <td>Carte bancaire</td>
+                                                <td><span class="badge bg-success">Payé</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>01/11/2023</td>
+                                                <td>PAY-2023-245</td>
+                                                <td>Frais de scolarité 2023-2024 (Acompte 2/5)</td>
+                                                <td>1000 €</td>
+                                                <td>Virement bancaire</td>
+                                                <td><span class="badge bg-success">Payé</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-primary">Ajouter un paiement</button>
+                                    <button class="btn btn-sm btn-secondary">Générer une facture</button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="documents" role="tabpanel">
+                                <h6 class="mb-3">Documents</h6>
+                                <div class="mb-3">
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#uploadDocumentModal">
+                                        <i class="fas fa-upload"></i> Ajouter un document
+                                    </button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom du document</th>
+                                                <th>Type</th>
+                                                <th>Date d'ajout</th>
+                                                <th>Taille</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>carte_identite.pdf</td>
+                                                <td>Pièce d'identité</td>
+                                                <td>15/07/2023</td>
+                                                <td>2.3 MB</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i></button>
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>diplome_bac.pdf</td>
+                                                <td>Diplôme</td>
+                                                <td>15/07/2023</td>
+                                                <td>1.8 MB</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i></button>
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>certificat_medical.pdf</td>
+                                                <td>Certificat médical</td>
+                                                <td>20/09/2023</td>
+                                                <td>1.1 MB</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i></button>
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="notes" role="tabpanel">
+                                <h6 class="mb-3">Notes Administratives</h6>
+                                <div class="notes-container">
+                                    <div class="note-item mb-3 p-3 border rounded">
+                                        <div class="note-header d-flex justify-content-between mb-2">
+                                            <span><strong>Thomas Bernard</strong> - Resp. Scolarité</span>
+                                            <span class="text-muted">02/09/2023 11:23</span>
+                                        </div>
+                                        <div class="note-content">
+                                            <p>Étudiante très motivée lors de l'entretien d'admission. A montré un fort intérêt pour les matières techniques. À suivre de près pour un éventuel tutorat en mathématiques.</p>
+                                        </div>
+                                    </div>
+                                    <div class="note-item mb-3 p-3 border rounded">
+                                        <div class="note-header d-flex justify-content-between mb-2">
+                                            <span><strong>Sophie Laurent</strong> - Enseignante</span>
+                                            <span class="text-muted">25/09/2023 16:45</span>
+                                        </div>
+                                        <div class="note-content">
+                                            <p>Très bonne participation en cours d'Introduction à la Programmation. Cette étudiante montre des aptitudes particulières pour le code et l'algorithmique.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="add-note mt-4">
+                                    <h6>Ajouter une note</h6>
+                                    <form id="addNoteForm">
+                                        <div class="form-group">
+                                            <textarea class="form-control" rows="3" placeholder="Saisissez votre note ici..."></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Enregistrer</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editStudentModal" data-dismiss="modal">Modifier</button>
+                <button type="button" class="btn btn-primary">Imprimer Dossier</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modifier Étudiant -->
+<div class="modal-backdrop" id="editStudentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier l'Étudiant</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    <div class="form-group">
+                        <label for="editStudentFirstName">Prénom</label>
+                        <input type="text" class="form-control" id="editStudentFirstName" value="Marie" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentLastName">Nom</label>
+                        <input type="text" class="form-control" id="editStudentLastName" value="Dupont" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentEmail">Email</label>
+                        <input type="email" class="form-control" id="editStudentEmail" value="marie.dupont@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentClass">Classe</label>
+                        <select class="form-control" id="editStudentClass" required>
+                            <option value="l1-info-a" selected>L1 Informatique Groupe A</option>
+                            <option value="l1-info-b">L1 Informatique Groupe B</option>
+                            <option value="l2-info">L2 Informatique</option>
+                            <option value="l3-info">L3 Informatique</option>
+                            <option value="m1-info">M1 Informatique</option>
+                            <option value="m2-info">M2 Informatique</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentPhone">Téléphone</label>
+                        <input type="tel" class="form-control" id="editStudentPhone" value="+33 6 12 34 56 78">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentAddress">Adresse</label>
+                        <textarea class="form-control" id="editStudentAddress" rows="2">123 Rue des Étudiants, 75001 Paris</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentBirthDate">Date de Naissance</label>
+                        <input type="date" class="form-control" id="editStudentBirthDate" value="2001-05-12">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentEnrollmentDate">Date d'Inscription</label>
+                        <input type="date" class="form-control" id="editStudentEnrollmentDate" value="2023-09-01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentStatus">Statut</label>
+                        <select class="form-control" id="editStudentStatus" required>
+                            <option value="active" selected>Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="pending">En attente</option>
+                            <option value="graduated">Diplômé</option>
+                            <option value="leave">En congé</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="updateStudentBtn">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Upload Document -->
+<div class="modal-backdrop" id="uploadDocumentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un Document</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadDocumentForm">
+                    <div class="form-group">
+                        <label for="documentType">Type de Document</label>
+                        <select class="form-control" id="documentType" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="identity">Pièce d'identité</option>
+                            <option value="diploma">Diplôme</option>
+                            <option value="certificate">Certificat</option>
+                            <option value="contract">Contrat</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentTitle">Titre du Document</label>
+                        <input type="text" class="form-control" id="documentTitle" placeholder="Ex: Carte d'identité" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentFile">Fichier</label>
+                        <div class="custom-file">
+                            <input type="file" class="form-control" id="documentFile" required>
+                        </div>
+                        <small class="form-text text-muted">Types de fichiers acceptés: PDF, JPG, PNG. Taille max: 10MB</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentNotes">Notes</label>
+                        <textarea class="form-control" id="documentNotes" rows="2" placeholder="Notes additionnelles (optionnel)"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveDocumentBtn">Téléverser</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le datatable
+        initDataTable('studentsTable', {
+            perPage: 10,
+            search: true,
+            sort: true,
+            pagination: true
+        });
+        
+        // Initialiser les tabs
+        document.querySelectorAll('.nav-tabs .nav-link').forEach(tabLink => {
+            tabLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Désactiver tous les tabs
+                document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+                
+                // Activer le tab cliqué
+                this.classList.add('active');
+                const targetId = this.getAttribute('href').substring(1);
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('show', 'active');
+                }
+            });
+        });
+        
+        // Gestion du bouton de sauvegarde du nouvel étudiant
+        const saveStudentBtn = document.getElementById('saveStudentBtn');
+        if (saveStudentBtn) {
+            saveStudentBtn.addEventListener('click', function() {
+                const form = document.getElementById('addStudentForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    showNotification('Étudiant ajouté avec succès!', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('addStudentModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                    
+                    // Réinitialiser le formulaire
+                    form.reset();
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+        
+        // Gestion du bouton de mise à jour de l'étudiant
+        const updateStudentBtn = document.getElementById('updateStudentBtn');
+        if (updateStudentBtn) {
+            updateStudentBtn.addEventListener('click', function() {
+                const form = document.getElementById('editStudentForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    showNotification('Étudiant mis à jour avec succès!', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('editStudentModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+        
+        // Gestion du bouton d'upload de document
+        const saveDocumentBtn = document.getElementById('saveDocumentBtn');
+        if (saveDocumentBtn) {
+            saveDocumentBtn.addEventListener('click', function() {
+                const form = document.getElementById('uploadDocumentForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    showNotification('Document téléversé avec succès!', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('uploadDocumentModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                    
+                    // Réinitialiser le formulaire
+                    form.reset();
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

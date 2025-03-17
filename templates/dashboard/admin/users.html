@@ -1,0 +1,668 @@
+<!-- templates/dashboard/admin/users.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Gestion des Utilisateurs - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li>
+    <a href="{% url 'dashboard:admin_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li class="active">
+    <a href="{% url 'dashboard:admin_users' %}">
+        <i class="fas fa-users"></i>
+        Utilisateurs
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-tag"></i>
+        Rôles
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-book"></i>
+        Cours
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-building"></i>
+        Départements
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-cog"></i>
+        Paramètres
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-history"></i>
+        Logs
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Gestion des Utilisateurs</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#userModal">
+        <i class="fas fa-plus"></i> Ajouter un utilisateur
+    </button>
+</div>
+
+<!-- Statistiques -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Utilisateurs Totaux</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">245</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Étudiants</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">198</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Enseignants</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">32</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Administrateurs</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-shield fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Filtres</h6>
+    </div>
+    <div class="card-body">
+        <form id="filterForm" class="row">
+            <div class="col-md-3 form-group">
+                <label for="roleFilter">Rôle</label>
+                <select id="roleFilter" class="form-control">
+                    <option value="">Tous les rôles</option>
+                    <option value="student">Étudiant</option>
+                    <option value="teacher">Enseignant</option>
+                    <option value="admin">Administrateur</option>
+                    <option value="academic">Resp. Scolarité</option>
+                    <option value="accounting">Comptable</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="statusFilter">Statut</label>
+                <select id="statusFilter" class="form-control">
+                    <option value="">Tous les statuts</option>
+                    <option value="active">Actif</option>
+                    <option value="inactive">Inactif</option>
+                    <option value="blocked">Bloqué</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="departmentFilter">Département</label>
+                <select id="departmentFilter" class="form-control">
+                    <option value="">Tous les départements</option>
+                    <option value="informatique">Informatique</option>
+                    <option value="langues">Langues</option>
+                    <option value="business">Business</option>
+                    <option value="arts">Arts</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="searchFilter">Recherche</label>
+                <input type="text" id="searchFilter" class="form-control" placeholder="Nom, Email, ID...">
+            </div>
+            <div class="col-12 mt-3">
+                <button type="button" id="applyFilters" class="btn btn-primary">Appliquer</button>
+                <button type="button" id="resetFilters" class="btn btn-secondary">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Liste des utilisateurs -->
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold">Liste des Utilisateurs</h6>
+            <div class="bulk-actions">
+                <select id="bulkAction" class="form-control form-control-sm">
+                    <option value="">Actions groupées</option>
+                    <option value="activate">Activer</option>
+                    <option value="deactivate">Désactiver</option>
+                    <option value="delete">Supprimer</option>
+                    <option value="export">Exporter</option>
+                </select>
+                <button id="applyBulkAction" class="btn btn-sm btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered datatable" id="usersTable">
+                <thead>
+                    <tr>
+                        <th width="30">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th>ID</th>
+                        <th>Nom Complet</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Département</th>
+                        <th>Date de Création</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Exemple de données -->
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="1" class="row-checkbox">
+                        </td>
+                        <td>USR-001</td>
+                        <td>Dupont Jean</td>
+                        <td>jean.dupont@example.com</td>
+                        <td>Enseignant</td>
+                        <td>Informatique</td>
+                        <td>12/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="2" class="row-checkbox">
+                        </td>
+                        <td>USR-002</td>
+                        <td>Martin Sophie</td>
+                        <td>sophie.martin@example.com</td>
+                        <td>Étudiant</td>
+                        <td>Business</td>
+                        <td>15/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="3" class="row-checkbox">
+                        </td>
+                        <td>USR-003</td>
+                        <td>Petit Marie</td>
+                        <td>marie.petit@example.com</td>
+                        <td>Administrateur</td>
+                        <td>Administratif</td>
+                        <td>18/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="4" class="row-checkbox">
+                        </td>
+                        <td>USR-004</td>
+                        <td>Dubois Paul</td>
+                        <td>paul.dubois@example.com</td>
+                        <td>Resp. Scolarité</td>
+                        <td>Administratif</td>
+                        <td>20/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="5" class="row-checkbox">
+                        </td>
+                        <td>USR-005</td>
+                        <td>Leroy Julie</td>
+                        <td>julie.leroy@example.com</td>
+                        <td>Comptable</td>
+                        <td>Administratif</td>
+                        <td>21/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="6" class="row-checkbox">
+                        </td>
+                        <td>USR-006</td>
+                        <td>Moreau Lucas</td>
+                        <td>lucas.moreau@example.com</td>
+                        <td>Étudiant</td>
+                        <td>Langues</td>
+                        <td>22/03/2023</td>
+                        <td><span class="badge bg-danger text-white">Inactif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="7" class="row-checkbox">
+                        </td>
+                        <td>USR-007</td>
+                        <td>Fournier Emma</td>
+                        <td>emma.fournier@example.com</td>
+                        <td>Enseignant</td>
+                        <td>Arts</td>
+                        <td>23/03/2023</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewUserModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ajouter/Modifier Utilisateur -->
+<div class="modal-backdrop" id="userModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un Utilisateur</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <!-- Informations générales -->
+                    <div class="form-group">
+                        <label for="userFirstName">Prénom</label>
+                        <input type="text" class="form-control" id="userFirstName" placeholder="Prénom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userLastName">Nom</label>
+                        <input type="text" class="form-control" id="userLastName" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" class="form-control" id="userEmail" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Mot de passe</label>
+                        <input type="password" class="form-control" id="userPassword" placeholder="Mot de passe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPasswordConfirm">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="userPasswordConfirm" placeholder="Confirmer le mot de passe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Rôle</label>
+                        <select class="form-control" id="userRole" required>
+                            <option value="">Sélectionner un rôle</option>
+                            <option value="student">Étudiant</option>
+                            <option value="teacher">Enseignant</option>
+                            <option value="admin">Administrateur</option>
+                            <option value="academic">Resp. Scolarité</option>
+                            <option value="accounting">Comptable</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userDepartment">Département</label>
+                        <select class="form-control" id="userDepartment">
+                            <option value="">Sélectionner un département</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="langues">Langues</option>
+                            <option value="business">Business</option>
+                            <option value="arts">Arts</option>
+                            <option value="administratif">Administratif</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userStatus">Statut</label>
+                        <select class="form-control" id="userStatus" required>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="blocked">Bloqué</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Champs spécifiques aux étudiants -->
+                    <div id="studentFields" style="display: none;">
+                        <h6 class="mt-4">Informations Étudiant</h6>
+                        <div class="form-group">
+                            <label for="studentClass">Classe</label>
+                            <select class="form-control" id="studentClass">
+                                <option value="">Sélectionner une classe</option>
+                                <option value="l1-info-a">L1 Informatique Groupe A</option>
+                                <option value="l1-info-b">L1 Informatique Groupe B</option>
+                                <option value="l2-info">L2 Informatique</option>
+                                <option value="l3-info">L3 Informatique</option>
+                                <option value="m1-info">M1 Informatique</option>
+                                <option value="m2-info">M2 Informatique</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentEnrollmentDate">Date d'Inscription</label>
+                            <input type="date" class="form-control" id="studentEnrollmentDate">
+                        </div>
+                    </div>
+                    
+                    <!-- Champs spécifiques aux enseignants -->
+                    <div id="teacherFields" style="display: none;">
+                        <h6 class="mt-4">Informations Enseignant</h6>
+                        <div class="form-group">
+                            <label for="teacherSpecialty">Spécialité</label>
+                            <input type="text" class="form-control" id="teacherSpecialty" placeholder="Ex: Développement Web">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherExperience">Années d'Expérience</label>
+                            <input type="number" class="form-control" id="teacherExperience" min="0">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Voir Utilisateur -->
+<div class="modal-backdrop" id="viewUserModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Détails de l'Utilisateur</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <img src="{% static 'images/default-avatar.jpg' %}" alt="Photo de profil" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;">
+                    <h5 class="mt-2">Dupont Jean</h5>
+                    <p class="text-muted">Enseignant - Informatique</p>
+                    <p><span class="badge bg-success text-white">Actif</span></p>
+                </div>
+
+                <div class="user-details">
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">ID Utilisateur:</div>
+                        <div class="col-8">USR-001</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Email:</div>
+                        <div class="col-8">jean.dupont@example.com</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Rôle:</div>
+                        <div class="col-8">Enseignant</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Département:</div>
+                        <div class="col-8">Informatique</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Date de création:</div>
+                        <div class="col-8">12/03/2023</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Dernière connexion:</div>
+                        <div class="col-8">15/11/2023 14:32</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Spécialité:</div>
+                        <div class="col-8">Développement Web</div>
+                    </div>
+                    <div class="detail-item row mb-2">
+                        <div class="col-4 font-weight-bold">Expérience:</div>
+                        <div class="col-8">8 ans</div>
+                    </div>
+                </div>
+
+                <div class="user-activity mt-4">
+                    <h6>Activité Récente</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Connexion réussie</span>
+                                <small class="text-muted">15/11/2023 14:32</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Mise à jour du profil</span>
+                                <small class="text-muted">10/11/2023 09:15</small>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Ajout d'un nouveau cours</span>
+                                <small class="text-muted">05/11/2023 11:23</small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#userModal" data-dismiss="modal">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cet utilisateur?', function() { alert('Utilisateur supprimé'); })">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le datatable
+        initDataTable('usersTable', {
+            perPage: 10,
+            search: true,
+            sort: true,
+            pagination: true
+        });
+        
+        // Initialiser les actions en masse
+        initBulkActions('usersTable', 'bulkAction', 'applyBulkAction');
+        
+        // Gestion du rôle utilisateur
+        const userRole = document.getElementById('userRole');
+        const studentFields = document.getElementById('studentFields');
+        const teacherFields = document.getElementById('teacherFields');
+        
+        if (userRole) {
+            userRole.addEventListener('change', function() {
+                // Masquer tous les champs spécifiques
+                if (studentFields) studentFields.style.display = 'none';
+                if (teacherFields) teacherFields.style.display = 'none';
+                
+                // Afficher les champs en fonction du rôle sélectionné
+                switch (this.value) {
+                    case 'student':
+                        if (studentFields) studentFields.style.display = 'block';
+                        break;
+                    case 'teacher':
+                        if (teacherFields) teacherFields.style.display = 'block';
+                        break;
+                }
+            });
+        }
+        
+        // Gestion du bouton de sauvegarde
+        const saveUserBtn = document.getElementById('saveUserBtn');
+        if (saveUserBtn) {
+            saveUserBtn.addEventListener('click', function() {
+                const form = document.getElementById('userForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                // Valider les champs obligatoires
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                // Vérifier que les mots de passe correspondent
+                const password = document.getElementById('userPassword');
+                const confirmPassword = document.getElementById('userPasswordConfirm');
+                
+                if (password && confirmPassword && password.value !== confirmPassword.value) {
+                    isValid = false;
+                    password.classList.add('is-invalid');
+                    confirmPassword.classList.add('is-invalid');
+                    showNotification('Les mots de passe ne correspondent pas.', 'error');
+                }
+                
+                if (isValid) {
+                    // Simuler l'enregistrement (ici, vous enverriez une requête à votre API)
+                    showNotification('Utilisateur enregistré avec succès !', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('userModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+        
+        // Filtres
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        const resetFiltersBtn = document.getElementById('resetFilters');
+        
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', function() {
+                // Récupérer les valeurs des filtres
+                const roleFilter = document.getElementById('roleFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+                const departmentFilter = document.getElementById('departmentFilter').value;
+                const searchFilter = document.getElementById('searchFilter').value;
+                
+                // Simuler le filtrage (ici, vous implémenteriez la logique de filtrage)
+                console.log('Filtres appliqués:', {
+                    role: roleFilter,
+                    status: statusFilter,
+                    department: departmentFilter,
+                    search: searchFilter
+                });
+                
+                showNotification('Filtres appliqués.', 'info');
+            });
+        }
+        
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', function() {
+                // Réinitialiser les filtres
+                document.getElementById('roleFilter').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('departmentFilter').value = '';
+                document.getElementById('searchFilter').value = '';
+                
+                // Réinitialiser l'affichage (simulé)
+                console.log('Filtres réinitialisés');
+                
+                showNotification('Filtres réinitialisés.', 'info');
+            });
+        }
+    });
+</script>
+{% endblock %}

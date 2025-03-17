@@ -1,0 +1,105 @@
+<!-- templates/student/base_student.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<header class="student-header">
+    <div class="container">
+        <div class="logo-container">
+            <img src="{% static 'images/logo.png' %}" alt="Online School Logo" class="logo">
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="{% url 'etudiant:student_dashboard' %}" {% if request.resolver_match.url_name == 'student_dashboard' %}class="active"{% endif %}>Accueil</a></li>
+                <li><a href="{% url 'etudiant:student_courses' %}" {% if request.resolver_match.url_name == 'student_courses' %}class="active"{% endif %}>Mes cours</a></li>
+                <li><a href="{% url 'etudiant:student_forum' %}" {% if request.resolver_match.url_name == 'student_forum' %}class="active"{% endif %}>Forums</a></li>
+                <li><a href="{% url 'etudiant:student_evaluations' %}" {% if request.resolver_match.url_name == 'student_evaluations' %}class="active"{% endif %}>Évaluations</a></li>
+            </ul>
+        </nav>
+        <div class="profile-dropdown">
+            <img src="{% static 'images/student-avatar.jpg' %}" alt="Profil" class="profile-img" id="profileDropdown">
+            <div class="dropdown-menu" id="profileMenu">
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-user-circle"></i> Mon profil
+                </a>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-cog"></i> Paramètres
+                </a>
+                <a href="{% url 'accounts:logout' %}" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main content -->
+{% block student_content %}{% endblock %}
+
+<!-- Footer -->
+<footer class="student-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Online School</h4>
+                <p>La plateforme d'e-learning intuitive et interactive pour une expérience d'apprentissage optimale.</p>
+            </div>
+            <div class="col-md-2">
+                <h4>Liens utiles</h4>
+                <ul>
+                    <li><a href="{% url 'etudiant:student_dashboard' %}">Accueil</a></li>
+                    <li><a href="{% url 'etudiant:student_courses' %}">Cours</a></li>
+                    <li><a href="{% url 'etudiant:student_forum' %}">Forums</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Aide</a></li>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4>Contact</h4>
+                <p>
+                    <i class="fas fa-envelope"></i> contact@onlineschool.fr<br>
+                    <i class="fas fa-phone"></i> +33 1 23 45 67 89<br>
+                    <i class="fas fa-map-marker-alt"></i> 123 Avenue de l'Éducation, 75000 Paris
+                </p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Online School. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle profile dropdown
+        const profileDropdown = document.getElementById('profileDropdown');
+        const profileMenu = document.getElementById('profileMenu');
+        
+        profileDropdown.addEventListener('click', function() {
+            profileMenu.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.matches('#profileDropdown') && !profileMenu.contains(event.target)) {
+                profileMenu.classList.remove('show');
+            }
+        });
+    });
+</script>
+{% endblock %}

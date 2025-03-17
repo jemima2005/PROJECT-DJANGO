@@ -15,6 +15,9 @@ class Matiere(models.Model):
         verbose_name = "Matière"
         verbose_name_plural = "Matières"
 
+    def __str__(self):
+        return f"{self.designation} - {self.niveau} - {self.filiere}"
+
 
 class Cours(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,32 +33,44 @@ class Cours(models.Model):
         verbose_name = "Cours"
         verbose_name_plural = "Cours"
 
+    def __str__(self):
+        return f"{self.intitule} - {self.niveau} - {self.matiere.designation}"
+
 
 class CoursEnseignant(models.Model):
     cours = models.ForeignKey('Cours', on_delete=models.CASCADE)
-    enseignant = models.ForeignKey('accounts.Enseignant', on_delete=models.CASCADE)
+    enseignant = models.ForeignKey('accounts.Utilisateur', on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Cours enseignant"
         verbose_name_plural = "Cours enseignants"
 
+    def __str__(self):
+        return f"{self.cours.intitule} - {self.enseignant.nom} - {self.enseignant.prenom}"
+
 
 class CoursEtudiant(models.Model):
     cours = models.ForeignKey('Cours', on_delete=models.CASCADE)
-    etudiant = models.ForeignKey('accounts.Etudiant', on_delete=models.CASCADE)
+    etudiant = models.ForeignKey('accounts.Utilisateur', on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Cours étudiant"
         verbose_name_plural = "Cours étudiants"
 
+    def __str__(self):
+        return f"{self.cours.intitule} - {self.etudiant.nom} - {self.etudiant.prenom}"
+
 
 class EnseignantMatiere(models.Model):
-    enseignant = models.ForeignKey('accounts.Enseignant', on_delete=models.CASCADE)
+    enseignant = models.ForeignKey('accounts.Utilisateur', on_delete=models.CASCADE)
     matiere = models.ForeignKey('Matiere', on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Enseignant matière"
         verbose_name_plural = "Enseignants matières"
+
+    def __str__(self):
+        return f"{self.matiere.designation} - {self.enseignant.nom} - {self.enseignant.prenom}"
 
 
 
@@ -83,16 +98,22 @@ class Classe(models.Model):
         verbose_name = "Classe"
         verbose_name_plural = "Classes"
 
+    def __str__(self):
+        return f"{self.designation} - {self.niveau} - {self.filiere} | {self.effectif}"
+
 
 
 
 class EtudiantClasse(models.Model):
-    etudiant = models.ForeignKey('accounts.Etudiant', on_delete=models.CASCADE)
+    etudiant = models.ForeignKey('accounts.Utilisateur', on_delete=models.CASCADE)
     classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Étudiant classe"
         verbose_name_plural = "Étudiants classes"
+
+    def __str__(self):
+        return f"{self.etudiant.nom} - {self.etudiant.prenom} - {self.classe.designation}"
 
 
 class Planifier(models.Model):
@@ -101,7 +122,7 @@ class Planifier(models.Model):
     heure_debut = models.TimeField()
     heure_fin = models.TimeField()
     salle = models.CharField(max_length=50)
-    enseignant = models.ForeignKey('accounts.Enseignant', on_delete=models.CASCADE)
+    enseignant = models.ForeignKey('accounts.Utilisateur', on_delete=models.CASCADE)
     
     def ajouterPlanning(self):
         pass
@@ -112,3 +133,6 @@ class Planifier(models.Model):
     class Meta:
         verbose_name = "Planification"
         verbose_name_plural = "Planifications"
+
+    def __str__(self):
+        return f"{self.salle} - {self.enseignant.nom} - {self.enseignant.prenom}"

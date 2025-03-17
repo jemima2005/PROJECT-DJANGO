@@ -1,0 +1,690 @@
+<!-- templates/dashboard/accounting/reports.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Rapports Financiers - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li>
+    <a href="{% url 'dashboard:accounting_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-file-invoice-dollar"></i>
+        Facturation
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-credit-card"></i>
+        Paiements
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-university"></i>
+        Comptabilité
+    </a>
+</li>
+<li class="active">
+    <a href="{% url 'dashboard:accounting_reports' %}">
+        <i class="fas fa-chart-bar"></i>
+        Rapports
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-hand-holding-usd"></i>
+        Bourses
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-funnel-dollar"></i>
+        Salaires
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-cog"></i>
+        Paramètres
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Rapports Financiers</h1>
+    <div>
+        <button class="btn btn-secondary" id="printReportBtn">
+            <i class="fas fa-print"></i> Imprimer
+        </button>
+        <button class="btn btn-success" id="exportReportBtn">
+            <i class="fas fa-file-excel"></i> Exporter
+        </button>
+    </div>
+</div>
+
+<!-- Générateur de Rapports -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Générer un Rapport</h6>
+    </div>
+    <div class="card-body">
+        <form id="reportForm" class="row">
+            <div class="col-md-4 form-group">
+                <label for="reportType">Type de Rapport</label>
+                <select id="reportType" class="form-control">
+                    <option value="income">Revenus</option>
+                    <option value="expenses">Dépenses</option>
+                    <option value="unpaid">Impayés</option>
+                    <option value="financial-aid">Aides Financières</option>
+                    <option value="enrollment">Inscriptions</option>
+                    <option value="complete">Rapport Complet</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="reportPeriod">Période</label>
+                <select id="reportPeriod" class="form-control">
+                    <option value="month">Mois en cours</option>
+                    <option value="quarter">Trimestre en cours</option>
+                    <option value="year">Année en cours</option>
+                    <option value="academic">Année académique</option>
+                    <option value="custom">Personnalisée</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="reportFormat">Format</label>
+                <select id="reportFormat" class="form-control">
+                    <option value="summary">Résumé</option>
+                    <option value="detailed">Détaillé</option>
+                    <option value="chart">Graphiques</option>
+                    <option value="complete">Complet</option>
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="startDate">Date de Début</label>
+                <input type="date" id="startDate" class="form-control" value="2023-10-01">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="endDate">Date de Fin</label>
+                <input type="date" id="endDate" class="form-control" value="2023-10-31">
+            </div>
+            <div class="col-12 mt-3">
+                <button type="button" id="generateReportBtn" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Générer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Rapport Financier -->
+<div class="card mb-4" id="reportContainer">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold">Rapport Financier - Octobre 2023</h6>
+        <div class="dropdown">
+            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Télécharger PDF</a>
+                <a class="dropdown-item" href="#">Exporter Excel</a>
+                <a class="dropdown-item" href="#">Envoyer par email</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Paramètres</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- Résumé Financier -->
+        <div class="financial-summary mb-4">
+            <h5 class="mb-3">Résumé Financier</h5>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Revenus Totaux</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">152,350 €</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Dépenses Totales</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">98,720 €</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Bénéfice Net</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">53,630 €</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Impayés</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">12,450 €</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold">Revenus par Catégorie</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold">Tendances des Revenus</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="trendsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détails des Revenus -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold">Détails des Revenus</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Montant</th>
+                                <th>% du Total</th>
+                                <th>Évolution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Frais de Scolarité</td>
+                                <td>121,400 €</td>
+                                <td>79.7%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 3.5%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Frais d'Inscription</td>
+                                <td>18,750 €</td>
+                                <td>12.3%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 5.2%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Frais d'Examens</td>
+                                <td>5,600 €</td>
+                                <td>3.7%</td>
+                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 1.8%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Services Annexes</td>
+                                <td>4,300 €</td>
+                                <td>2.8%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 12.4%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Autres Revenus</td>
+                                <td>2,300 €</td>
+                                <td>1.5%</td>
+                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 8.7%</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td>Total</td>
+                                <td>152,350 €</td>
+                                <td>100%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 3.8%</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détails des Dépenses -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold">Détails des Dépenses</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Montant</th>
+                                <th>% du Total</th>
+                                <th>Évolution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Salaires et Charges</td>
+                                <td>68,200 €</td>
+                                <td>69.1%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 2.1%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Loyer et Charges</td>
+                                <td>12,500 €</td>
+                                <td>12.7%</td>
+                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 0.5%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Équipements et Matériel</td>
+                                <td>8,950 €</td>
+                                <td>9.1%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 15.3%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Marketing et Communication</td>
+                                <td>4,870 €</td>
+                                <td>4.9%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 7.2%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Maintenance et Réparations</td>
+                                <td>2,800 €</td>
+                                <td>2.8%</td>
+                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 12.5%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Autres Dépenses</td>
+                                <td>1,400 €</td>
+                                <td>1.4%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 3.7%</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td>Total</td>
+                                <td>98,720 €</td>
+                                <td>100%</td>
+                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 2.9%</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impayés -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold">Impayés</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Nombre</th>
+                                <th>Montant</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>< 30 jours</td>
+                                <td>15</td>
+                                <td>5,250 €</td>
+                                <td><button class="btn btn-sm btn-info">Détails</button></td>
+                            </tr>
+                            <tr>
+                                <td>30-60 jours</td>
+                                <td>8</td>
+                                <td>3,400 €</td>
+                                <td><button class="btn btn-sm btn-info">Détails</button></td>
+                            </tr>
+                            <tr>
+                                <td>60-90 jours</td>
+                                <td>5</td>
+                                <td>2,100 €</td>
+                                <td><button class="btn btn-sm btn-info">Détails</button></td>
+                            </tr>
+                            <tr>
+                                <td>> 90 jours</td>
+                                <td>3</td>
+                                <td>1,700 €</td>
+                                <td><button class="btn btn-sm btn-info">Détails</button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold">
+                                <td>Total</td>
+                                <td>31</td>
+                                <td>12,450 €</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rapports Enregistrés -->
+<div class="card">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Rapports Enregistrés</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nom du Rapport</th>
+                        <th>Type</th>
+                        <th>Période</th>
+                        <th>Généré le</th>
+                        <th>Créé par</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rapport Financier Mensuel - Octobre 2023</td>
+                        <td>Complet</td>
+                        <td>01/10/2023 - 31/10/2023</td>
+                        <td>01/11/2023</td>
+                        <td>Jean Dupont</td>
+                        <td>
+                            <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fas fa-share"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rapport des Revenus - Q3 2023</td>
+                        <td>Revenus</td>
+                        <td>01/07/2023 - 30/09/2023</td>
+                        <td>05/10/2023</td>
+                        <td>Sophie Martin</td>
+                        <td>
+                            <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fas fa-share"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rapport des Impayés - Septembre 2023</td>
+                        <td>Impayés</td>
+                        <td>01/09/2023 - 30/09/2023</td>
+                        <td>02/10/2023</td>
+                        <td>Marie Leroy</td>
+                        <td>
+                            <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fas fa-share"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser les graphiques
+        initCharts();
+        
+        // Gestion du générateur de rapports
+        const reportPeriod = document.getElementById('reportPeriod');
+        const startDate = document.getElementById('startDate');
+        const endDate = document.getElementById('endDate');
+        const generateReportBtn = document.getElementById('generateReportBtn');
+        
+        // Mettre à jour les dates en fonction de la période sélectionnée
+        if (reportPeriod) {
+            reportPeriod.addEventListener('change', function() {
+                const today = new Date();
+                let start, end;
+                
+                switch (this.value) {
+                    case 'month':
+                        // Mois en cours
+                        start = new Date(today.getFullYear(), today.getMonth(), 1);
+                        end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                        break;
+                    case 'quarter':
+                        // Trimestre en cours
+                        const quarter = Math.floor(today.getMonth() / 3);
+                        start = new Date(today.getFullYear(), quarter * 3, 1);
+                        end = new Date(today.getFullYear(), (quarter + 1) * 3, 0);
+                        break;
+                    case 'year':
+                        // Année en cours
+                        start = new Date(today.getFullYear(), 0, 1);
+                        end = new Date(today.getFullYear(), 11, 31);
+                        break;
+                    case 'academic':
+                        // Année académique (de septembre à août)
+                        const month = today.getMonth();
+                        if (month >= 8) { // Septembre ou après
+                            start = new Date(today.getFullYear(), 8, 1); // 1er septembre
+                            end = new Date(today.getFullYear() + 1, 7, 31); // 31 août de l'année suivante
+                        } else {
+                            start = new Date(today.getFullYear() - 1, 8, 1); // 1er septembre de l'année précédente
+                            end = new Date(today.getFullYear(), 7, 31); // 31 août
+                        }
+                        break;
+                    // case 'custom': ne rien faire, laisser les dates telles quelles
+                }
+                
+                if (start && end) {
+                    startDate.value = formatDate(start);
+                    endDate.value = formatDate(end);
+                }
+            });
+        }
+        
+        // Générer un rapport
+        if (generateReportBtn) {
+            generateReportBtn.addEventListener('click', function() {
+                // Simuler le chargement
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...';
+                
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Générer';
+                    
+                    // Afficher un message de succès
+                    showNotification('Rapport généré avec succès!', 'success');
+                    
+                    // Mettre à jour les graphiques
+                    initCharts();
+                }, 1500);
+            });
+        }
+        
+        // Gestion des boutons d'exportation et d'impression
+        const exportReportBtn = document.getElementById('exportReportBtn');
+        const printReportBtn = document.getElementById('printReportBtn');
+        
+        if (exportReportBtn) {
+            exportReportBtn.addEventListener('click', function() {
+                showNotification('Rapport exporté en Excel.', 'success');
+            });
+        }
+        
+        if (printReportBtn) {
+            printReportBtn.addEventListener('click', function() {
+                window.print();
+            });
+        }
+    });
+    
+    // Formater une date au format YYYY-MM-DD pour l'input date
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
+    // Initialiser les graphiques
+    function initCharts() {
+        // Graphique des revenus par catégorie
+        const categoryChartEl = document.getElementById('categoryChart');
+        if (categoryChartEl) {
+            const categoryChart = new Chart(categoryChartEl.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Frais de Scolarité', 'Frais d\'Inscription', 'Frais d\'Examens', 'Services Annexes', 'Autres Revenus'],
+                    datasets: [{
+                        label: 'Revenus par catégorie',
+                        data: [121400, 18750, 5600, 4300, 2300],
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.8)',
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(231, 74, 59, 0.8)',
+                            'rgba(54, 185, 204, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    return new Intl.NumberFormat('fr-FR', { 
+                                        style: 'currency', 
+                                        currency: 'EUR' 
+                                    }).format(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Graphique des tendances de revenus
+        const trendsChartEl = document.getElementById('trendsChart');
+        if (trendsChartEl) {
+            const trendsChart = new Chart(trendsChartEl.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Revenus 2023',
+                        data: [145200, 132450, 156800, 142100, 138750, 162700, 58200, 62400, 176500, 152350],
+                        backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                        borderColor: 'rgba(78, 115, 223, 0.8)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Revenus 2022',
+                        data: [138500, 125200, 142300, 136900, 132700, 155800, 52800, 59100, 168400, 146800],
+                        backgroundColor: 'rgba(28, 200, 138, 0.05)',
+                        borderColor: 'rgba(28, 200, 138, 0.8)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value / 1000 + ' K€';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    return new Intl.NumberFormat('fr-FR', { 
+                                        style: 'currency', 
+                                        currency: 'EUR' 
+                                    }).format(value);
+                                }}
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

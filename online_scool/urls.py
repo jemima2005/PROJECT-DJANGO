@@ -27,10 +27,10 @@ urlpatterns = [
     path('evaluations/', include('evaluations.urls')),
     path('paiement/', include('paiement.urls')),
     path('forums/', include('forums.urls')),
-    path('pause', include('accounts.urls')),
+    path('', include('accounts.urls')),
     path('notification/', include('notification.urls')),
     path('etudiant/', include('etudiant.urls')),
-    path('', include('enseignant.urls')),
+    path('enseignant/', include('enseignant.urls')),
     path('admin_app/', include('admin_app.urls')),  # Eviter 'admin' car réservé
     path('accounting/', include('accounting.urls')),
     path('academic/', include('academic.urls')),

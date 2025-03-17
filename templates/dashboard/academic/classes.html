@@ -1,0 +1,600 @@
+<!-- templates/dashboard/academic/classes.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Gestion des Classes - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li>
+    <a href="{% url 'dashboard:academic_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:academic_students' %}">
+        <i class="fas fa-user-graduate"></i>
+        Étudiants
+    </a>
+</li>
+<li class="active">
+    <a href="{% url 'dashboard:academic_classes' %}">
+        <i class="fas fa-chalkboard"></i>
+        Classes
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-book"></i>
+        Programmes
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-calendar-alt"></i>
+        Emplois du temps
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-clipboard-check"></i>
+        Évaluations
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-chart-line"></i>
+        Rapports
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-cog"></i>
+        Paramètres
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Gestion des Classes</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createClassModal">
+        <i class="fas fa-plus"></i> Créer une classe
+    </button>
+</div>
+
+<!-- Filtres -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Filtres</h6>
+    </div>
+    <div class="card-body">
+        <form id="filterForm" class="row">
+            <div class="col-md-3 form-group">
+                <label for="programFilter">Programme</label>
+                <select id="programFilter" class="form-control">
+                    <option value="">Tous les programmes</option>
+                    <option value="licence1">Licence 1</option>
+                    <option value="licence2">Licence 2</option>
+                    <option value="licence3">Licence 3</option>
+                    <option value="master1">Master 1</option>
+                    <option value="master2">Master 2</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="yearFilter">Année Académique</label>
+                <select id="yearFilter" class="form-control">
+                    <option value="2023-2024">2023-2024</option>
+                    <option value="2022-2023">2022-2023</option>
+                    <option value="2021-2022">2021-2022</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="statusFilter">Statut</label>
+                <select id="statusFilter" class="form-control">
+                    <option value="">Tous les statuts</option>
+                    <option value="active">Actif</option>
+                    <option value="inactive">Inactif</option>
+                    <option value="upcoming">À venir</option>
+                    <option value="completed">Terminé</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="searchFilter">Recherche</label>
+                <input type="text" id="searchFilter" class="form-control" placeholder="Rechercher...">
+            </div>
+            <div class="col-12 mt-3">
+                <button type="button" id="applyFilters" class="btn btn-primary">Appliquer</button>
+                <button type="button" id="resetFilters" class="btn btn-secondary">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Liste des classes -->
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold">Liste des Classes</h6>
+            <div class="bulk-actions">
+                <select id="bulkAction" class="form-control form-control-sm">
+                    <option value="">Actions groupées</option>
+                    <option value="activate">Activer</option>
+                    <option value="deactivate">Désactiver</option>
+                    <option value="export">Exporter</option>
+                </select>
+                <button id="applyBulkAction" class="btn btn-sm btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered datatable" id="classesTable">
+                <thead>
+                    <tr>
+                        <th width="30">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th>Nom de Classe</th>
+                        <th>Programme</th>
+                        <th>Année</th>
+                        <th>Effectif</th>
+                        <th>Enseignant Principal</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Exemple de données -->
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="1" class="row-checkbox">
+                        </td>
+                        <td>L1 Informatique Groupe A</td>
+                        <td>Licence 1 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>35 étudiants</td>
+                        <td>Prof. Martin Dupuis</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="2" class="row-checkbox">
+                        </td>
+                        <td>L1 Informatique Groupe B</td>
+                        <td>Licence 1 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>32 étudiants</td>
+                        <td>Prof. Sophie Laurent</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="3" class="row-checkbox">
+                        </td>
+                        <td>L2 Informatique</td>
+                        <td>Licence 2 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>28 étudiants</td>
+                        <td>Prof. Jean Leroy</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="4" class="row-checkbox">
+                        </td>
+                        <td>L3 Informatique</td>
+                        <td>Licence 3 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>25 étudiants</td>
+                        <td>Prof. Marie Dubois</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="5" class="row-checkbox">
+                        </td>
+                        <td>M1 Informatique</td>
+                        <td>Master 1 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>18 étudiants</td>
+                        <td>Prof. Paul Bernard</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="6" class="row-checkbox">
+                        </td>
+                        <td>M2 Informatique</td>
+                        <td>Master 2 Informatique</td>
+                        <td>2023-2024</td>
+                        <td>15 étudiants</td>
+                        <td>Prof. Thomas Martin</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="7" class="row-checkbox">
+                        </td>
+                        <td>L1 Économie</td>
+                        <td>Licence 1 Économie</td>
+                        <td>2023-2024</td>
+                        <td>40 étudiants</td>
+                        <td>Prof. Isabelle Moreau</td>
+                        <td><span class="badge bg-success text-white">Actif</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#viewClassModal"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmAction('Êtes-vous sûr de vouloir supprimer cette classe?', function() { alert('Classe supprimée'); })"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Créer Classe -->
+<div class="modal-backdrop" id="createClassModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Créer une Nouvelle Classe</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createClassForm">
+                    <div class="form-group">
+                        <label for="className">Nom de la Classe</label>
+                        <input type="text" class="form-control" id="className" placeholder="Ex: L1 Informatique Groupe A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="classProgram">Programme</label>
+                        <select class="form-control" id="classProgram" required>
+                            <option value="">Sélectionner un programme</option>
+                            <option value="licence1-info">Licence 1 Informatique</option>
+                            <option value="licence2-info">Licence 2 Informatique</option>
+                            <option value="licence3-info">Licence 3 Informatique</option>
+                            <option value="master1-info">Master 1 Informatique</option>
+                            <option value="master2-info">Master 2 Informatique</option>
+                            <option value="licence1-eco">Licence 1 Économie</option>
+                            <option value="licence2-eco">Licence 2 Économie</option>
+                            <option value="licence3-eco">Licence 3 Économie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="classYear">Année Académique</label>
+                        <select class="form-control" id="classYear" required>
+                            <option value="2023-2024">2023-2024</option>
+                            <option value="2022-2023">2022-2023</option>
+                            <option value="2021-2022">2021-2022</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="classTeacher">Enseignant Principal</label>
+                        <select class="form-control" id="classTeacher" required>
+                            <option value="">Sélectionner un enseignant</option>
+                            <option value="1">Prof. Martin Dupuis</option>
+                            <option value="2">Prof. Sophie Laurent</option>
+                            <option value="3">Prof. Jean Leroy</option>
+                            <option value="4">Prof. Marie Dubois</option>
+                            <option value="5">Prof. Paul Bernard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="classTuition">Frais de Scolarité (€)</label>
+                        <input type="number" class="form-control" id="classTuition" placeholder="Ex: 5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="classCapacity">Capacité Maximum</label>
+                        <input type="number" class="form-control" id="classCapacity" placeholder="Ex: 40" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="classStatus">Statut</label>
+                        <select class="form-control" id="classStatus" required>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="upcoming">À venir</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="classDescription">Description</label>
+                        <textarea class="form-control" id="classDescription" rows="3" placeholder="Description de la classe"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveClassBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Voir Classe -->
+<div class="modal-backdrop" id="viewClassModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Détails de la Classe</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="class-details">
+                    <div class="detail-item">
+                        <strong>Nom de la Classe:</strong>
+                        <span>L1 Informatique Groupe A</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Programme:</strong>
+                        <span>Licence 1 Informatique</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Année Académique:</strong>
+                        <span>2023-2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Enseignant Principal:</strong>
+                        <span>Prof. Martin Dupuis</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Frais de Scolarité:</strong>
+                        <span>5000 €</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Capacité Maximum:</strong>
+                        <span>40 étudiants</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Effectif Actuel:</strong>
+                        <span>35 étudiants</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Statut:</strong>
+                        <span class="badge bg-success text-white">Actif</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Description:</strong>
+                        <p>Première année de licence en informatique, groupe A. Cette classe couvre les fondamentaux de l'informatique incluant les bases de la programmation, les algorithmes, et les structures de données.</p>
+                    </div>
+                </div>
+
+                <div class="class-stats mt-4">
+                    <h6>Statistiques Rapides</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div class="stats-card-body">
+                                    <div class="stats-card-title">Taux de Réussite</div>
+                                    <div class="stats-card-value">87%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div class="stats-card-body">
+                                    <div class="stats-card-title">Moyenne Générale</div>
+                                    <div class="stats-card-value">14.2/20</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div class="stats-card-body">
+                                    <div class="stats-card-title">Taux de Présence</div>
+                                    <div class="stats-card-value">92%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editClassModal" data-dismiss="modal">Modifier</button>
+                <button type="button" class="btn btn-success">Voir les étudiants</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modifier Classe -->
+<div class="modal-backdrop" id="editClassModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier la Classe</h5>
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editClassForm">
+                    <div class="form-group">
+                        <label for="editClassName">Nom de la Classe</label>
+                        <input type="text" class="form-control" id="editClassName" value="L1 Informatique Groupe A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassProgram">Programme</label>
+                        <select class="form-control" id="editClassProgram" required>
+                            <option value="licence1-info" selected>Licence 1 Informatique</option>
+                            <option value="licence2-info">Licence 2 Informatique</option>
+                            <option value="licence3-info">Licence 3 Informatique</option>
+                            <option value="master1-info">Master 1 Informatique</option>
+                            <option value="master2-info">Master 2 Informatique</option>
+                            <option value="licence1-eco">Licence 1 Économie</option>
+                            <option value="licence2-eco">Licence 2 Économie</option>
+                            <option value="licence3-eco">Licence 3 Économie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassYear">Année Académique</label>
+                        <select class="form-control" id="editClassYear" required>
+                            <option value="2023-2024" selected>2023-2024</option>
+                            <option value="2022-2023">2022-2023</option>
+                            <option value="2021-2022">2021-2022</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassTeacher">Enseignant Principal</label>
+                        <select class="form-control" id="editClassTeacher" required>
+                            <option value="1" selected>Prof. Martin Dupuis</option>
+                            <option value="2">Prof. Sophie Laurent</option>
+                            <option value="3">Prof. Jean Leroy</option>
+                            <option value="4">Prof. Marie Dubois</option>
+                            <option value="5">Prof. Paul Bernard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassTuition">Frais de Scolarité (€)</label>
+                        <input type="number" class="form-control" id="editClassTuition" value="5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassCapacity">Capacité Maximum</label>
+                        <input type="number" class="form-control" id="editClassCapacity" value="40" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassStatus">Statut</label>
+                        <select class="form-control" id="editClassStatus" required>
+                            <option value="active" selected>Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="upcoming">À venir</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClassDescription">Description</label>
+                        <textarea class="form-control" id="editClassDescription" rows="3">Première année de licence en informatique, groupe A. Cette classe couvre les fondamentaux de l'informatique incluant les bases de la programmation, les algorithmes, et les structures de données.</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="updateClassBtn">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le datatable
+        initDataTable('classesTable', {
+            perPage: 10,
+            search: true,
+            sort: true,
+            pagination: true
+        });
+        
+        // Gestion du bouton de sauvegarde de la nouvelle classe
+        const saveClassBtn = document.getElementById('saveClassBtn');
+        if (saveClassBtn) {
+            saveClassBtn.addEventListener('click', function() {
+                const form = document.getElementById('createClassForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    showNotification('Classe créée avec succès!', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('createClassModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                    
+                    // Réinitialiser le formulaire
+                    form.reset();
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+        
+        // Gestion du bouton de mise à jour de la classe
+        const updateClassBtn = document.getElementById('updateClassBtn');
+        if (updateClassBtn) {
+            updateClassBtn.addEventListener('click', function() {
+                const form = document.getElementById('editClassForm');
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    showNotification('Classe mise à jour avec succès!', 'success');
+                    
+                    // Fermer la modal
+                    const modal = document.getElementById('editClassModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                    }
+                } else {
+                    showNotification('Veuillez remplir tous les champs obligatoires.', 'error');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

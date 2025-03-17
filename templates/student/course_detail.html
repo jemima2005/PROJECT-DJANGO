@@ -1,0 +1,838 @@
+<!-- templates/student/course_detail.html -->
+{% extends 'student/base_student.html' %}
+
+{% block title %}{{ course.title }} - Online School{% endblock %}
+
+{% block student_content %}
+<!-- Course header -->
+<section class="course-header" style="background-color: #4e73df;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Introduction à la programmation</h1>
+                <p>Apprendre les bases de la programmation avec Python</p>
+                
+                <div class="course-meta">
+                    <span><i class="fas fa-user"></i> Prof. Bernard Dupont</span>
+                    <span><i class="fas fa-calendar"></i> Semestre 1 - 2022/2023</span>
+                    <span><i class="fas fa-clock"></i> 40 heures</span>
+                    <span><i class="fas fa-star"></i> 4 crédits ECTS</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="course-progress-container">
+                    <div class="progress-circle" data-percent="75">
+                        <div class="progress-value">75%</div>
+                    </div>
+                    <div class="progress-label">Progression</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Course navigation -->
+<nav class="course-nav">
+    <div class="container">
+        <ul>
+            <li><a href="#contenu" class="active">Contenu</a></li>
+            <li><a href="#informations">Informations</a></li>
+            <li><a href="#ressources">Ressources</a></li>
+            <li><a href="#evaluations">Évaluations</a></li>
+            <li><a href="#forum">Forum</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main content -->
+<main class="container">
+    <div class="row">
+        <!-- Course modules -->
+        <div class="col-md-8">
+            <section id="contenu" class="course-modules">
+                <h2>Contenu du cours</h2>
+                
+                <ul class="module-list">
+                    <!-- Module 1 -->
+                    <li class="module-item">
+                        <div class="module-header">
+                            <div>
+                                <i class="fas fa-chevron-down"></i>
+                                <h3>Module 1: Introduction à Python</h3>
+                            </div>
+                            <span class="module-progress">Terminé 4/4</span>
+                        </div>
+                        <div class="module-content show">
+                            <ul class="lesson-list">
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        1.1 Présentation et installation
+                                    </a>
+                                </li>
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        1.2 Premiers pas avec Python
+                                    </a>
+                                </li>
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        1.3 Variables et types de données
+                                    </a>
+                                </li>
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        1.4 Exercices pratiques
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <!-- Module 2 -->
+                    <li class="module-item">
+                        <div class="module-header">
+                            <div>
+                                <i class="fas fa-chevron-down"></i>
+                                <h3>Module 2: Structures de contrôle</h3>
+                            </div>
+                            <span class="module-progress">Terminé 3/5</span>
+                        </div>
+                        <div class="module-content show">
+                            <ul class="lesson-list">
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        2.1 Conditions (if, else, elif)
+                                    </a>
+                                </li>
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        2.2 Boucles while
+                                    </a>
+                                </li>
+                                <li class="lesson-item completed">
+                                    <a href="#">
+                                        <i class="fas fa-check-circle"></i>
+                                        2.3 Boucles for
+                                    </a>
+                                </li>
+                                <li class="lesson-item in-progress">
+                                    <a href="#" class="current-lesson">
+                                        <i class="fas fa-circle"></i>
+                                        2.4 Compréhensions de liste
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        2.5 Exercices pratiques
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <!-- Module 3 -->
+                    <li class="module-item">
+                        <div class="module-header">
+                            <div>
+                                <i class="fas fa-chevron-right"></i>
+                                <h3>Module 3: Fonctions et modules</h3>
+                            </div>
+                            <span class="module-progress">0/4</span>
+                        </div>
+                        <div class="module-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        3.1 Définition de fonctions
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        3.2 Paramètres et valeurs de retour
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        3.3 Import de modules
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        3.4 Exercices pratiques
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <!-- Module 4 -->
+                    <li class="module-item">
+                        <div class="module-header">
+                            <div>
+                                <i class="fas fa-chevron-right"></i>
+                                <h3>Module 4: Programmation orientée objet</h3>
+                            </div>
+                            <span class="module-progress">0/5</span>
+                        </div>
+                        <div class="module-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        4.1 Classes et objets
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        4.2 Attributs et méthodes
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        4.3 Héritage
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        4.4 Polymorphisme
+                                    </a>
+                                </li>
+                                <li class="lesson-item">
+                                    <a href="#">
+                                        <i class="far fa-circle"></i>
+                                        4.5 Projet final
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- Current lesson content -->
+            <section class="lesson-content">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>2.4 Compréhensions de liste</h2>
+                    <button class="btn btn-success mark-as-complete" data-lesson-id="24">
+                        <i class="far fa-check-circle"></i> Marquer comme terminé
+                    </button>
+                </div>
+                
+                <div class="lesson-body">
+                    <p>Les compréhensions de liste sont une fonctionnalité puissante et élégante de Python qui permet de créer des listes de manière concise et expressive.</p>
+                    
+                    <h3>Syntaxe de base</h3>
+                    <p>La syntaxe générale d'une compréhension de liste est la suivante :</p>
+                    
+                    <div class="code-block">
+                        <pre><code>[expression for item in iterable]</code></pre>
+                    </div>
+                    
+                    <p>Exemple simple : créer une liste des carrés des nombres de 0 à 9</p>
+                    
+                    <div class="code-block">
+                        <pre><code>squares = [x**2 for x in range(10)]
+print(squares)  # Output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</code></pre>
+                    </div>
+                    
+                    <h3>Avec condition</h3>
+                    <p>Vous pouvez également ajouter une condition pour filtrer les éléments :</p>
+                    
+                    <div class="code-block">
+                        <pre><code>[expression for item in iterable if condition]</code></pre>
+                    </div>
+                    
+                    <p>Exemple : créer une liste des carrés des nombres pairs de 0 à 9</p>
+                    
+                    <div class="code-block">
+                        <pre><code>even_squares = [x**2 for x in range(10) if x % 2 == 0]
+print(even_squares)  # Output: [0, 4, 16, 36, 64]</code></pre>
+                    </div>
+                    
+                    <h3>Compréhensions de liste imbriquées</h3>
+                    <p>Vous pouvez créer des compréhensions de liste imbriquées pour traiter des structures de données multidimensionnelles :</p>
+                    
+                    <div class="code-block">
+                        <pre><code>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened = [x for row in matrix for x in row]
+print(flattened)  # Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+                    </div>
+                    
+                    <h3>Exercice pratique</h3>
+                    <div class="exercise-box">
+                        <p><strong>Exercice :</strong> Utilisez une compréhension de liste pour créer une liste de tous les nombres entre 1 et 100 qui sont divisibles par 3 ou par 5.</p>
+                        
+                        <div class="solution" style="display: none;">
+                            <p><strong>Solution :</strong></p>
+                            <pre><code>result = [x for x in range(1, 101) if x % 3 == 0 or x % 5 == 0]
+print(result)</code></pre>
+                        </div>
+                        
+                        <button class="btn btn-sm btn-primary show-solution">Afficher la solution</button>
+                    </div>
+                    
+                    <h3>Vidéo explicative</h3>
+                    <div class="video-container">
+                        <div class="responsive-video">
+                            <iframe src="https://www.youtube.com/embed/3dt4OGnU5sM" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-navigation">
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left"></i> Précédent: 2.3 Boucles for
+                        </a>
+                        <a href="#" class="btn btn-outline-primary">
+                            Suivant: 2.5 Exercices pratiques <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Lesson comments -->
+            <section class="lesson-comments">
+                <h3>Commentaires (3)</h3>
+                
+                <div id="lessonComments">
+                    <div class="comment">
+                        <div class="comment-author">
+                            <img src="{% static 'images/avatars/student1.jpg' %}" alt="Avatar">
+                            <div>
+                                <span class="author-name">Sophie Martin</span>
+                                <span class="comment-date">15/03/2023 à 14:32</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Merci pour cette explication, j'ai enfin compris comment utiliser les compréhensions de liste !</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="reply-btn" data-message-id="1">Répondre</a>
+                        </div>
+                    </div>
+                    
+                    <div class="comment comment-reply">
+                        <div class="comment-author">
+                            <img src="{% static 'images/avatars/teacher1.jpg' %}" alt="Avatar">
+                            <div>
+                                <span class="author-name">Bernard Dupont</span>
+                                <span class="badge badge-primary">Enseignant</span>
+                                <span class="comment-date">15/03/2023 à 15:10</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Je suis ravi que cette explication vous ait aidée, Sophie !</p>
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-author">
+                            <img src="{% static 'images/avatars/student2.jpg' %}" alt="Avatar">
+                            <div>
+                                <span class="author-name">Lucas Petit</span>
+                                <span class="comment-date">16/03/2023 à 09:15</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Est-ce que les compréhensions de liste sont toujours plus rapides que les boucles for traditionnelles ?</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="reply-btn" data-message-id="2">Répondre</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-comment">
+                    <h4>Ajouter un commentaire</h4>
+                    <form id="lessonCommentForm" data-user-name="{{ request.user.get_full_name }}" data-user-avatar="{% static 'images/avatars/default.jpg' %}">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Votre commentaire..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publier</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Course information -->
+            <section id="informations" class="card mb-4">
+                <div class="card-header">
+                    <h3>Informations du cours</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Description :</strong> Ce cours vous initie aux concepts fondamentaux de la programmation à travers le langage Python. Vous découvrirez les bases de la programmation procédurale puis orientée objet.</p>
+                    
+                    <p><strong>Objectifs pédagogiques :</strong></p>
+                    <ul>
+                        <li>Comprendre les concepts fondamentaux de la programmation</li>
+                        <li>Maîtriser la syntaxe de base de Python</li>
+                        <li>Savoir manipuler les structures de données</li>
+                        <li>Créer des programmes simples mais fonctionnels</li>
+                    </ul>
+                    
+                    <p><strong>Prérequis :</strong> Aucun prérequis, ce cours est adapté aux débutants.</p>
+                    
+                    <p><strong>Temps estimé :</strong> 40 heures (cours et exercices)</p>
+                </div>
+            </section>
+            
+            <!-- Resources -->
+            <section id="ressources" class="card mb-4">
+                <div class="card-header">
+                    <h3>Ressources</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="resource-list">
+                        <li>
+                            <i class="fas fa-file-pdf"></i>
+                            <a href="#" class="download-resource" data-resource-id="1" data-resource-name="Python_Cheatsheet.pdf">Python Cheatsheet</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-book"></i>
+                            <a href="#" class="download-resource" data-resource-id="2" data-resource-name="Python_pour_les_debutants.pdf">Python pour les débutants</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-link"></i>
+                            <a href="https://docs.python.org/fr/3/" target="_blank">Documentation officielle Python</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-code"></i>
+                            <a href="#" class="download-resource" data-resource-id="3" data-resource-name="exercices_supplementaires.zip">Exercices supplémentaires</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Evaluations -->
+            <section id="evaluations" class="card mb-4">
+                <div class="card-header">
+                    <h3>Évaluations</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="evaluation-list">
+                        <li>
+                            <div class="evaluation-item">
+                                <div class="evaluation-icon quiz">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <div class="evaluation-info">
+                                    <h4>Quiz - Variables et Types</h4>
+                                    <p><i class="fas fa-calendar-check"></i> Terminé</p>
+                                    <p><i class="fas fa-trophy"></i> Note: 18/20</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="evaluation-item">
+                                <div class="evaluation-icon assignment">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="evaluation-info">
+                                    <h4>TP - Structures de contrôle</h4>
+                                    <p><i class="fas fa-calendar-alt"></i> À rendre avant le 25/03/2023</p>
+                                    <a href="#" class="btn btn-sm btn-primary">Commencer</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="evaluation-item">
+                                <div class="evaluation-icon exam">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="evaluation-info">
+                                    <h4>Examen de mi-semestre</h4>
+                                    <p><i class="fas fa-calendar-alt"></i> Prévu le 15/04/2023</p>
+                                    <p><i class="fas fa-info-circle"></i> Non disponible</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Forum -->
+            <section id="forum" class="card">
+                <div class="card-header">
+                    <h3>Forum du cours</h3>
+                </div>
+                <div class="card-body">
+                    <p>Dernières discussions:</p>
+                    <ul class="forum-topics">
+                        <li>
+                            <a href="#">Problème avec les list comprehensions</a>
+                            <span class="text-muted">12 réponses</span>
+                        </li>
+                        <li>
+                            <a href="#">Comment installer PyCharm ?</a>
+                            <span class="text-muted">5 réponses</span>
+                        </li>
+                        <li>
+                            <a href="#">Différence entre append() et extend()</a>
+                            <span class="text-muted">8 réponses</span>
+                        </li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-primary">Accéder au forum</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des modules (accordéon)
+        const moduleHeaders = document.querySelectorAll('.module-header');
+        
+        moduleHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const moduleContent = this.nextElementSibling;
+                const moduleIcon = this.querySelector('i.fa-chevron-right, i.fa-chevron-down');
+                
+                moduleContent.classList.toggle('show');
+                
+                if (moduleIcon) {
+                    if (moduleContent.classList.contains('show')) {
+                        moduleIcon.classList.remove('fa-chevron-right');
+                        moduleIcon.classList.add('fa-chevron-down');
+                    } else {
+                        moduleIcon.classList.remove('fa-chevron-down');
+                        moduleIcon.classList.add('fa-chevron-right');
+                    }
+                }
+            });
+        });
+        
+        // Navigation du cours
+        const courseNavLinks = document.querySelectorAll('.course-nav a');
+        
+        courseNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Désactiver tous les liens
+                courseNavLinks.forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                
+                // Activer le lien cliqué
+                this.classList.add('active');
+                
+                // Faire défiler vers la section correspondante
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Afficher/masquer la solution de l'exercice
+        const showSolutionBtn = document.querySelector('.show-solution');
+        
+        if (showSolutionBtn) {
+            showSolutionBtn.addEventListener('click', function() {
+                const solution = this.previousElementSibling;
+                
+                if (solution) {
+                    if (solution.style.display === 'none') {
+                        solution.style.display = 'block';
+                        this.textContent = 'Masquer la solution';
+                    } else {
+                        solution.style.display = 'none';
+                        this.textContent = 'Afficher la solution';
+                    }
+                }
+            });
+        }
+        
+        // Marquer une leçon comme terminée
+        const completeButton = document.querySelector('.mark-as-complete');
+        
+        if (completeButton) {
+            completeButton.addEventListener('click', function() {
+                const lessonId = this.getAttribute('data-lesson-id');
+                const isCompleted = this.classList.contains('completed');
+                
+                if (isCompleted) {
+                    this.classList.remove('completed');
+                    this.innerHTML = '<i class="far fa-check-circle"></i> Marquer comme terminé';
+                    showNotification('Leçon marquée comme non terminée.', 'info');
+                } else {
+                    this.classList.add('completed');
+                    this.innerHTML = '<i class="fas fa-check-circle"></i> Terminé';
+                    showNotification('Leçon marquée comme terminée. Bravo !', 'success');
+                    
+                    // Mettre à jour la progression du cours
+                    updateCourseProgress();
+                }
+            });
+        }
+        
+        // Mise à jour de la progression du cours
+        function updateCourseProgress() {
+            const progressCircle = document.querySelector('.progress-circle');
+            const progressValue = document.querySelector('.progress-value');
+            
+            if (progressCircle && progressValue) {
+                // Simuler une mise à jour de la progression
+                const currentProgress = parseInt(progressValue.textContent);
+                const newProgress = Math.min(currentProgress + 5, 100);
+                
+                progressValue.textContent = newProgress + '%';
+                
+                // Mettre à jour l'affichage du cercle de progression
+                const degrees = (newProgress / 100) * 360;
+                progressCircle.style.background = `
+                    radial-gradient(closest-side, #343a40 79%, transparent 80% 100%),
+                    conic-gradient(#4e73df ${degrees}deg, rgba(255, 255, 255, 0.2) 0)
+                `;
+            }
+        }
+        
+        // Gestion des commentaires
+        const commentForm = document.getElementById('lessonCommentForm');
+        
+        if (commentForm) {
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const commentText = this.querySelector('textarea').value.trim();
+                
+                if (commentText) {
+                    const commentsContainer = document.getElementById('lessonComments');
+                    const userName = this.getAttribute('data-user-name') || 'Vous';
+                    const userAvatar = this.getAttribute('data-user-avatar');
+                    
+                    // Créer un nouveau commentaire
+                    const now = new Date();
+                    const dateString = now.toLocaleDateString('fr-FR') + ' à ' + 
+                                        now.getHours().toString().padStart(2, '0') + ':' + 
+                                        now.getMinutes().toString().padStart(2, '0');
+                    
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment';
+                    newComment.innerHTML = `
+                        <div class="comment-author">
+                            <img src="${userAvatar}" alt="Avatar">
+                            <div>
+                                <span class="author-name">${userName}</span>
+                                <span class="comment-date">${dateString}</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>${commentText.replace(/\n/g, '<br>')}</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="reply-btn" data-message-id="new">Répondre</a>
+                        </div>
+                    `;
+                    
+                    // Ajouter le commentaire
+                    commentsContainer.appendChild(newComment);
+                    
+                    // Réinitialiser le formulaire
+                    this.querySelector('textarea').value = '';
+                    
+                    // Notification
+                    showNotification('Commentaire ajouté avec succès !', 'success');
+                } else {
+                    showNotification('Veuillez saisir un commentaire.', 'warning');
+                }
+            });
+        }
+        
+        // Fonction pour afficher des notifications
+        function showNotification(message, type = 'info') {
+            // Créer l'élément de notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${type === 'info' ? 'fa-info-circle' : 
+                                   type === 'success' ? 'fa-check-circle' : 
+                                   type === 'warning' ? 'fa-exclamation-triangle' : 
+                                   'fa-times-circle'}"></i>
+                </div>
+                <div class="notification-content">
+                    <p>${message}</p>
+                </div>
+                <button class="close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Créer ou récupérer le conteneur de notifications
+            let notificationsContainer = document.querySelector('.notifications-container');
+            
+            if (!notificationsContainer) {
+                notificationsContainer = document.createElement('div');
+                notificationsContainer.className = 'notifications-container';
+                document.body.appendChild(notificationsContainer);
+            }
+            
+            // Ajouter la notification
+            notificationsContainer.appendChild(notification);
+            
+            // Gestion du bouton de fermeture
+            notification.querySelector('.close').addEventListener('click', function() {
+                notification.classList.add('fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                    
+                    // Nettoyer le conteneur s'il est vide
+                    if (notificationsContainer.children.length === 0) {
+                        notificationsContainer.remove();
+                    }
+                }, 300);
+            });
+            
+            // Fermeture automatique après 3 secondes
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => {
+                        notification.remove();
+                        
+                        // Nettoyer le conteneur s'il est vide
+                        if (notificationsContainer.children.length === 0) {
+                            notificationsContainer.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+        
+        // Gestion des boutons de réponse
+        const replyButtons = document.querySelectorAll('.reply-btn');
+        
+        replyButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const messageId = this.getAttribute('data-message-id');
+                const commentEl = this.closest('.comment');
+                
+                // Vérifier si un formulaire de réponse existe déjà
+                let replyForm = document.querySelector(`.reply-form-${messageId}`);
+                
+                if (replyForm) {
+                    // Si le formulaire existe déjà, le supprimer
+                    replyForm.remove();
+                } else {
+                    // Créer un formulaire de réponse
+                    replyForm = document.createElement('div');
+                    replyForm.className = `reply-form reply-form-${messageId}`;
+                    replyForm.innerHTML = `
+                        <form class="mt-3">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="2" placeholder="Votre réponse..." required></textarea>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-sm btn-secondary cancel-reply">Annuler</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Répondre</button>
+                            </div>
+                        </form>
+                    `;
+                    
+                    // Ajouter le formulaire après le commentaire
+                    commentEl.after(replyForm);
+                    
+                    // Focus sur le textarea
+                    replyForm.querySelector('textarea').focus();
+                    
+                    // Gestion du bouton d'annulation
+                    replyForm.querySelector('.cancel-reply').addEventListener('click', function() {
+                        replyForm.remove();
+                    });
+                    
+                    // Gestion de la soumission
+                    replyForm.querySelector('form').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        
+                        const replyText = this.querySelector('textarea').value.trim();
+                        
+                        if (replyText) {
+                            // Créer la réponse
+                            const now = new Date();
+                            const dateString = now.toLocaleDateString('fr-FR') + ' à ' + 
+                                            now.getHours().toString().padStart(2, '0') + ':' + 
+                                            now.getMinutes().toString().padStart(2, '0');
+                            
+                            const newReply = document.createElement('div');
+                            newReply.className = 'comment comment-reply';
+                            newReply.innerHTML = `
+                                <div class="comment-author">
+                                    <img src="{% static 'images/avatars/default.jpg' %}" alt="Avatar">
+                                    <div>
+                                        <span class="author-name">${commentForm.getAttribute('data-user-name') || 'Vous'}</span>
+                                        <span class="comment-date">${dateString}</span>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>${replyText.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            `;
+                            
+                            // Ajouter la réponse après le formulaire
+                            replyForm.after(newReply);
+                            
+                            // Supprimer le formulaire
+                            replyForm.remove();
+                            
+                            // Notification
+                            showNotification('Réponse ajoutée avec succès !', 'success');
+                        } else {
+                            showNotification('Veuillez saisir une réponse.', 'warning');
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Téléchargement de ressources
+        const downloadButtons = document.querySelectorAll('.download-resource');
+        
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const resourceId = this.getAttribute('data-resource-id');
+                const resourceName = this.getAttribute('data-resource-name');
+                
+                // En conditions réelles, vous redirigeriez vers une URL de téléchargement
+                // Ici, on simule simplement
+                showNotification(`Téléchargement de "${resourceName}" en cours...`, 'info');
+                
+                // Simuler un délai de téléchargement
+                setTimeout(() => {
+                    showNotification(`Téléchargement de "${resourceName}" terminé !`, 'success');
+                }, 1500);
+            });
+        });
+    });
+</script>
+{% endblock %}

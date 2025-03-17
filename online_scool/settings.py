@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',  # Ajoute Jazzmin ici
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',  # Nécessaire pour exécuter le script de création d'utilisateurs
     # Tes applications
     'cours',
     'evaluations',
@@ -56,11 +58,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'accounts.middleware.MyMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.MyMiddleware',
 ]
 
 ROOT_URLCONF = 'online_scool.urls'
@@ -139,7 +143,28 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /"media"
 
+# Configuration d'authentification
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'etudiant:student_dashboard'  # Redirection par défaut
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Gestion de l'école",
+    "site_header": "Tableau de Bord",
+    "site_brand": "Mon École",
+    "welcome_sign": "Bienvenue sur l'administration de Mon École",
+    "copyright": "© 2025 Mon École",
+    "user_avatar": "photo_de_profil",  # Si tu as un champ avatar pour les utilisateurs
+    "topmenu_links": [
+        {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"app": "accounts"},
+    ],
+}
+

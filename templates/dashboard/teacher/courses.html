@@ -1,0 +1,562 @@
+<!-- templates/dashboard/teacher/courses.html -->
+ <!-- templates/dashboard/teacher/courses.html -->
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}Mes Cours - Dashboard Enseignant - Online School{% endblock %}
+
+{% block sidebar_items %}
+<li>
+    <a href="{% url 'dashboard:teacher_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+        Tableau de bord
+    </a>
+</li>
+<li class="active">
+    <a href="{% url 'dashboard:teacher_courses' %}">
+        <i class="fas fa-book"></i>
+        Mes cours
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-graduate"></i>
+        Mes étudiants
+    </a>
+</li>
+<li>
+    <a href="{% url 'dashboard:teacher_evaluations' %}">
+        <i class="fas fa-clipboard-check"></i>
+        Évaluations
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-comments"></i>
+        Forums
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fas fa-user-circle"></i>
+        Mon profil
+    </a>
+</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1 class="h3 mb-0">Mes cours</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createCourseModal">
+        <i class="fas fa-plus"></i> Créer un cours
+    </button>
+</div>
+
+<!-- Filtres -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold">Filtres</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="semesterFilter">Semestre</label>
+                    <select class="form-control" id="semesterFilter">
+                        <option value="">Tous les semestres</option>
+                        <option value="1">Semestre 1 - 2022/2023</option>
+                        <option value="2">Semestre 2 - 2022/2023</option>
+                        <option value="3">Semestre 1 - 2023/2024</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="levelFilter">Niveau</label>
+                    <select class="form-control" id="levelFilter">
+                        <option value="">Tous les niveaux</option>
+                        <option value="L1">Licence 1</option>
+                        <option value="L2">Licence 2</option>
+                        <option value="L3">Licence 3</option>
+                        <option value="M1">Master 1</option>
+                        <option value="M2">Master 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="statusFilter">Statut</label>
+                    <select class="form-control" id="statusFilter">
+                        <option value="">Tous statuts</option>
+                        <option value="active">En cours</option>
+                        <option value="upcoming">À venir</option>
+                        <option value="finished">Terminé</option>
+                        <option value="draft">Brouillon</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchFilter">Recherche</label>
+                    <input type="text" class="form-control" id="searchFilter" placeholder="Titre ou mot-clé">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 text-right">
+                <button id="resetFilters" class="btn btn-secondary mr-2">
+                    <i class="fas fa-undo"></i> Réinitialiser
+                </button>
+                <button id="applyFilters" class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Appliquer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Liste des cours -->
+<div class="course-grid">
+    <!-- Cours 1 -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #4e73df;">
+            <h3>Introduction à la programmation</h3>
+            <span class="badge bg-light text-dark">Licence 1</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 30 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 1 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 4 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-success">En cours</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression du cours: 75%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 75%; background-color: #4e73df;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-exclamation-circle text-warning"></i> 5 devoirs à corriger
+                </div>
+                <div class="activity">
+                    <i class="fas fa-comments text-info"></i> 8 nouveaux messages sur le forum
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-primary" title="Gérer le cours" onclick="window.location.href='{% url 'dashboard:teacher_course_detail' course_id=1 %}'">
+                    <i class="fas fa-cog"></i> Gérer
+                </button>
+                <button class="btn btn-sm btn-info" title="Voir les étudiants">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-sm btn-warning" title="Éditer">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Dernière visite: 17/03/2023
+            </div>
+        </div>
+    </div>
+
+    <!-- Cours 2 -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #1cc88a;">
+            <h3>Algorithmes avancés</h3>
+            <span class="badge bg-light text-dark">Licence 3</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 22 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 1 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 3 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-success">En cours</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression du cours: 60%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 60%; background-color: #1cc88a;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-exclamation-circle text-danger"></i> TP à rendre le 22/03/2023
+                </div>
+                <div class="activity">
+                    <i class="fas fa-comments text-info"></i> 12 nouveaux messages sur le forum
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-primary" title="Gérer le cours" onclick="window.location.href='{% url 'dashboard:teacher_course_detail' course_id=2 %}'">
+                    <i class="fas fa-cog"></i> Gérer
+                </button>
+                <button class="btn btn-sm btn-info" title="Voir les étudiants">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-sm btn-warning" title="Éditer">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Dernière visite: 15/03/2023
+            </div>
+        </div>
+    </div>
+
+    <!-- Cours 3 -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #f6c23e;">
+            <h3>Développement Web</h3>
+            <span class="badge bg-light text-dark">Licence 2</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 35 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 1 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 5 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-success">En cours</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression du cours: 45%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 45%; background-color: #f6c23e;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-exclamation-circle text-warning"></i> Prochain cours le 20/03/2023
+                </div>
+                <div class="activity">
+                    <i class="fas fa-comments text-info"></i> 3 nouveaux messages sur le forum
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-primary" title="Gérer le cours" onclick="window.location.href='{% url 'dashboard:teacher_course_detail' course_id=3 %}'">
+                    <i class="fas fa-cog"></i> Gérer
+                </button>
+                <button class="btn btn-sm btn-info" title="Voir les étudiants">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-sm btn-warning" title="Éditer">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Dernière visite: 14/03/2023
+            </div>
+        </div>
+    </div>
+
+    <!-- Cours 4 -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #e74a3b;">
+            <h3>Bases de données</h3>
+            <span class="badge bg-light text-dark">Licence 2</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 28 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 1 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 3 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-success">En cours</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression du cours: 65%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 65%; background-color: #e74a3b;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-exclamation-circle text-danger"></i> Examen le 25/03/2023
+                </div>
+                <div class="activity">
+                    <i class="fas fa-comments text-info"></i> 6 nouveaux messages sur le forum
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-primary" title="Gérer le cours" onclick="window.location.href='{% url 'dashboard:teacher_course_detail' course_id=4 %}'">
+                    <i class="fas fa-cog"></i> Gérer
+                </button>
+                <button class="btn btn-sm btn-info" title="Voir les étudiants">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-sm btn-warning" title="Éditer">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Dernière visite: 16/03/2023
+            </div>
+        </div>
+    </div>
+
+    <!-- Cours 5 (à venir) -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #36b9cc;">
+            <h3>Intelligence Artificielle</h3>
+            <span class="badge bg-light text-dark">Master 1</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 18 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 2 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 0 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-info">À venir</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression du cours: 0%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 0%; background-color: #36b9cc;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-calendar-plus text-primary"></i> Début du cours le 03/04/2023
+                </div>
+                <div class="activity">
+                    <i class="fas fa-info-circle text-info"></i> 5 modules à préparer
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-primary" title="Gérer le cours" onclick="window.location.href='{% url 'dashboard:teacher_course_detail' course_id=5 %}'">
+                    <i class="fas fa-cog"></i> Gérer
+                </button>
+                <button class="btn btn-sm btn-info" title="Voir les étudiants">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-sm btn-warning" title="Éditer">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Jamais visité
+            </div>
+        </div>
+    </div>
+
+    <!-- Cours 6 (brouillon) -->
+    <div class="course-card">
+        <div class="course-header" style="background-color: #5a5c69;">
+            <h3>Sécurité informatique</h3>
+            <span class="badge bg-light text-dark">Master 2</span>
+        </div>
+        <div class="course-body">
+            <div class="course-info">
+                <p><i class="fas fa-user-graduate"></i> 0 étudiants inscrits</p>
+                <p><i class="fas fa-calendar-alt"></i> Semestre 2 - 2022/2023</p>
+                <p><i class="fas fa-clipboard-check"></i> 0 évaluations créées</p>
+                <p><i class="fas fa-clock"></i> Statut: <span class="badge bg-secondary">Brouillon</span></p>
+            </div>
+
+            <div class="course-progress">
+                <div class="progress-text">
+                    <span>Progression de la création: 30%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 30%; background-color: #5a5c69;"></div>
+                </div>
+            </div>
+
+            <div class="course-activities">
+                <div class="activity">
+                    <i class="fas fa-edit text-warning"></i> Description à compléter
+                </div>
+                <div class="activity">
+                    <i class="fas fa-list-ul text-warning"></i> Programme à finaliser
+                </div>
+            </div>
+        </div>
+        <div class="course-footer">
+            <div class="course-actions">
+                <button class="btn btn-sm btn-success" title="Publier">
+                    <i class="fas fa-paper-plane"></i> Publier
+                </button>
+                <button class="btn btn-sm btn-primary" title="Éditer">
+                    <i class="fas fa-edit"></i> Éditer
+                </button>
+                <button class="btn btn-sm btn-danger" title="Supprimer">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="course-last-visit">
+                Modifié le: 10/03/2023
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de création de cours -->
+<div class="modal-backdrop" id="createCourseModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Créer un nouveau cours</h5>
+                <button class="modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createCourseForm">
+                    <div class="form-group">
+                        <label for="courseTitle">Titre du cours</label>
+                        <input type="text" class="form-control" id="courseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCode">Code du cours</label>
+                        <input type="text" class="form-control" id="courseCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseLevel">Niveau</label>
+                        <select class="form-control" id="courseLevel" required>
+                            <option value="">Sélectionnez un niveau</option>
+                            <option value="L1">Licence 1</option>
+                            <option value="L2">Licence 2</option>
+                            <option value="L3">Licence 3</option>
+                            <option value="M1">Master 1</option>
+                            <option value="M2">Master 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseSemester">Semestre</label>
+                        <select class="form-control" id="courseSemester" required>
+                            <option value="">Sélectionnez un semestre</option>
+                            <option value="1">Semestre 1 - 2022/2023</option>
+                            <option value="2">Semestre 2 - 2022/2023</option>
+                            <option value="3">Semestre 1 - 2023/2024</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseDescription">Description</label>
+                        <textarea class="form-control" id="courseDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseObjectives">Objectifs pédagogiques</label>
+                        <textarea class="form-control" id="courseObjectives" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCredits">Crédits ECTS</label>
+                        <input type="number" class="form-control" id="courseCredits" min="1" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="courseStartDate">Date de début</label>
+                                <input type="date" class="form-control" id="courseStartDate" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="courseEndDate">Date de fin</label>
+                                <input type="date" class="form-control" id="courseEndDate" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseColor">Couleur du cours</label>
+                        <input type="color" class="form-control" id="courseColor" value="#4e73df">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="coursePublishNow">
+                            <label class="form-check-label" for="coursePublishNow">
+                                Publier immédiatement
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" id="saveCourseBtn">Créer le cours</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des filtres
+        const resetFiltersBtn = document.getElementById('resetFilters');
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', function() {
+                document.getElementById('semesterFilter').value = '';
+                document.getElementById('levelFilter').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('searchFilter').value = '';
+            });
+        }
+        
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', function() {
+                alert('Filtres appliqués');
+                // Ici vous implémenteriez la logique de filtrage réelle
+            });
+        }
+        
+        // Gestion du formulaire de création de cours
+        const saveCourseBtn = document.getElementById('saveCourseBtn');
+        
+        if (saveCourseBtn) {
+            saveCourseBtn.addEventListener('click', function() {
+                const form = document.getElementById('createCourseForm');
+                if (form.checkValidity()) {
+                    alert('Cours créé avec succès !');
+                    document.getElementById('createCourseModal').classList.remove('show');
+                } else {
+                    alert('Veuillez remplir tous les champs obligatoires.');
+                }
+            });
+        }
+        
+        // Animation des cartes de cours
+        const courseCards = document.querySelectorAll('.course-card');
+        
+        courseCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15)';
+            });
+        });
+    });
+</script>
+{% endblock %}
